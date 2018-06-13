@@ -1,11 +1,15 @@
 # Bears-Team-07
 Add-project-description-here | Chingu Voyage-6 | https://chingu.io/
 
-Members
+# Waffle
+
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/chingu-voyage6/Bears-Team-07.svg?columns=all)](https://waffle.io/chingu-voyage6/Bears-Team-07) 
+
+# Members
 
 -  Ben Crane, Samuel Urias, Fernando Ortiz, Chandana
 
-Act 1, To-do list for the week
+# Act 1, To-do list for the week
 
 -   [x] Meet the Team
 -   [x] Set Goals and Expectations
