@@ -14,6 +14,6 @@ Add-project-description-here | Chingu Voyage-6 | https://chingu.io/
 -   [x] Meet the Team
 -   [x] Set Goals and Expectations
 -   [x] Set a Team Lead - Samuel Urias (vote 4-0)
--   [ ] Brainstorm Project Ideas
+-   [x] Brainstorm Project Ideas
 -   [ ] Define Workflow and Setup Development Environment
 -   [ ] Define your MVP
