@@ -17,3 +17,7 @@ Add-project-description-here | Chingu Voyage-6 | https://chingu.io/
 -   [x] Brainstorm Project Ideas
 -   [ ] Define Workflow and Setup Development Environment
 -   [ ] Define your MVP
+
+
+# Workflow and Setup 
+This is a test
