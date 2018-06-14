@@ -20,4 +20,5 @@ Add-project-description-here | Chingu Voyage-6 | https://chingu.io/
 
 
 # Workflow and Setup 
-This is a test
+
+-  We will be using https://github.com/Chingu-cohorts/voyage-wiki/wiki/ProjSetup-Git-Workflow
