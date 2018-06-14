@@ -35,4 +35,4 @@ If you wish to set tracking information for this branch you can do so with:
 
     git branch --set-upstream-to=origin/<branch> development
 ```
-You can do git `branch --set-upstream-to=origin/<branch> <branch>` change the `<branch>` to the name of the branch you are trying to pull from.
+You can do `git branch --set-upstream-to=origin/<branch> <branch>` change the `<branch>` to the name of the branch you are trying to pull from.
