@@ -11,7 +11,7 @@ See MVP below for more information...
 
 | Name                        | Location         |
 | :-------------------------- | :--------------- |
-| [Samuel Urias][samiurias]   | Guatemala  |
+| [Samuel Urias][samiurias]   | Guatemala, Guatemala  |
 | [Lakshmi Chandana Kandepu][chandana] | Minneapolis, MN USA |
 | [Ben Crane][benscrane]         | WI USA   |
 | [Fernando Ortiz][nandub]       | Slidell, LA USA       |
