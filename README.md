@@ -7,9 +7,21 @@ See MVP below for more information...
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/chingu-voyage6/Bears-Team-07.svg?columns=all)](https://waffle.io/chingu-voyage6/Bears-Team-07)
 
-# Members
+# Authors
 
--  Ben Crane, Samuel Urias (Team Lead), Fernando Ortiz, Chandana
+| Name                        | Location         |
+| :-------------------------- | :--------------- |
+| [Samuel Urias][samiurias]   | Guatemala  |
+| [Lakshmi Chandana Kandepu][chandana] | Minneapolis, MN USA |
+| [Ben Crane][benscrane]         | WI USA   |
+| [Fernando Ortiz][nandub]       | Slidell, LA USA       |
+
+<!-- links -->
+
+[samiurias]: https://github.com/samiurias
+[chandana]: https://github.com/chandanachaitanya
+[benscrane]: https://github.com/benscrane
+[nandub]: https://github.com/nandub
 
 # Act 1, To-do list for the week
 
