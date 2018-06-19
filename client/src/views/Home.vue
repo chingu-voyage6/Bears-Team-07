@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to DearDiiary!!!"/>
+    <HelloWorld msg="Welcome to DearDiiary!"/>
   </div>
 </template>
 
