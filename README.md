@@ -7,11 +7,23 @@ See MVP below for more information...
 
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/chingu-voyage6/Bears-Team-07.svg?columns=all)](https://waffle.io/chingu-voyage6/Bears-Team-07)
 
-# Members
+# Authors
 
--  Ben Crane, Samuel Urias (Team Lead), Fernando Ortiz, Chandana
+| Name                        | Location         |
+| :-------------------------- | :--------------- |
+| [Samuel Urias][samiurias]   | Guatemala, Guatemala  |
+| [Lakshmi Chandana Kandepu][chandana] | Minneapolis, MN USA |
+| [Ben Crane][benscrane]         | WI USA   |
+| [Fernando Ortiz][nandub]       | Slidell, LA USA       |
 
-# Act 1, To-do list for the week
+<!-- links -->
+
+[samiurias]: https://github.com/samiurias
+[chandana]: https://github.com/chandanachaitanya
+[benscrane]: https://github.com/benscrane
+[nandub]: https://github.com/nandub
+
+# Act 1, Project Setup (Completed on June 15, 2018)
 
 -   [x] Meet the Team
 -   [x] Set Goals and Expectations
@@ -46,28 +58,37 @@ For this voyage we are going to work on the MVP. The main idea of the MVP is to 
 
 We are going to use:
 
-MEVN Stack
-M ongoDb: Database
-E xpress: Backend Framework
-V uejs: Frontend Framework
-N odejs: Backend Main Language / Ecosystem
+MEVN Stack:
+- M ongoDb: Database
+- E xpress: Backend Framework
+- V uejs: Frontend Framework
+- N odejs: Backend Main Language / Ecosystem
 
-Frontend library:
-Bootstrap4
+Frontend Library:
+- Bootstrap4
 
 The main features are:
 
-User Sign Up/Sign In
-Fully Responsive
-Home page with timeline
-User profile page
-One click additions - story, quote, image upload, text
-Favorite a post
-Mark a post public or private
-Share a post with friends
+- User Sign Up/Sign In
+- Fully Responsive
+- Home page with timeline
+- User profile page
+- One click additions - story, quote, image upload, text
+- Favorite a post
+- Mark a post public or private
+- Share a post with friends
 
 Resources:
 
 "(Bryan Carl Chug, 2013) In the midst of social networks and fast-paced everything, people tend to lose themselves. Have you ever forgot when and why you last made that pivotal decision in your life? Have you ever feel like you're just always on-the-go and trapped in the present, never able to remember and cherish moments from the past? Have you ever asked yourself "what am I doing?", and "where am I supposed to go from here?"? Here is an app that could help you remember who you were and who you are, by collecting and cherishing personal & private moments. You get to rate your highs and lows throughout your life. It's a personal diary app that helps you get in touch with someone so near yet so far, yourself."
 
 Idea taken from https://www.ideaswatch.com/startup-idea/personal-timeline
+
+# Act 2 - Development Sprints - Sprint 1
+
+-   [ ] Plan the Sprint
+-   [ ] Start the Sprint
+-   [ ] Team Standup Review
+-   [ ] Team Progress Review
+-   [ ] Code Review & Merge
+-   [ ] Completed Sprint Review
