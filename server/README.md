@@ -2,6 +2,12 @@
 
 Dear Diiary API
 
+## Copy/create .env config
+```
+cp .env.config .env
+```
+Now update .env with your own changes
+
 ## Install It
 ```
 npm install
