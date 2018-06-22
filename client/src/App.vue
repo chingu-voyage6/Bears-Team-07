@@ -21,15 +21,17 @@ export default {
 
 <style>
 #app {
-  font-family: "Lato", Helvetica, Arial, sans-serif;
+  font-family: "Alegreya", Lato, Arial, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
 }
+/* Google font import */
+@import url("https://fonts.googleapis.com/css?family=Alegreya|Macondo+Swash+Caps");
 /* To include jquery  
 @import "~jquery/dist/jquery.min.js";
 /* To include popper.js 
-@import "~popper.js/dist/umd/popper.min.js";  */
+@import "~popper.js/dist/umd/popper.min.js"; */
 /* To include bootstrap */
 @import "~bootstrap/dist/css/bootstrap.min.css";
 /* To include font-awesome */
