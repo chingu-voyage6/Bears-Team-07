@@ -1,16 +1,16 @@
-swagger: "2.0"
+swagger:               "2.0"
 info:
-  version: 0.0.1
-  title: deardiiary-backend
-  description: Dear Diiary API
-basePath: /api/v1
+  version:             0.0.1
+  title:               deardiiary-backend
+  description:         Dear Diiary API
+basePath:              /api/v1
 tags:
-  - name: Auth
-    description: Auth endpoints
-  - name: Users
-    description: User endpoints
-  - name: Specification
-    description: The swagger API specification
+  - name:              Auth
+    description:       Auth endpoints
+  - name:              Users
+    description:       User endpoints
+  - name:              Specification
+    description:       The swagger API specification
 
 consumes:
   - application/json
@@ -20,21 +20,21 @@ produces:
 
 definitions:
   AuthBody:
-    type: object
-    title: auth
+    type:              object
+    title:             auth
     require:
       - email
       - password
     properties:
       email:
-        type: string
-        example: user@gmail.com
+        type:          string
+        example:       user@gmail.com
       password:
-        type: string
-        example: Password
+        type:          string
+        example:       Password
   UserBody:
-    type: object
-    title: user
+    type:              object
+    title:             user
     required:
       - name
       - surname
@@ -42,44 +42,44 @@ definitions:
       - password
     properties:
       name:
-        type: string
-        example: First Name
+        type:          string
+        example:       First Name
       surname:
-        type: string
-        example: Last Name
+        type:          string
+        example:       Last Name
       email:
-        type: string
-        example: user@gmail.com
+        type:          string
+        example:       user@gmail.com
       password:
-        type: string
-        example: Password
+        type:          string
+        example:       Password
       role:
-        type: string
-        example: role
+        type:          string
+        example:       role
       image:
-        type: string
-        example: Image File Name
+        type:          string
+        example:       Image File Name
 
 paths:
   /users:
     get:
       tags:
         - Users
-      description: Fetch all users
+      description:     Fetch all users
       responses:
         200:
           description: Returns all users
     post:
       tags:
         - Users
-      description: Create a new user
+      description:     Create a new user
       parameters:
-        - name: user
-          in: body
+        - name:        user
+          in:          body
           description: a user
-          required: true
+          required:    true
           schema:
-            $ref: "#/definitions/UserBody"
+            $ref:      "#/definitions/UserBody"
       responses:
         200:
           description: Create an user
@@ -89,11 +89,11 @@ paths:
       tags:
         - Users
       parameters:
-        - name: id
-          in: path
-          required: true
+        - name:        id
+          in:          path
+          required:    true
           description: The id of the user to retrieve
-          type: integer
+          type:        integer
       responses:
         200:
           description: Return the user with the specified id
@@ -104,14 +104,14 @@ paths:
     post:
       tags:
         - Users
-      description: Login current user
+      description:     Login current user
       parameters:
-        - name: user
-          in: body
+        - name:        user
+          in:          body
           description: a user
-          required: true
+          required:    true
           schema:
-            $ref: "#/definitions/AuthBody"
+            $ref:      "#/definitions/AuthBody"
       responses:
         200:
           description: Login the user successfully
