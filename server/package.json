@@ -1,42 +1,42 @@
 {
-	"name": "deardiiary-backend",
-	"version": "0.0.1",
-	"description": "Dear Diiary API",
-	"main": "index.js",
-	"private": "true",
-	"scripts": {
-		"start": "cd build && node main",
-		"compile": "node build.js && backpack build",
-		"dev": "node build.js && backpack dev | pino -o 'short'",
-		"debug": "node build.js && backpack dev --inspect-brk | pino -o 'short'",
-		"test": "node build.js && _mocha --compilers js:babel-register --exit"
-	},
-	"dependencies": {
-		"bcrypt-nodejs": "0.0.3",
-		"body-parser": "^1.18.2",
-		"cookie-parser": "^1.4.3",
-		"dotenv": "^5.0.1",
-		"express": "^4.16.2",
-		"jwt-simple": "0.5.1",
-		"moment": "2.22.2",
-		"mongoose": ">=5.0.0",
-		"mongoose-plugin-autoinc": "1.1.9",
-		"pino": "^4.15.0",
-		"source-map-support": "^0.5.4",
-		"swagger-express-middleware": "^1.0.0-alpha.12"
-	},
-	"devDependencies": {
-		"babel-eslint": "^8.2.2",
-		"babel-preset-env": "^1.6.1",
-		"backpack-core": "^0.7.0",
-		"chai": "^4.1.2",
-		"copy-webpack-plugin": "^4.5.1",
-		"eslint": "^4.19.1",
-		"eslint-config-airbnb-base": "13.0.0",
-		"eslint-plugin-import": "^2.12.0",
-		"mocha": "^5.0.5",
-		"shelljs": "^0.8.1",
-		"supertest": "^3.0.0"
-	},
-	"author": "Bears-Team-07 (https://github.com/chingu-voyage6/Bears-Team-07)"
+  "name": "deardiiary-backend",
+  "version": "0.0.1",
+  "description": "Dear Diiary API",
+  "main": "index.js",
+  "private": "true",
+  "scripts": {
+    "start": "cd build && node main",
+    "compile": "node build.js && backpack build",
+    "dev": "node build.js && backpack dev | pino -o 'short'",
+    "debug": "node build.js && backpack dev --inspect-brk | pino -o 'short'",
+    "test": "node build.js && _mocha --compilers js:babel-register --exit"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.2",
+    "jwt-simple": "0.5.1",
+    "moment": "2.22.2",
+    "mongoose": ">=5.0.0",
+    "mongoose-plugin-autoinc": "1.1.9",
+    "pino": "^4.15.0",
+    "source-map-support": "^0.5.4",
+    "swagger-express-middleware": "^1.0.0-alpha.12"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "babel-preset-env": "^1.6.1",
+    "backpack-core": "^0.7.0",
+    "chai": "^4.1.2",
+    "copy-webpack-plugin": "^4.5.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "13.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "mocha": "^5.0.5",
+    "shelljs": "^0.8.1",
+    "supertest": "^3.0.0"
+  },
+  "author": "Bears-Team-07 (https://github.com/chingu-voyage6/Bears-Team-07)"
 }

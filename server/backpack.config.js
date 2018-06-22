@@ -1,18 +1,18 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
-	webpack: (config, options) => {
-		config.entry.main = ['./server/index.js'];
+  webpack: (config, options) => {
+    config.entry.main = ['./server/index.js'];
 
-		config.plugins.push(
-			new CopyWebpackPlugin(
+    config.plugins.push(
+      new CopyWebpackPlugin(
         [{
-					from: 'server/common/swagger/Api.yaml',
-					to: 'server/common/swagger/Api.yaml',
+          from: 'server/common/swagger/Api.yaml',
+          to: 'server/common/swagger/Api.yaml',
         }, ],
-				options
-			)
-		);
+        options
+      )
+    );
 
-		return config;
-	},
+    return config;
+  },
 };
