@@ -9,42 +9,44 @@ export default function (app, routes) {
     app.enable('strict routing');
 
     app.use(mw.metadata());
-    app.use(mw.files({
-      // Override the Express App's case-sensitive
-      // and strict-routing settings for the Files middleware.
-      caseSensitive: false,
-      strict: false,
-    }, {
-      useBasePath: true,
-      apiPath: process.env.SWAGGER_API_SPEC,
-      // Disable serving the "Api.yaml" file
-      // rawFilesPath: false
-    }));
+    app.use(
+      mw.files({
+        // Override the Express App's case-sensitive
+        // and strict-routing settings for the Files middleware.
+        caseSensitive: false,
+        strict: false,
+      }, {
+        useBasePath: true,
+        apiPath: process.env.SWAGGER_API_SPEC,
+        // Disable serving the "Api.yaml" file
+        // rawFilesPath: false
+      }, ),
+    );
 
-    app.use(mw.parseRequest({
-      // Configure the cookie parser to use secure cookies
-      cookie: {
-        secret: process.env.SESSION_SECRET,
-      },
-      // Don't allow JSON content over 100kb (default is 1mb)
-      json: {
-        limit: process.env.REQUEST_LIMIT,
-      },
-    }));
+    app.use(
+      mw.parseRequest({
+        // Configure the cookie parser to use secure cookies
+        cookie: {
+          secret: process.env.SESSION_SECRET,
+        },
+        // Don't allow JSON content over 100kb (default is 1mb)
+        json: {
+          limit: process.env.REQUEST_LIMIT,
+        },
+      }),
+    );
 
     // These two middleware don't have any options (yet)
-    app.use(
-      mw.CORS(),
-      mw.validateRequest());
+    app.use(mw.CORS(), mw.validateRequest());
 
     // Fernando - This breaks the json content-type on the tests.
     // Error handler to display the validation error as HTML
-    /*app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars, no-shadow
+    /* app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars, no-shadow
       res.status(err.status || 500);
       res.send(
         `<h1>${err.status || 500} Error</h1>` +
         `<pre>${err.message}</pre>`);
-    });*/
+    }); */
 
     routes(app);
   });

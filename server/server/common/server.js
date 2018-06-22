@@ -10,7 +10,8 @@ import l from './logger';
 
 mongoose.Promise = global.Promise;
 
-const url = process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/deardiiary';
+const url =
+  process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/deardiiary';
 const app = new Express();
 
 export default class ExpressServer {
@@ -18,9 +19,11 @@ export default class ExpressServer {
     const root = path.normalize(`${__dirname}/../..`);
     app.set('appPath', `${root}client`);
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-      extended: true
-    }));
+    app.use(
+      bodyParser.urlencoded({
+        extended: true,
+      }),
+    );
     app.use(cookieParser(process.env.SESSION_SECRET));
     app.use(Express.static(`${root}/public`));
   }
@@ -31,10 +34,16 @@ export default class ExpressServer {
   }
 
   listen(port = process.env.PORT) {
-    mongoose.connect(url, {
-      connectTimeoutMS: 1000
-    });
-    const welcome = p => () => l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${p}}`);
+    mongoose.connect(
+      url, {
+        connectTimeoutMS: 1000,
+      },
+    );
+    const welcome = p => () =>
+      l.info(
+        `up and running in ${process.env.NODE_ENV ||
+          'development'} @: ${os.hostname()} on port: ${p}}`,
+      );
     http.createServer(app)
       .listen(port, welcome(port));
     return app;

@@ -1,11 +1,10 @@
-'use strict'
+const jwt = require('jwt-simple');
+const moment = require('moment');
 
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var secret = 'secret_key_deardiiary';
+const secret = 'secret_key_deardiiary';
 
 exports.createToken = function (user) {
-  var payload = {
+  const payload = {
     sub: user._id,
     name: user.name,
     surname: user.surname,
@@ -16,8 +15,7 @@ exports.createToken = function (user) {
       .unix(),
     exp: moment()
       .add(30, 'days')
-      .unix()
+      .unix(),
   };
-
   return jwt.encode(payload, secret);
 };

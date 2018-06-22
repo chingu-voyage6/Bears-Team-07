@@ -1,5 +1,3 @@
-'use strict';
-
 import mongoose from 'mongoose';
 import autoIncrement from 'mongoose-plugin-autoinc';
 
@@ -16,7 +14,7 @@ const UserSchema = Schema({
 
 UserSchema.plugin(autoIncrement, {
   model: 'User',
-  field: 'userId'
+  field: 'userId',
 });
 
 module.exports = mongoose.model('User', UserSchema);

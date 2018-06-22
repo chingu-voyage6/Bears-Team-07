@@ -3,7 +3,7 @@ import controller from './controller';
 
 export default express
   .Router()
-  //.post('/login', controller.login)
+  // .post('/login', controller.login)
   .post('/', controller.save)
   .post('/:id', controller.update)
   .post('/:id/upload', controller.uploadImage)
