@@ -7,6 +7,10 @@ import cookieParser from 'cookie-parser';
 import swaggerify from './swagger';
 import l from './logger';
 
+var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+
+const url = process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/deardiiary';
 const app = new Express();
 
 export default class ExpressServer {
@@ -25,6 +29,7 @@ export default class ExpressServer {
   }
 
   listen(port = process.env.PORT) {
+    mongoose.connect(url);
     const welcome = p => () => l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${p}}`);
     http.createServer(app).listen(port, welcome(port));
     return app;

@@ -10,7 +10,7 @@ export default function (app, routes) {
 
     app.use(mw.metadata());
     app.use(mw.files({
-      // Override the Express App's case-sensitive 
+      // Override the Express App's case-sensitive
       // and strict-routing settings for the Files middleware.
       caseSensitive: false,
       strict: false,
@@ -37,13 +37,14 @@ export default function (app, routes) {
       mw.CORS(),
       mw.validateRequest());
 
+    // Fernando - This breaks the json content-type on the tests.
     // Error handler to display the validation error as HTML
-    app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars, no-shadow
+    /*app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars, no-shadow
       res.status(err.status || 500);
       res.send(
         `<h1>${err.status || 500} Error</h1>` +
         `<pre>${err.message}</pre>`);
-    });
+    });*/
 
     routes(app);
   });

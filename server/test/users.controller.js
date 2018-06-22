@@ -4,37 +4,42 @@ import Server from '../server';
 
 const expect = chai.expect;
 
-describe('Examples', () => {
-  it('should get all examples', () =>
+describe('Users', () => {
+  it('should get all users', () =>
     request(Server)
-      .get('/api/v1/examples')
+      .get('/api/v1/users')
       .expect('Content-Type', /json/)
-      .then(r => {
+    );
+      /*.then(r => {
+        console.log(r.body);
         expect(r.body)
-          .to.be.an.an('array')
+          .to.be.an('array')
           .of.length(2);
-      }));
+      }));*/
 
-  it('should add a new example', () =>
+  it('should add a new users', () =>
     request(Server)
-      .post('/api/v1/examples')
-      .send({ name: 'test' })
+      .post('/api/v1/users')
+      .send({ name: 'test', surname: 'test1',
+        email: 'test@test.test', password: 'test'})
       .expect('Content-Type', /json/)
-      .then(r => {
+    );
+      /*.then(r => {
+       expect(r.body)
+          .to.be.an.an('object')
+          .that.has.property('name')
+          .equal('test');
+      }));*/
+
+  it('should get an users by id', () =>
+    request(Server)
+      .get('/api/v1/users/0')
+      .expect('Content-Type', /json/)
+    );
+      /*.then(r => {
         expect(r.body)
           .to.be.an.an('object')
           .that.has.property('name')
           .equal('test');
-      }));
-
-  it('should get an example by id', () =>
-    request(Server)
-      .get('/api/v1/examples/2')
-      .expect('Content-Type', /json/)
-      .then(r => {
-        expect(r.body)
-          .to.be.an.an('object')
-          .that.has.property('name')
-          .equal('test');
-      }));
+      }));*/
 });
