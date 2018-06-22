@@ -103,7 +103,7 @@ paths:
   /auth/login:
     post:
       tags:
-        - Users
+        - Auth
       description:     Login current user
       parameters:
         - name:        user
