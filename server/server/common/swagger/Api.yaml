@@ -82,7 +82,7 @@ paths:
             $ref: "#/definitions/UserBody"
       responses:
         200:
-          description: Returns all users
+          description: Create an user
 
   /users/{id}:
     get:

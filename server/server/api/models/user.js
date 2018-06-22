@@ -1,12 +1,11 @@
 'use strict'
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    autoIncrement = require('mongoose-auto-increment');
+import mongoose from 'mongoose'
+import autoIncrement from 'mongoose-plugin-autoinc'
 
-autoIncrement.initialize(mongoose.connection);
+const Schema = mongoose.Schema
 
-var UserSchema = Schema({
+const UserSchema = Schema({
     name: String,
     surname: String,
     email: String,
@@ -15,6 +14,6 @@ var UserSchema = Schema({
     image: String,
 });
 
-UserSchema.plugin(autoIncrement.plugin, { model: 'User', field: 'userId' });
+UserSchema.plugin(autoIncrement, { model: 'User', field: 'userId' });
 
 module.exports = mongoose.model('User', UserSchema);
