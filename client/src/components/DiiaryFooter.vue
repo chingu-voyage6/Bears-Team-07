@@ -15,18 +15,18 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
   /* Set the fixed height of the footer here */
   height: 40px;
   line-height: 40px; /* Vertically center the text there */
-  background-color: #420906; /* blue - #00baad; dark theme - #343a40 */
+  background-color: #b71c1c;
   color: #fff;
   font-weight: 400;
+  border-top: 1px solid;
+  letter-spacing: 0.5px;
 }
 .fa-github {
   color: #fff;
+  padding-left: 5px;
 }
 /*
 .heart {
