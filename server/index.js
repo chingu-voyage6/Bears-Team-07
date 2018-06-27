@@ -5,6 +5,7 @@ const Hapi = require('hapi');
 const mongoose = require('mongoose');
 //const hapiAuthJWT = require('hapi-auth-jwt2');
 //const jwksRsa = require('jwks-rsa');
+const AuthController = require('./src/controllers/auth');
 const UserController = require('./src/controllers/user');
 const url = process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/deardiiary';
 
@@ -27,6 +28,14 @@ const server = new Hapi.Server({
 
 const registerRoutes = () => {
 
+  // Auth API
+  server.route({
+    method: 'POST',
+    path: '/auth',
+    handler: AuthController.login
+  });
+
+  // User API
   server.route({
     method: 'GET',
     path: '/users',
@@ -83,7 +92,6 @@ const init = async () => {
 
   await server.start();
   return server;
-
 };
 
 init().then(server => {

@@ -40,4 +40,3 @@ Or create your own account at mlab and update the environment variables from `.e
 
 -   Point you're browser to <http://localhost:3000>
 -   Invoke the example REST endpoint `curl http://localhost:3000/users`
-
