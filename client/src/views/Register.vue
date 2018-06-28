@@ -9,13 +9,13 @@
                 <div class="modal-content">
                   <h3>CREATE YOUR ACCOUNT</h3>
                   <div class="col-12 form-input">
-                    <form action="">
+                    <form>
                       <div class="form-row">
                         <div class="form-group col-md-6 col-sm-12">
-                          <input type="text" class="form-control" placeholder="First Name">
+                          <input type="text" class="form-control" v-model="firstName" placeholder="First Name">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
-                          <input type="text" class="form-control" placeholder="Last Name">
+                          <input type="text" class="form-control" v-model="lastName" placeholder="Last Name">
                         </div>
                       </div>
                       <div class="form-group input-group">
@@ -24,7 +24,7 @@
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" v-model="email" placeholder="Email">
                       </div>
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -32,7 +32,7 @@
                             <i class="fa fa-key" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" class="form-control" v-model="password" placeholder="Password">
                       </div>
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -40,10 +40,10 @@
                             <i class="fa fa-lock" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="password" class="form-control" placeholder="Confirm Password">
+                        <input type="password" class="form-control" v-model="confirmPassword" placeholder="Confirm Password">
                       </div>
                       <div class="form-group">
-                        <button type="submit" class="form-control btn btn-custom">
+                        <button @click="register" type="submit" class="form-control btn btn-custom">
                           Register
                           <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </button>
@@ -61,11 +61,31 @@
 
 <script>
 import WelcomeHeader from "@/components/WelcomeHeader.vue";
+import RegistrationService from "@/services/RegistrationService.js";
 
 export default {
-  name: "welcome-header",
+  data() {
+    return {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    };
+  },
   components: {
     WelcomeHeader
+  },
+  methods: {
+    register() {
+      RegistrationService.register({
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password,
+        confirmPassword: this.confirmPassword
+      });
+    }
   }
 };
 </script>
