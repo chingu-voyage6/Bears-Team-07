@@ -2,6 +2,16 @@
 
 Dear Diiary API
 
+## Instal yarn
+
+    npm install --global yarn
+
+or
+
+Follow [this][install] for more ways to install it
+
+[install]: https://yarnpkg.com/en/docs/install
+
 ## Copy/create .env config
 
     cp .env.config .env
@@ -41,4 +51,3 @@ Or create your own account at mlab and update the environment variables from `.e
 
 -   Point you're browser to <http://localhost:3000>
 -   Invoke the example REST endpoint `curl http://localhost:3000/api/v1/users`
-
