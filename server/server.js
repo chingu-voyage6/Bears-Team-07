@@ -17,9 +17,13 @@ const app = new Express();
 
 const root = path.normalize(`${__dirname}/../..`);
 app.set('appPath', `${root}client`);
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
+}));
+app.use(bodyParser.json({
+  type: function() {
+    return true;
+  }
 }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 routes(app);
