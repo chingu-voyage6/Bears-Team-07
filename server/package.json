@@ -12,11 +12,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "dotenv": "6.0.0",
     "hapi": "17.5.2",
-    "jwt-simple": "0.5.1",
-    "moment": "2.22.2",
     "mongoose": "5.1.6",
     "mongoose-plugin-autoinc": "1.1.9"
   },
