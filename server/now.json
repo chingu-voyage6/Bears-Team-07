@@ -1,0 +1,13 @@
+{
+  "env": {
+    "MONGOLAB_URI": "@mongolab-uri",
+    "PORT": "3000",
+    "LOG_LEVEL": "debug",
+    "REQUEST_LIMIT": "100kb",
+    "SESSION_SECRET": "@deardiiary-secret"
+  },
+  "type": "npm",
+  "engines": {
+    "node": "8.11.3"
+  }
+}
