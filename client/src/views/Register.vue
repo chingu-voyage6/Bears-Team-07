@@ -21,6 +21,14 @@
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
                           <div class="input-group-text">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                          </div>
+                        </div>
+                        <input type="text" class="form-control" v-model="username" placeholder="Username">
+                      </div>
+                      <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                           </div>
                         </div>
@@ -68,6 +76,7 @@ export default {
     return {
       firstName: "",
       lastName: "",
+      username: "",
       email: "",
       password: "",
       confirmPassword: ""
@@ -81,6 +90,7 @@ export default {
       RegistrationService.register({
         firstName: this.firstName,
         lastName: this.lastName,
+        userName: this.username,
         email: this.email,
         password: this.password,
         confirmPassword: this.confirmPassword
@@ -94,7 +104,7 @@ export default {
 .background-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: transparent;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
     url("../assets/landing.jpg") no-repeat center top;
@@ -105,6 +115,10 @@ export default {
   background-size: cover;
   background-attachment: fixed;
   overflow: hidden;
+  padding-bottom: 40px;
+}
+.register {
+  padding-bottom: 100px;
 }
 .main-section {
   margin: 0 auto;
