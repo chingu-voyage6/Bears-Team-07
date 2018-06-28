@@ -1,14 +1,16 @@
-swagger: "2.0"
+swagger:               "2.0"
 info:
-  version: 0.0.1
-  title: deardiiary-backend
-  description: Dear Diiary API
-basePath: /api/v1
+  version:             0.0.1
+  title:               deardiiary-backend
+  description:         Dear Diiary API
+basePath:              /api/v1
 tags:
-  - name: Examples
-    description: Simple example endpoints
-  - name: Specification
-    description: The swagger API specification
+  - name:              Auth
+    description:       Auth endpoints
+  - name:              Users
+    description:       User endpoints
+  - name:              Specification
+    description:       The swagger API specification
 
 consumes:
   - application/json
@@ -17,55 +19,106 @@ produces:
 
 
 definitions:
-  ExampleBody:
-    type: object
-    title: example
+  AuthBody:
+    type:              object
+    title:             auth
+    require:
+      - email
+      - password
+    properties:
+      email:
+        type:          string
+        example:       user@gmail.com
+      password:
+        type:          string
+        example:       Password
+  UserBody:
+    type:              object
+    title:             user
     required:
       - name
+      - surname
+      - email
+      - password
     properties:
       name:
-        type: string
-        example: no_stress
+        type:          string
+        example:       First Name
+      surname:
+        type:          string
+        example:       Last Name
+      email:
+        type:          string
+        example:       user@gmail.com
+      password:
+        type:          string
+        example:       Password
+      role:
+        type:          string
+        example:       role
+      image:
+        type:          string
+        example:       Image File Name
 
 paths:
-  /examples:
+  /users:
     get:
       tags:
-        - Examples
-      description: Fetch all examples
+        - Users
+      description:     Fetch all users
       responses:
         200:
-          description: Returns all examples
+          description: Returns all users
     post:
       tags:
-        - Examples
-      description: Create a new example
+        - Users
+      description:     Create a new user
       parameters:
-        - name: example
-          in: body
-          description: an example
-          required: true
+        - name:        user
+          in:          body
+          description: a user
+          required:    true
           schema:
-            $ref: "#/definitions/ExampleBody"
+            $ref:      "#/definitions/UserBody"
       responses:
         200:
-          description: Returns all examples
+          description: Create an user
 
-  /examples/{id}:
+  /users/{id}:
     get:
       tags:
-        - Examples
+        - Users
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: The id of the example to retrieve
-          type: integer
+        - name:        id
+          in:          path
+          required:    true
+          description: The id of the user to retrieve
+          type:        integer
       responses:
         200:
-          description: Return the example with the specified id
+          description: Return the user with the specified id
         404:
-          description: Example not found
+          description: User not found
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      description:     Login current user
+      parameters:
+        - name:        user
+          in:          body
+          description: a user
+          required:    true
+          schema:
+            $ref:      "#/definitions/AuthBody"
+      responses:
+        200:
+          description: Login the user successfully
+        404:
+          description: Login user not found
+        500:
+          description: System failure.
 
   /spec:
     get:
