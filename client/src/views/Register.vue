@@ -9,7 +9,7 @@
                 <div class="modal-content">
                   <h3>CREATE YOUR ACCOUNT</h3>
                   <div class="col-12 form-input">
-                    <form>
+                    <form @submit.prevent="register">
                       <div class="form-row">
                         <div class="form-group col-md-6 col-sm-12">
                           <input type="text" class="form-control" v-model="firstName" placeholder="First Name">
@@ -51,7 +51,7 @@
                         <input type="password" class="form-control" v-model="confirmPassword" placeholder="Confirm Password">
                       </div>
                       <div class="form-group">
-                        <button @click="register" type="submit" class="form-control btn btn-custom">
+                        <button type="submit" class="form-control btn btn-custom">
                           Register
                           <i class="fa fa-user-plus" aria-hidden="true"></i>
                         </button>
@@ -86,15 +86,19 @@ export default {
     WelcomeHeader
   },
   methods: {
-    register() {
-      RegistrationService.register({
-        firstName: this.firstName,
-        lastName: this.lastName,
-        userName: this.username,
-        email: this.email,
-        password: this.password,
-        confirmPassword: this.confirmPassword
-      });
+    async register() {
+      if (this.password == this.confirmPassword) {
+        await RegistrationService.register({
+          firstname: this.firstName,
+          lastname: this.lastName,
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          admin: "false"
+        });
+      } else {
+        alert("Passwords don't match");
+      }
     }
   }
 };
