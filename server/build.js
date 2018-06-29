@@ -1,6 +1,8 @@
 const s = require('shelljs');
+const fs = require('fs');
 
 s.rm('-rf', 'build');
 s.mkdir('build');
-s.cp('.env', 'build/.env');
-//s.cp('-R', 'public', 'build/public');
+if (!fs.existsSync('build/.env')) {
+  s.cp('.env', 'build/.env');
+}

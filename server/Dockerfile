@@ -1,10 +1,10 @@
-FROM node:8.4
+FROM node:8.11
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY . /usr/src/app
-RUN npm install
+RUN npm install && npm run compile
 
 EXPOSE 3000
 
