@@ -12,10 +12,10 @@
                     <form @submit.prevent="register">
                       <div class="form-row">
                         <div class="form-group col-md-6 col-sm-12">
-                          <input type="text" class="form-control" v-model="firstName" placeholder="First Name">
+                          <input type="text" class="form-control" v-model="firstName" placeholder="First Name" required="true">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
-                          <input type="text" class="form-control" v-model="lastName" placeholder="Last Name">
+                          <input type="text" class="form-control" v-model="lastName" placeholder="Last Name" required="true">
                         </div>
                       </div>
                       <div class="form-group input-group">
@@ -24,7 +24,7 @@
                             <i class="fa fa-user" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="text" class="form-control" v-model="username" placeholder="Username">
+                        <input type="text" class="form-control" v-model="username" placeholder="Username" required="true">
                       </div>
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -32,7 +32,7 @@
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="email" class="form-control" v-model="email" placeholder="Email">
+                        <input type="email" class="form-control" v-model="email" placeholder="Email" required="true">
                       </div>
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -40,7 +40,7 @@
                             <i class="fa fa-key" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="password" class="form-control" v-model="password" placeholder="Password">
+                        <input type="password" class="form-control" v-model="password" placeholder="Password" required="true">
                       </div>
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -48,7 +48,7 @@
                             <i class="fa fa-lock" aria-hidden="true"></i>
                           </div>
                         </div>
-                        <input type="password" class="form-control" v-model="confirmPassword" placeholder="Confirm Password">
+                        <input type="password" class="form-control" v-model="confirmPassword" placeholder="Confirm Password" required="true">
                       </div>
                       <div class="form-group">
                         <button type="submit" class="form-control btn btn-custom">
@@ -88,7 +88,7 @@ export default {
   methods: {
     async register() {
       if (this.password == this.confirmPassword) {
-        await RegistrationService.register({
+        const response = await RegistrationService.register({
           firstname: this.firstName,
           lastname: this.lastName,
           username: this.username,
@@ -96,6 +96,7 @@ export default {
           password: this.password,
           admin: "false"
         });
+        console.log(response.data);
       } else {
         alert("Passwords don't match");
       }
