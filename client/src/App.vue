@@ -10,11 +10,13 @@
 <script>
 // @ is an alias to /src
 import DiiaryFooter from "@/components/DiiaryFooter.vue";
+import WelcomeHeader from "@/components/WelcomeHeader.vue";
 
 export default {
   name: "diiary-footer",
   components: {
-    DiiaryFooter
+    DiiaryFooter,
+      WelcomeHeader
   }
 };
 </script>
