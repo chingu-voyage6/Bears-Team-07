@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="background-container modal-dialog text-center">
-                    <div class="col-sm-9 main-section">
+                    <div class="main-section">
 
                         <div class="modal-content">
                                 <div class="col-12 usr-img">
@@ -57,12 +57,23 @@
 </script>
 
 <style scoped>
+
+    .container-fluid {
+        height: 100%;
+    }
+
     .login {
         padding: 100px 20px 20px 20px;
     }
 
     .background-container {
-        background: url('~/img/mountain.png') no-repeat center center fixed;
+        background-color: transparent;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+        url("../assets/landing.jpg") no-repeat center top;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
         background-size: cover;
     }
 
@@ -122,5 +133,17 @@
     .forgot a{
         color: #daf1ff;
     }
+
+</style>
+<style>
+
+    html,body {
+        height: 100%;
+    }
+    
+    #main {
+        height: calc(100% - 40px);
+    }
+
 
 </style>
