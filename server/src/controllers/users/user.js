@@ -1,9 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
 const User = require('../../models/user');
 const jwt = require('../../services/jwt');
-const {
-  hashPassword
-} = require('../../utils/util');
 
 /**
  * List Users

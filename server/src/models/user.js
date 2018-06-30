@@ -32,7 +32,7 @@ const UserSchema = Schema({
   },
   admin: {
     type: Boolean,
-    required: true
+    required: false
   },
   role: String,
   image: String,
