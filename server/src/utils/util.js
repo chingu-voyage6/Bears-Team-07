@@ -31,7 +31,8 @@ exports.verifyUniqueUser = (req, res) => {
       payload: req.payload
     };
   });
-}
+};
+
 exports.verifyCredentials = (req, res) => {
   const password = req.payload.password;
   // Find an entry from the database that
@@ -61,7 +62,8 @@ exports.verifyCredentials = (req, res) => {
       };
     }
   });
-}
+};
+
 exports.hashPassword = (password, cb) => {
   // Generate a salt at level 10 strength
   bcrypt.genSalt(10, (err, salt) => {
@@ -69,4 +71,14 @@ exports.hashPassword = (password, cb) => {
       return cb(err, hash);
     });
   });
-}
+};
+
+exports.CORS = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+    res.status(200).json({});
+  }
+  next();
+};

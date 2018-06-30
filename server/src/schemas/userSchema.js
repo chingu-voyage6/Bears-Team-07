@@ -21,8 +21,7 @@ exports.authenticateUserSchema = Joi.alternatives().try(
 
 exports.payloadSchema = Joi.object({
   username: Joi.string().alphanum().min(2).max(30),
-  email: Joi.string().email(),
-  admin: Joi.boolean()
+  email: Joi.string().email()
 });
 
 exports.paramsSchema = Joi.object({
