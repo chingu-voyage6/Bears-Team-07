@@ -6,7 +6,7 @@ const jwt = require('../../services/jwt');
  * List Users
  */
 exports.list = (req, res) => {
-  console.log("GET/list");
+  req.log.debug("GET/list");
   return User.find({}).select('-password -__v').then((users) => {
     if (!users) {
       res.status(404)
@@ -20,6 +20,7 @@ exports.list = (req, res) => {
         });
     }
   }).catch((err) => {
+    req.log.error(err);
     res.status(500)
       .send({
         message: err,
@@ -31,7 +32,7 @@ exports.list = (req, res) => {
  * Get User by ID
  */
 exports.get = (req, res) => {
-  console.log("GET/get");
+  req.log.debug("GET/get");
   return User.findOne({
     userId: req.params.id
   }).then((user) => {
@@ -48,6 +49,7 @@ exports.get = (req, res) => {
         });
     }
   }).catch((err) => {
+    req.log.error(err);
     res.status(500)
       .send({
         message: err,
@@ -59,7 +61,7 @@ exports.get = (req, res) => {
  * POST a User
  */
 exports.create = (req, res) => {
-  console.log("POST/create");
+  req.log.debug("POST/create");
   var userData = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -78,6 +80,7 @@ exports.create = (req, res) => {
           token: jwt.createToken(user)
         });
     }).catch((err) => {
+      req.log.error(err);
       res.status(500)
         .send({
           message: err,
@@ -90,7 +93,7 @@ exports.create = (req, res) => {
  * PUT | Update User by ID
  */
 exports.update = (req, res) => {
-  console.log("PUT/update");
+  req.log.debug("PUT/update");
   return User.findOne({
     userId: req.params.id
   }).then((user) => {
@@ -107,6 +110,7 @@ exports.update = (req, res) => {
       user.admin = req.body.admin;
       bcrypt.hash(req.body.password, null, null, (err, hash) => {
         if (err) {
+          req.log.error(err);
           res.status(500)
             .send({
               message: err,
@@ -122,6 +126,7 @@ exports.update = (req, res) => {
         });
     }
   }).catch((err) => {
+    req.log.error(err);
     res.status(500)
       .send({
         message: err,
@@ -133,7 +138,7 @@ exports.update = (req, res) => {
  * Delete User by ID
  */
 exports.remove = (req, res) => {
-  console.log("DELETE/remove");
+  req.log.debug("DELETE/remove");
   return User.findOne({
     userId: req.params.id
   }).then((user) => {
@@ -151,6 +156,7 @@ exports.remove = (req, res) => {
         });
     }
   }).catch((err) => {
+    req.log.error(err);
     return {
       err: err
     };
