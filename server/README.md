@@ -58,9 +58,10 @@ Or create your own account at mlab and update the environment variables from `.e
 -   Go to zeit.co and create and account.
 -   Download Desktop Now and install.
 -   Execute `now login` follow the prompt.
--   Execute `now secrets add mongolab-uri "mongodb://CHANGEME_USERNAME:PASSWORD_CHANGEME@ds018308.mlab.com:18308/deardiiary"`
+-   Execute `now secrets add mongolab-uri "mongodb://CHANGEME_USERNAME:CHANGEME_PASSWORD@ds018308.mlab.com:18308/deardiiary"`
 -   Execute `now secrets add deardiiary-secret "YOUR_SECRET"`
 -   Update `now.json` file if you need to.
 -   Execute `now --public` since using the free OSS, it will prompt a warning, passing `--public` the warning goes away.
--   Point you're browser to <https://deardiiary-backend-aurvyseuqs.now.sh> this is the one I deployed for testing.
--   Invoke the users REST endpoint `curl https://deardiiary-backend-aurvyseuqs.now.sh/api/v1/users`
+-   Point you're browser to <https://deardiiary-api.now.sh/api/v1/users> this is the one I deployed for testing.
+-   Invoke the users REST endpoint `curl https://deardiiary-api.now.sh/api/v1/users`
+-   This `deardiiary-api.now.sh` is an alias.  I used `now alias https://deardiiary-backend-xxxxxxxxxx.now.sh deardiiary-api` to created.
