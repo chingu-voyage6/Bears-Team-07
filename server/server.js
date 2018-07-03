@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import './src/env';
 import routes from './src/routes';
 import log from './src/logger';
+import { CORS } from './src/utils/util';
 
 mongoose.Promise = global.Promise;
 
@@ -27,6 +28,8 @@ app.use(bodyParser.json({
 }));
 
 app.use(cookieParser(process.env.SESSION_SECRET));
+
+app.use(CORS);
 routes(app);
 
 mongoose.connect(
