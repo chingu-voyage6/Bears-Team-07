@@ -11,7 +11,7 @@
 import WelcomeHeader from "@/components/WelcomeHeader.vue";
 
 export default {
-  name: "welcome-header",
+  name: "logout",
   components: {
     WelcomeHeader
   }
