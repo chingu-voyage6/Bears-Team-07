@@ -50,6 +50,11 @@
                         </div>
                         <input type="password" class="form-control" v-model="confirmPassword" placeholder="Confirm Password" required="true">
                       </div>
+                      <div v-if="show">
+                        <p class="error">
+                          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                          {{ error }}</p>
+                      </div>
                       <div class="form-group">
                         <button type="submit" class="form-control btn btn-custom">
                           Register
@@ -79,7 +84,9 @@ export default {
       username: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      error: null,
+      show: false
     };
   },
   components: {
@@ -87,18 +94,22 @@ export default {
   },
   methods: {
     async register() {
-      if (this.password == this.confirmPassword) {
-        const response = await RegistrationService.register({
-          firstname: this.firstName,
-          lastname: this.lastName,
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          admin: "false"
-        });
-        console.log(response.data);
-      } else {
-        alert("Passwords don't match");
+      try {
+        if (this.password == this.confirmPassword) {
+          await RegistrationService.register({
+            firstname: this.firstName,
+            lastname: this.lastName,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            admin: "false"
+          });
+        } else {
+          alert("Passwords don't match");
+        }
+      } catch (error) {
+        this.show = true,
+        this.error = error.response.data.error;
       }
     }
   }
@@ -138,6 +149,11 @@ export default {
 }
 h3 {
   padding-top: 25px;
+}
+.error {
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-bottom: 5px;
 }
 form {
   padding-top: 25px;
