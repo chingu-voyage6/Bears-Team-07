@@ -8,7 +8,7 @@ const jwt = require('../../services/jwt');
  * Login User
  */
 exports.login = (req, res) => {
-  console.log('POST/login');
+  req.log.debug('POST/login');
   const email = req.body.email;
   const password = req.body.password;
   return User.findOne({
@@ -35,6 +35,7 @@ exports.login = (req, res) => {
             });
         }
         if (err) {
+          req.log.error(err);
           res.status(500)
             .send({
               message: err
@@ -44,6 +45,7 @@ exports.login = (req, res) => {
     }
 
   }).catch((err) => {
+    req.log.error(err);
     res.status(500)
       .send({
         message: err,
