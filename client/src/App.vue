@@ -12,7 +12,7 @@
 import DiiaryFooter from "@/components/DiiaryFooter.vue";
 
 export default {
-  name: "diiary-footer",
+  name: "app",
   components: {
     DiiaryFooter
   }
