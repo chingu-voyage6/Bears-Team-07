@@ -1,126 +1,25 @@
 <template>
-    <div class="container-fluid border border-dark background-container">
-        <div class="row">
-            <div class="col-12">
-                <div class="background-container modal-dialog text-center">
-                    <div class="col-sm-9 main-section">
-
-                        <div class="modal-content">
-                                <div class="col-12 usr-img">
-                                    <img v-bind:src="imgSource" alt="">
-                                </div>
-                                <div class="col-12 form-input">
-                                    <form action="">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Enter Email">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <input type="password" class="form-control" placeholder="Enter Password">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button type="submit" class="form-control btn btn-success">Login</button>
-                                        </div>
-                                    </form>
-                                </div>
-
-                                <div class="col-12 forgot">
-                                    <a href="#">Forgot Password?</a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
+  <div class="login text-center">
+    <MainHeader/>
+    <body>
+      <p>Welcome to Login page</p>
+    </body>
+  </div>
 </template>
 
 <script>
-    import WelcomeHeader from "@/components/WelcomeHeader.vue";
+import MainHeader from "@/components/MainHeader.vue";
 
-    export default {
-        name: "welcome-header",
-        data: function() {
-            return {
-                imgSource: './img/face.png',
-                backgroundUrl: './img/mountain.png'
-            }
-        },
-        components: {
-            WelcomeHeader
-        }
-    };
+export default {
+  name: "login",
+  components: {
+    MainHeader
+  }
+};
 </script>
 
 <style scoped>
-    .login {
-        padding: 100px 20px 20px 20px;
-    }
-
-    .background-container {
-        background: url('~/img/mountain.png') no-repeat center center fixed;
-        background-size: cover;
-    }
-
-    .main-section{
-        margin: 0 auto;
-        margin-top: 130px;
-        padding: 0;
-    }
-
-    .modal-content{
-        background-color: #434e5a;
-        opacity: 0.8;
-        padding: 0 18px;
-        border-radius: 10px;
-    }
-
-    .usr-img img{
-        height: 120px;
-        width: 120px;
-    }
-
-    .usr-img{
-        margin-top: -60px;
-        margin-bottom: 45px;
-    }
-
-    .form-group{
-        margin-bottom: 25px;
-    }
-
-    .form-group input{
-        height: 42px;
-        border-radius: 5px;
-        border: 0;
-        font-size: 18px;
-        letter-spacing: 2px;
-        /*padding-left: 54px;*/
-    }
-
-    .btn-success{
-        background-color: #1c6288;
-        font-size: 19px;
-        border-radius: 5px;
-        padding: 7px 14px;
-        border: 1px solid #daf1ff;
-    }
-
-    .btn-success:hover{
-        background-color: #13445e;
-        border: 1px solid #daf1ff;
-    }
-
-    .forgot {
-        padding: 5px 0 25px;
-    }
-    
-    .forgot a{
-        color: #daf1ff;
-    }
-
+.login {
+  padding: 100px 20px 20px 20px;
+}
 </style>
