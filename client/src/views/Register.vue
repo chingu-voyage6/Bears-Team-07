@@ -9,7 +9,7 @@
                 <div class="modal-content">
                   <h3>CREATE YOUR ACCOUNT</h3>
                   <div class="col-12 form-input">
-                    <form @submit.prevent="register">
+                    <form @submit.prevent="register({name: 'home'})">
                       <div class="form-row">
                         <div class="form-group col-md-6 col-sm-12">
                           <input type="text" class="form-control" v-model="firstName" placeholder="First Name" required="true">
@@ -93,7 +93,7 @@ export default {
     WelcomeHeader
   },
   methods: {
-    async register() {
+    async register(route) {
       try {
         if (this.password == this.confirmPassword) {
           await RegistrationService.register({
@@ -104,12 +104,12 @@ export default {
             password: this.password,
             admin: "false"
           });
+          this.$router.push(route);
         } else {
           alert("Passwords don't match");
         }
       } catch (error) {
-        this.show = true,
-        this.error = error.response.data.error;
+        (this.show = true), (this.error = error.response.data.error);
       }
     }
   }
