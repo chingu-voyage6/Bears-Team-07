@@ -15,7 +15,7 @@ exports.login = (req, res) => {
   console.log('--------------------------------------------------');
   console.log(req.body);
   console.log('--------------------------------------------------');
-  console.log('I like nanan');
+
     return User.findOne({
     email: email.toLowerCase()
   }).then((user) => {

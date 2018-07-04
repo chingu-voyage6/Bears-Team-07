@@ -62,6 +62,7 @@ exports.get = (req, res) => {
  */
 exports.create = (req, res) => {
   req.log.debug("POST/create");
+  console.log('Request', req);
   var userData = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
