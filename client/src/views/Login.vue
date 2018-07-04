@@ -46,7 +46,7 @@
         name: "welcome-header",
         data: function() {
             return {
-                loginUrl: 'http://localhost:3000/api/v1/login',
+                loginUrl: 'http://localhost:3000/api/v1/auth/login',
                 imgSource: './img/face.png',
                 backgroundUrl: './img/mountain.png',
                 loginEmail: '',
@@ -73,6 +73,7 @@
               axios.post(self.loginUrl, data, headers )
               .then(function (response) {
                   console.log(response);
+                  self.token = response.data.token;
               })
               .catch(function (error) {
                   console.log(error);
