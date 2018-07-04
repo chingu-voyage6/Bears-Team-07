@@ -46,7 +46,7 @@
         name: "welcome-header",
         data: function() {
             return {
-                loginUrl: 'localhost:3000/api/v1/login',
+                loginUrl: 'http://localhost:3000/api/v1/login',
                 imgSource: './img/face.png',
                 backgroundUrl: './img/mountain.png',
                 loginEmail: '',
@@ -61,10 +61,16 @@
               console.log('Email: ', this.loginEmail);
               console.log('Pass: ', this.loginPassword);
               var self = this;
-              axios.post('/user', {
+              var data = {
                   email: self.loginEmail,
                   password: self.loginPassword
-              })
+              };
+
+              var headers = {
+                  'Content-Type': 'application/json',
+              };
+
+              axios.post(self.loginUrl, data, headers )
               .then(function (response) {
                   console.log(response);
               })
