@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="background-container modal-dialog text-center">
-                    <div class="col-sm-9 main-section">
+                    <div class="main-section">
 
                         <div class="modal-content">
                                 <div class="col-12 usr-img">
@@ -12,15 +12,15 @@
                                 <div class="col-12 form-input">
                                     <form action="">
                                         <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Enter Email">
+                                            <input type="email" class="form-control" v-model="loginEmail" placeholder="Enter Email">
                                         </div>
 
                                         <div class="form-group">
-                                            <input type="password" class="form-control" placeholder="Enter Password">
+                                            <input type="password" class="form-control" v-model="loginPassword" placeholder="Enter Password">
                                         </div>
 
                                         <div class="form-group">
-                                            <button type="submit" class="form-control btn btn-success">Login</button>
+                                            <button type="submit" v-on:click="this.loginAttempt" class="form-control btn btn-success">Login</button>
                                         </div>
                                     </form>
                                 </div>
@@ -41,14 +41,37 @@
 
 <script>
     import WelcomeHeader from "@/components/WelcomeHeader.vue";
-
+    import axios from 'axios'
     export default {
         name: "welcome-header",
         data: function() {
             return {
+                loginUrl: 'localhost:3000/api/v1/login',
                 imgSource: './img/face.png',
-                backgroundUrl: './img/mountain.png'
+                backgroundUrl: './img/mountain.png',
+                loginEmail: '',
+                loginPassword: '',
+                token: ''
             }
+        },
+        methods: {
+          loginAttempt: function (event){
+              event.preventDefault();
+              console.log('Loggn Atempt');
+              console.log('Email: ', this.loginEmail);
+              console.log('Pass: ', this.loginPassword);
+              var self = this;
+              axios.post('/user', {
+                  email: self.loginEmail,
+                  password: self.loginPassword
+              })
+              .then(function (response) {
+                  console.log(response);
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+          }
         },
         components: {
             WelcomeHeader
@@ -57,12 +80,23 @@
 </script>
 
 <style scoped>
+
+    .container-fluid {
+        height: 100%;
+    }
+
     .login {
         padding: 100px 20px 20px 20px;
     }
 
     .background-container {
-        background: url('~/img/mountain.png') no-repeat center center fixed;
+        background-color: transparent;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
+        url("../assets/landing.jpg") no-repeat center top;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
         background-size: cover;
     }
 
@@ -122,5 +156,17 @@
     .forgot a{
         color: #daf1ff;
     }
+
+</style>
+<style>
+
+    html,body {
+        height: 100%;
+    }
+    
+    #main {
+        height: calc(100% - 40px);
+    }
+
 
 </style>
