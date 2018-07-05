@@ -6,12 +6,12 @@ const jwt = require('../../services/jwt');
  * List Users
  */
 exports.list = (req, res) => {
-  req.log.debug("GET/list");
-  return User.find({}).select('-password -__v').then((users) => {
+  req.log.debug("GET/User/list");
+  return User.find({}).populate('puffs').then((users) => {
     if (!users) {
       res.status(404)
         .send({
-          message: 'No data found',
+          message: 'User not Found',
         });
     } else {
       res.status(200)
@@ -32,10 +32,10 @@ exports.list = (req, res) => {
  * Get User by ID
  */
 exports.get = (req, res) => {
-  req.log.debug("GET/get");
+  req.log.debug("GET/User/get");
   return User.findOne({
     userId: req.params.id
-  }).then((user) => {
+  }).populate('puffs').then((user) => {
     if (!user) {
       res.status(404)
         .send({
@@ -61,7 +61,7 @@ exports.get = (req, res) => {
  * POST a User
  */
 exports.create = (req, res) => {
-  req.log.debug("POST/create");
+  req.log.debug("POST/User/create");
   var userData = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
@@ -93,7 +93,7 @@ exports.create = (req, res) => {
  * PUT | Update User by ID
  */
 exports.update = (req, res) => {
-  req.log.debug("PUT/update");
+  req.log.debug("PUT/User/update");
   return User.findOne({
     userId: req.params.id
   }).then((user) => {
@@ -138,7 +138,7 @@ exports.update = (req, res) => {
  * Delete User by ID
  */
 exports.remove = (req, res) => {
-  req.log.debug("DELETE/remove");
+  req.log.debug("DELETE/User/remove");
   return User.findOne({
     userId: req.params.id
   }).then((user) => {
@@ -157,8 +157,9 @@ exports.remove = (req, res) => {
     }
   }).catch((err) => {
     req.log.error(err);
-    return {
-      err: err
-    };
+    res.status(500)
+      .send({
+        message: err,
+      });
   });
 };
