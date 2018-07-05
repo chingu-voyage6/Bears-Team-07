@@ -19,6 +19,8 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-pino-logger": "3.0.2",
+    "joi": "^13.4.0",
+    "joi-objectid": "^2.0.0",
     "jwt-simple": "0.5.1",
     "moment": "2.22.2",
     "mongoose": "5.1.7",
