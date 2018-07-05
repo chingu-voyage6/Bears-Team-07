@@ -96,7 +96,7 @@ export default {
     async register(route) {
       try {
         if (this.password == this.confirmPassword) {
-          await RegistrationService.register({
+          const response = await RegistrationService.register({
             firstname: this.firstName,
             lastname: this.lastName,
             username: this.username,
@@ -105,8 +105,10 @@ export default {
             admin: "false"
           });
           this.$router.push(route);
+          this.$store.dispatch("setToken", response.data.token);
+          this.$store.dispatch("setUser", response.data.user);
         } else {
-          alert("Passwords don't match");
+          (this.show = true), (this.error = "Passwords don't match");
         }
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
