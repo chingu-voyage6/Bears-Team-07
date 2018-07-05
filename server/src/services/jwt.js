@@ -18,6 +18,7 @@ exports.createToken = function (user) {
     email: user.email,
     role: user.role,
     image: user.image,
+    active: user.acive,
     iat: moment()
       .unix(),
     exp: moment()

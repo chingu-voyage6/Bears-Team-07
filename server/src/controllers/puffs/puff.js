@@ -64,7 +64,9 @@ exports.create = (req, res) => {
   var puffData = {
     title: req.body.title,
     content: req.body.content,
-    tags: req.body.tags
+    tags: req.body.tags,
+    comments: req.body.comments,
+    meta: req.body.meta
   };
   return Puff.create(puffData).then((puff) => {
     if (puff) {
@@ -82,13 +84,13 @@ exports.create = (req, res) => {
           puff.save();
           user.puffs.push(puff);
           user.save();
+          res.status(200)
+            .send({
+              message: "Puff created successfully",
+              puff: puff
+            });
         }
       });
-      res.status(200)
-        .send({
-          message: "Puff created successfully",
-          puff: puff
-        });
     }
   }).catch((err) => {
     req.log.error(err);
@@ -116,6 +118,9 @@ exports.update = (req, res) => {
       puff.title = req.body.title;
       puff.content = req.body.content;
       puff.tags = req.body.tags;
+      puff.comments = req.body.comments;
+      puff.meta = req.body.meta;
+      puff.hidden = req.body.hidden;
       puff.save();
       res.status(200)
         .send({

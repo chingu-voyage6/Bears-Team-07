@@ -41,6 +41,10 @@ const UserSchema = mongoose.Schema({
     data: Buffer,
     contentType: String
   },
+  active: {
+    type: Boolean,
+    default: true
+  },
   puffs: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Puff'
@@ -50,6 +54,10 @@ const UserSchema = mongoose.Schema({
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'
+  },
+  minimize: false,
+  toObject: {
+    retainKeyOrder: true
   }
 });
 

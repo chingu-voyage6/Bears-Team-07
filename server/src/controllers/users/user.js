@@ -118,12 +118,12 @@ exports.update = (req, res) => {
         }
         user.password = hash;
         user.save();
+        res.status(200)
+          .send({
+            message: "User data updated successfully",
+            user: user
+          });
       });
-      res.status(200)
-        .send({
-          message: "User data updated successfully",
-          user: user
-        });
     }
   }).catch((err) => {
     req.log.error(err);
