@@ -1,13 +1,11 @@
+import PinoLogger from 'express-pino-logger';
+import CORS from 'cors';
 import authRouter from './controllers/auth/router';
 import usersRouter from './controllers/users/router';
-import PinoLogger from 'express-pino-logger';
 import pino from './logger';
-import {
-  CORS
-} from './utils';
 
 export default function routes(app) {
-  app.use(CORS);
+  app.use(CORS());
   app.use(PinoLogger({
     logger: pino
   }));
