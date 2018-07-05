@@ -11,7 +11,12 @@ exports.login = (req, res) => {
   req.log.debug('POST/login');
   const email = req.body.email;
   const password = req.body.password;
-  return User.findOne({
+
+  console.log('--------------------------------------------------');
+  console.log(req.body);
+  console.log('--------------------------------------------------');
+
+    return User.findOne({
     email: email.toLowerCase()
   }).then((user) => {
     if (!user) {
