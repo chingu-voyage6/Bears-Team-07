@@ -5,7 +5,7 @@
         <img src="../assets/brand/d-logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Dear Diiary
       </router-link>
-      <div id="navbarLink">
+      <div id="navbarLink" v-if="!$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item">
             <router-link to="/login" class="nav-link">
@@ -15,10 +15,32 @@
           </li>
         </ul>
       </div>
+      <div id="navbarLink" v-if="$store.state.isUserLoggedIn">
+        <ul class="nav navbar-right">
+          <li class="nav-item user-custom">
+            Welcome {{ capitalizeUsername($store.state.user.username) }}!
+          </li>
+          <li class="nav-item">
+            <router-link to="/home" class="nav-link">
+              Logout
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
 </template>
 
+<script>
+export default {
+  methods: {
+    capitalizeUsername(username) {
+      return username.charAt(0).toUpperCase() + username.slice(1);
+    }
+  }
+};
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -43,5 +65,8 @@ img {
 }
 #navbarLink a.router-link-exact-active {
   color: #ffccbc;
+}
+.user-custom {
+  padding-top: 8px;
 }
 </style>
