@@ -18,12 +18,14 @@ const app = new Express();
 const root = path.normalize(`${__dirname}/../..`);
 app.set('appPath', `${root}client`);
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
+  limit: process.env.REQUEST_LIMIT
 }));
 app.use(bodyParser.json({
   type: function() {
     return true;
-  }
+  },
+  limit: process.env.REQUEST_LIMIT
 }));
 
 app.use(cookieParser(process.env.SESSION_SECRET));
