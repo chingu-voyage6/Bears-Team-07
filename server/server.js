@@ -25,7 +25,9 @@ app.use(bodyParser.json({
     return true;
   }
 }));
+
 app.use(cookieParser(process.env.SESSION_SECRET));
+
 routes(app);
 
 mongoose.connect(

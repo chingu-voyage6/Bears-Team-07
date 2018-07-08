@@ -1,8 +1,8 @@
 <template>
-  <div class="login text-center">
+  <div class="home text-center">
     <MainHeader/>
     <body>
-      <p>Welcome to Login page</p>
+      <p>Welcome to home page</p>
     </body>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import MainHeader from "@/components/MainHeader.vue";
 
 export default {
-  name: "login",
+  name: "home",
   components: {
     MainHeader
   }
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style scoped>
-.login {
+.home {
   padding: 100px 20px 20px 20px;
 }
 </style>
