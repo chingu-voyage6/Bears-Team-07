@@ -57,9 +57,7 @@
         methods: {
           loginAttempt: function (event){
               event.preventDefault();
-              console.log('Loggn Atempt');
-              console.log('Email: ', this.loginEmail);
-              console.log('Pass: ', this.loginPassword);
+
               var self = this;
               var data = {
                   email: self.loginEmail,
@@ -72,11 +70,11 @@
 
               axios.post(self.loginUrl, data, headers )
               .then(function (response) {
-                  console.log(response);
+
                   self.token = response.data.token;
               })
               .catch(function (error) {
-                  console.log(error);
+
               });
           }
         },
