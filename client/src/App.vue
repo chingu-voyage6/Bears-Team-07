@@ -21,11 +21,14 @@ export default {
 
 <style>
 #app {
+  height: 100%;
   font-family: "Alegreya", Lato, Arial, serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
 }
+
+
 /* Google font import */
 @import url("https://fonts.googleapis.com/css?family=Alegreya|Macondo+Swash+Caps");
 /* To include jquery  
