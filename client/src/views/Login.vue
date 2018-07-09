@@ -56,6 +56,7 @@
     import LoginService from "@/services/LoginService.js";
 
     export default {
+        name: "Login",
         data() {
             return {
                 email: "",
