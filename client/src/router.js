@@ -4,7 +4,6 @@ import Welcome from "./views/Welcome.vue";
 import Register from "./views/Register.vue";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
-import Logout from "./views/Logout.vue";
 
 Vue.use(Router);
 
@@ -29,11 +28,6 @@ export default new Router({
       path: "/home",
       name: "home",
       component: Home
-    },
-    {
-      path: "/logout",
-      name: "logout",
-      component: Logout
     }
   ],
   //removes '#' from the URL
