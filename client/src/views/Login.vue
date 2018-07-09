@@ -1,6 +1,6 @@
 <template>
   <div class="login text-center">
-    <MainHeader/>
+    <WelcomeHeader/>
     <body>
       <p>Welcome to Login page</p>
     </body>
@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import MainHeader from "@/components/MainHeader.vue";
+import WelcomeHeader from "@/components/WelcomeHeader.vue";
 
 export default {
-  name: "login",
+  name: "logout",
   components: {
-    MainHeader
+    WelcomeHeader
   }
 };
 </script>
