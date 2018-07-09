@@ -11,11 +11,11 @@ exports.login = (req, res) => {
   req.log.debug('POST/login');
   const email = req.body.email;
   const password = req.body.password;
-
-  console.log('--------------------------------------------------');
-  console.log(req.body);
-  console.log('--------------------------------------------------');
-  console.log('I like nanan');
+  //
+  // console.log('--------------------------------------------------');
+  // console.log(req.body);
+  // console.log('--------------------------------------------------');
+  // console.log('I like nanan');
     return User.findOne({
     email: email.toLowerCase()
   }).then((user) => {
@@ -30,13 +30,15 @@ exports.login = (req, res) => {
           res.status(200)
             .send({
               login: true,
-              token: jwt.createToken(user)
+              token: jwt.createToken(user),
+              user: user,
             });
         } else {
-          res.status(200)
+          res.status(400)
             .send({
               login: false,
-              message: "Email or Password is wrong!"
+              message: 'Email or Password is wrong!',
+              error: 'Email or Password is wrong!',
             });
         }
         if (err) {
