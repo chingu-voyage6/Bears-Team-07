@@ -1,8 +1,21 @@
-const s = require('shelljs');
-const fs = require('fs');
+const fs = require('fs-extra');
 
-s.rm('-rf', 'build');
-s.mkdir('build');
-if (!fs.existsSync('build/.env')) {
-  s.cp('.env', 'build/.env');
-}
+fs.remove('./build', function(error) {
+  if (error) {
+    console.error(error);
+  } else {
+    fs.ensureDir('./build', function(error) {
+      if (error) {
+        console.error(error);
+      } else {
+        if (!fs.existsSync('build/.env')) {
+          fs.copy('.env', './build/.env', function(error) {
+            if (error) {
+              console.error(error);
+            }
+          });
+        }
+      }
+    });
+  }
+});

@@ -5,7 +5,7 @@
   "private": "true",
   "main": "./server.js",
   "scripts": {
-    "start": "sh ./ep.sh && cd build && node main",
+    "start": "npm run compile && cd build && node main",
     "compile": "node build.js && backpack build",
     "dev": "node build.js && backpack dev | pino -o 'short'",
     "debug": "node build.js && backpack dev --inspect-brk | pino -o 'short'",
@@ -19,6 +19,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-pino-logger": "3.0.2",
+    "fs-extra": "6.0.1",
     "joi": "^13.4.0",
     "joi-objectid": "^2.0.0",
     "jwt-simple": "0.5.1",
