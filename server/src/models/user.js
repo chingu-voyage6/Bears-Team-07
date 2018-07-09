@@ -1,9 +1,7 @@
 const mongoose = require('mongoose'),
   autoIncrement = require('mongoose-plugin-autoinc');
 
-const Schema = mongoose.Schema;
-
-const UserSchema = Schema({
+const UserSchema = mongoose.Schema({
   firstname: {
     type: String,
     required: true
@@ -35,7 +33,32 @@ const UserSchema = Schema({
     required: false
   },
   role: String,
-  image: String,
+  /*
+    example how to store an image
+    https://gist.github.com/aheckmann/2408370
+  */
+  image: {
+    data: Buffer,
+    contentType: String
+  },
+  active: {
+    type: Boolean,
+    default: true
+  },
+  puffs: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Puff'
+  }],
+},
+{
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
+  minimize: false,
+  toObject: {
+    retainKeyOrder: true
+  }
 });
 
 UserSchema.plugin(autoIncrement.plugin, {

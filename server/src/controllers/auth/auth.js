@@ -8,7 +8,7 @@ const jwt = require('../../services/jwt');
  * Login User
  */
 exports.login = (req, res) => {
-  req.log.debug('POST/login');
+  req.log.debug('POST/Auth/login');
   const email = req.body.email;
   const password = req.body.password;
   //
@@ -30,8 +30,8 @@ exports.login = (req, res) => {
           res.status(200)
             .send({
               login: true,
-              token: jwt.createToken(user),
-              user: user,
+              username: user.username,
+              token: jwt.createToken(user)
             });
         } else {
           res.status(400)

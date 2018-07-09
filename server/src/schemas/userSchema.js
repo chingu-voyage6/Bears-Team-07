@@ -18,8 +18,7 @@ module.exports = {
       email: Joi.string().email().required(),
       password: Joi.string().regex(
         new RegExp('^[a-zA-Z0-9]{8,32}$'),
-      ),
-      admin: Joi.boolean().required(),
+      )
     };
     const {error, value} = Joi.validate(req.body, schema)
     if (error) {
@@ -47,11 +46,6 @@ module.exports = {
         case 'password':
           res.status(400).send({
             error: 'Password must contain only lower case, upper case and numerics with a minimum of 8 and a maximum of 32 characters in length.',
-          });
-          break;
-        case 'admin':
-          res.status(400).send({
-            error: 'Please provide either true or false.',
           });
           break;
         default:
