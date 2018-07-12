@@ -1,6 +1,6 @@
+
 const Puff = require('../../models/puff');
 const User = require('../../models/user');
-
 /**
  * List Puffs
  */
@@ -33,7 +33,7 @@ exports.list = (req, res) => {
 exports.get = (req, res) => {
   req.log.debug("GET/Puff/get");
   return Puff.findOne({
-    puffId: req.params.id
+    _id: req.params.id
   }).populate('author').then((puff) => {
     if (!puff) {
       res.status(404)
@@ -107,7 +107,7 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   req.log.debug("PUT/Puff/update");
   return Puff.findOne({
-    puffId: req.params.id
+    _id: req.params.id
   }).then((puff) => {
     if (!puff) {
       res.status(404)
@@ -143,7 +143,7 @@ exports.update = (req, res) => {
 exports.remove = (req, res) => {
   req.log.debug("DELETE/Puff/remove");
   return Puff.findOne({
-    puffId: req.params.id
+    _id: req.params.id
   }).then((puff) => {
     if (!puff) {
       res.status(404)
@@ -155,6 +155,34 @@ exports.remove = (req, res) => {
       res.status(200)
         .send({
           message: "Puff removed successfully",
+          puff: puff
+        });
+    }
+  }).catch((err) => {
+    req.log.error(err);
+    res.status(500)
+      .send({
+        message: err,
+      });
+  });
+};
+
+exports.uploadImage = (req, res) => {
+  req.log.debug("POST/Puff/uploadImage");
+  return Puff.findOne({
+    _id: req.params.id
+  }).then((puff) => {
+    if (!puff) {
+      res.status(404)
+        .send({
+          message: 'Puff not Found',
+        });
+    } else {
+      puff.image = req.file.path
+      puff.save();
+      res.status(200)
+        .send({
+          message: "Puff data updated successfully",
           puff: puff
         });
     }

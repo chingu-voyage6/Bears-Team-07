@@ -15,19 +15,18 @@ const dbUrl = process.env.MONGODB_URI || process.env.MONGOLAB_URI || 'mongodb://
 const port = process.env.PORT || 3000;
 const app = new Express();
 
-const root = path.normalize(`${__dirname}/../..`);
-app.set('appPath', `${root}client`);
+app.use('/uploads', Express.static('uploads'));
 app.use(bodyParser.urlencoded({
   extended: true,
   limit: process.env.REQUEST_LIMIT
 }));
 app.use(bodyParser.json({
-  type: function() {
+  // force contentType sjson only.  remove to allow uploads too.
+  /*type: function() {
     return true;
-  },
+  },*/
   limit: process.env.REQUEST_LIMIT
 }));
-
 app.use(cookieParser(process.env.SESSION_SECRET));
 
 routes(app);

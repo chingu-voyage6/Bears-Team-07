@@ -34,7 +34,7 @@ exports.list = (req, res) => {
 exports.get = (req, res) => {
   req.log.debug("GET/User/get");
   return User.findOne({
-    userId: req.params.id
+    _id: req.params.id
   }).populate('puffs').then((user) => {
     if (!user) {
       res.status(404)
@@ -95,7 +95,7 @@ exports.create = (req, res) => {
 exports.update = (req, res) => {
   req.log.debug("PUT/User/update");
   return User.findOne({
-    userId: req.params.id
+    _id: req.params.id
   }).then((user) => {
     if (!user) {
       res.status(404)
@@ -140,7 +140,7 @@ exports.update = (req, res) => {
 exports.remove = (req, res) => {
   req.log.debug("DELETE/User/remove");
   return User.findOne({
-    userId: req.params.id
+    _id: req.params.id
   }).then((user) => {
     if (!user) {
       res.status(404)
