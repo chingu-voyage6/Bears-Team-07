@@ -31,7 +31,6 @@ export default {
   color: #fff;
 }
 
-
 /* Google font import */
 @import url("https://fonts.googleapis.com/css?family=Alegreya|Macondo+Swash+Caps");
 /* To include jquery  
