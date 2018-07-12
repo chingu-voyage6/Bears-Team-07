@@ -1,6 +1,5 @@
 <template>
   <div class="text-center">
-    <WelcomeHeader/>
     <div class="container-fluid background-container">
         <div class="row">
           <div class="col-12">
