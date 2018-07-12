@@ -1,5 +1,4 @@
-const mongoose = require('mongoose'),
-  autoIncrement = require('mongoose-plugin-autoinc');
+const mongoose = require('mongoose');
 
 const PuffSchema = mongoose.Schema({
   title: {
@@ -28,6 +27,9 @@ const PuffSchema = mongoose.Schema({
   meta: {
     votes: Number,
     favs: Number
+  },
+  image: {
+    type: String
   }
 },
 {
@@ -39,11 +41,6 @@ const PuffSchema = mongoose.Schema({
   toObject: {
     retainKeyOrder: true
   }
-});
-
-PuffSchema.plugin(autoIncrement.plugin, {
-  model: 'Puff',
-  field: 'puffId',
 });
 
 /*
