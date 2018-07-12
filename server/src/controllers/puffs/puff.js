@@ -2,7 +2,7 @@
 const Puff = require('../../models/puff');
 const User = require('../../models/user');
 /**
- * List Puffs
+ * GET | List of Puffs
  */
 exports.list = (req, res) => {
   req.log.debug("GET/Puff/list");
@@ -28,7 +28,7 @@ exports.list = (req, res) => {
 };
 
 /**
- * Get Puff by ID
+ * GET | Puff by ID
  */
 exports.get = (req, res) => {
   req.log.debug("GET/Puff/get");
@@ -57,7 +57,7 @@ exports.get = (req, res) => {
 };
 
 /**
- * POST a Puff
+ * POST | Create a Puff
  */
 exports.create = (req, res) => {
   req.log.debug("POST/Puff/create");
@@ -138,7 +138,7 @@ exports.update = (req, res) => {
 };
 
 /**
- * Delete Puff by ID
+ * Delete | Puff by ID
  */
 exports.remove = (req, res) => {
   req.log.debug("DELETE/Puff/remove");
@@ -167,8 +167,57 @@ exports.remove = (req, res) => {
   });
 };
 
-exports.uploadImage = (req, res) => {
-  req.log.debug("POST/Puff/uploadImage");
+/**
+ * POST | Puff with an image
+ */
+exports.createWithFile = (req, res) => {
+  req.log.debug("POST/Puff/createWithFile");
+  var puffData = {
+    title: req.body.title,
+    content: req.body.content,
+    tags: req.body.tags,
+    comments: req.body.comments,
+    meta: req.body.meta,
+    image: req.file.path
+  };
+  return Puff.create(puffData).then((puff) => {
+    if (puff) {
+      User.findOne({
+        username: req.body.username
+      }).then((user) => {
+        if (!user) {
+          res.status(404)
+            .send({
+              message: 'Puff not Found',
+            });
+        }
+        else {
+          puff.author = user._id;
+          puff.save();
+          user.puffs.push(puff);
+          user.save();
+          res.status(200)
+            .send({
+              message: "Puff created successfully",
+              puff: puff
+            });
+        }
+      });
+    }
+  }).catch((err) => {
+    req.log.error(err);
+    res.status(500)
+      .send({
+        message: err,
+      });
+  });
+};
+
+/**
+ * PUT | Update Puff with an image
+ */
+exports.updateWithFile = (req, res) => {
+  req.log.debug("POST/Puff/updateWithFile");
   return Puff.findOne({
     _id: req.params.id
   }).then((puff) => {
@@ -178,7 +227,13 @@ exports.uploadImage = (req, res) => {
           message: 'Puff not Found',
         });
     } else {
-      puff.image = req.file.path
+      puff.title = req.body.title;
+      puff.content = req.body.content;
+      puff.tags = req.body.tags;
+      puff.comments = req.body.comments;
+      puff.meta = req.body.meta;
+      puff.hidden = req.body.hidden;
+      puff.image = req.file.path;
       puff.save();
       res.status(200)
         .send({
