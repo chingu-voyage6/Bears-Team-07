@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import WelcomeHeader from "@/components/WelcomeHeader.vue";
 import RegistrationService from "@/services/RegistrationService.js";
 
 export default {
@@ -87,9 +86,6 @@ export default {
       error: null,
       show: false
     };
-  },
-  components: {
-    WelcomeHeader
   },
   methods: {
     async register(route) {
