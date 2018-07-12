@@ -101,8 +101,7 @@ export default {
             lastname: this.lastName,
             username: this.username,
             email: this.email,
-            password: this.password,
-            admin: "false"
+            password: this.password
           });
           this.$router.push(route);
           this.$store.dispatch("setToken", response.data.token);
