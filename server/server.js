@@ -1,5 +1,4 @@
 import Express from 'express';
-import * as path from 'path';
 import * as bodyParser from 'body-parser';
 import * as http from 'http';
 import * as os from 'os';
@@ -18,14 +17,14 @@ const app = new Express();
 app.use('/uploads', Express.static('uploads'));
 app.use(bodyParser.urlencoded({
   extended: true,
-  limit: process.env.REQUEST_LIMIT
+  limit: process.env.REQUEST_LIMIT,
 }));
 app.use(bodyParser.json({
   // force contentType sjson only.  remove to allow uploads too.
-  /*type: function() {
+  /* type: function() {
     return true;
-  },*/
-  limit: process.env.REQUEST_LIMIT
+  }, */
+  limit: process.env.REQUEST_LIMIT,
 }));
 app.use(cookieParser(process.env.SESSION_SECRET));
 
@@ -34,7 +33,7 @@ routes(app);
 mongoose.connect(
   dbUrl, {
     connectTimeoutMS: 1000,
-  }
+  },
 );
 
 const welcome = p => () => log.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${p}}`);
