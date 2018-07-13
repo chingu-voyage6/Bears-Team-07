@@ -1,17 +1,26 @@
 
 import * as express from 'express';
 import Multer from 'multer';
+import fs from 'fs-extra';
 import puff from './puff';
-const multer_storage = Multer.diskStorage({
+
+const multerStorage = Multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/');
+    if (!fs.existsSync(process.env.UPLOAD_DIRECTORY)) {
+      fs.ensureDir(process.env.UPLOAD_DIRECTORY, function (error) {
+        if (error) {
+          console.error(error);
+        }
+      });
+    }
+    cb(null, process.env.UPLOAD_DIRECTORY);
   },
   filename: function (req, file, cb) {
-    cb(null, new Date().toISOString() + '-' + file.originalname);
+    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
   }
 });
 
-const multer_filefilter = (req, file, cb) => {
+const multerFilefilter = (req, file, cb) => {
   //reject file
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
@@ -20,19 +29,19 @@ const multer_filefilter = (req, file, cb) => {
   }
 };
 
-const multer_upload = Multer({
-  storage: multer_storage,
+const multerUpload = Multer({
+  storage: multerStorage,
   limits: {
-    fileSize: process.env.REQUEST_LIMIT
+    fileSize: process.env.REQUEST_LIMIT,
   },
-  fileFilter: multer_filefilter
+  fileFilter: multerFilefilter,
 });
 
 export default express
   .Router()
   .post('/', puff.create)
-  .post('/u', multer_upload.single('upload'), puff.createWithFile)
-  .put('/u/:id', multer_upload.single('upload'), puff.updateWithFile)
+  .post('/u', multerUpload.single('upload'), puff.createWithFile)
+  .put('/u/:id', multerUpload.single('upload'), puff.updateWithFile)
   .put('/:id', puff.update)
   .get('/', puff.list)
   .get('/:id', puff.get)

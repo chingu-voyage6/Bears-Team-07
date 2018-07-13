@@ -2,7 +2,7 @@
   "name": "deardiiary-backend",
   "version": "0.0.1",
   "description": "Dear Diiary API",
-  "private": "true",
+  "private": true,
   "main": "./server.js",
   "scripts": {
     "start": "npm run compile && cd build && node main",
