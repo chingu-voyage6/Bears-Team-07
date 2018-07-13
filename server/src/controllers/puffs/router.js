@@ -31,7 +31,8 @@ const multer_upload = Multer({
 export default express
   .Router()
   .post('/', puff.create)
-  .post('/upload/:id', multer_upload.single('image'), puff.uploadImage)
+  .post('/u', multer_upload.single('upload'), puff.createWithFile)
+  .put('/u/:id', multer_upload.single('upload'), puff.updateWithFile)
   .put('/:id', puff.update)
   .get('/', puff.list)
   .get('/:id', puff.get)
