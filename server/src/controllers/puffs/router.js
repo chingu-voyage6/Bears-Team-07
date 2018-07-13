@@ -4,7 +4,7 @@ import Multer from 'multer';
 import puff from './puff';
 const multer_storage = Multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/');
+    cb(null, process.env.UPLOAD_DIRECTORY);
   },
   filename: function (req, file, cb) {
     cb(null, new Date().toISOString() + '-' + file.originalname);
