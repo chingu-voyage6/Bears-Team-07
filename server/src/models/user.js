@@ -1,5 +1,4 @@
-const mongoose = require('mongoose'),
-  autoIncrement = require('mongoose-plugin-autoinc');
+const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
   firstname: {
@@ -38,8 +37,7 @@ const UserSchema = mongoose.Schema({
     https://gist.github.com/aheckmann/2408370
   */
   image: {
-    data: Buffer,
-    contentType: String
+    type: String
   },
   active: {
     type: Boolean,
@@ -59,11 +57,6 @@ const UserSchema = mongoose.Schema({
   toObject: {
     retainKeyOrder: true
   }
-});
-
-UserSchema.plugin(autoIncrement.plugin, {
-  model: 'User',
-  field: 'userId',
 });
 
 module.exports = mongoose.model('User', UserSchema);

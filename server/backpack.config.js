@@ -1,8 +1,6 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
-  webpack: (config, options) => {
+  webpack: (config) => {
     config.entry.main = ['./server.js'];
-
     return config;
   },
 };
