@@ -52,9 +52,7 @@
 
 <script>
 // @ is an alias to /src
-
-export default {
-};
+export default {};
 </script>
 
 <style scoped>
