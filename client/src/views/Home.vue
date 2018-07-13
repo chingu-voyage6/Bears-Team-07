@@ -1,7 +1,7 @@
 <template>
   <div class="home text-center">
     <WelcomeHeader/>
-    <div class="container">
+    <div class="container main-black-color">
       <!-- New puffs -->
       <div class="row">
         <div class="col">
@@ -9,6 +9,9 @@
             <input type="text" v-model="newPuffTitle" placeholder="Title">
             <input type="text" v-model="newPuffText" placeholder="New Puff">
             <button type="button" v-on:click="createNewPuff">Puff It!</button>
+            <div>
+              <p>Holi</p>
+            </div>
           </div>
         </div>
       </div>
@@ -78,4 +81,7 @@ export default {
 .home {
   padding: 100px 20px 20px 20px;
 }
+  .main-black-color{
+    color: #000;
+  }
 </style>

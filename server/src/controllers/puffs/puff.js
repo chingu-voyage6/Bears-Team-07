@@ -5,8 +5,8 @@ const User = require('../../models/user');
  * List Puffs
  */
 exports.list = (req, res) => {
-  req.log.debug("GET/Puff/list");
-  return Puff.find({}).populate('author').then((puffs) => {
+  req.log.debug('GET/Puff/list');
+  return Puff.find({}).populate('author').then(puffs => {
     if (!puffs) {
       res.status(404)
         .send({
@@ -15,10 +15,10 @@ exports.list = (req, res) => {
     } else {
       res.status(200)
         .send({
-          puffs: puffs,
+          puffs,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -31,23 +31,22 @@ exports.list = (req, res) => {
  * Get Puff by ID
  */
 exports.get = (req, res) => {
-  req.log.debug("GET/Puff/get");
+  req.log.debug('GET/Puff/get');
   return Puff.findOne({
-    puffId: req.params.id
-  }).populate('author').then((puff) => {
+    puffId: req.params.id,
+  }).populate('author').then(puff => {
     if (!puff) {
       res.status(404)
         .send({
           message: 'Puff not Found',
         });
-    }
-    else {
+    } else {
       res.status(200)
         .send({
-          puff: puff,
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -60,39 +59,38 @@ exports.get = (req, res) => {
  * POST a Puff
  */
 exports.create = (req, res) => {
-  req.log.debug("POST/Puff/create");
-  var puffData = {
+  req.log.debug('POST/Puff/create');
+  const puffData = {
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags,
     comments: req.body.comments,
-    meta: req.body.meta
+    meta: req.body.meta,
   };
-  return Puff.create(puffData).then((puff) => {
+  return Puff.create(puffData).then(puff => {
     if (puff) {
       User.findOne({
-        username: req.body.username
-      }).then((user) => {
+        username: req.body.username,
+      }).then(user => {
         if (!user) {
           res.status(404)
             .send({
               message: 'Puff not Found',
             });
-        }
-        else {
+        } else {
           puff.author = user._id;
           puff.save();
           user.puffs.push(puff);
           user.save();
           res.status(200)
             .send({
-              message: "Puff created successfully",
-              puff: puff
+              message: 'Puff created successfully',
+              puff,
             });
         }
       });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -105,10 +103,10 @@ exports.create = (req, res) => {
  * PUT | Update Puff by ID
  */
 exports.update = (req, res) => {
-  req.log.debug("PUT/Puff/update");
+  req.log.debug('PUT/Puff/update');
   return Puff.findOne({
-    puffId: req.params.id
-  }).then((puff) => {
+    puffId: req.params.id,
+  }).then(puff => {
     if (!puff) {
       res.status(404)
         .send({
@@ -124,11 +122,11 @@ exports.update = (req, res) => {
       puff.save();
       res.status(200)
         .send({
-          message: "Puff data updated successfully",
-          puff: puff
+          message: 'Puff data updated successfully',
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -141,10 +139,10 @@ exports.update = (req, res) => {
  * Delete Puff by ID
  */
 exports.remove = (req, res) => {
-  req.log.debug("DELETE/Puff/remove");
+  req.log.debug('DELETE/Puff/remove');
   return Puff.findOne({
-    puffId: req.params.id
-  }).then((puff) => {
+    puffId: req.params.id,
+  }).then(puff => {
     if (!puff) {
       res.status(404)
         .send({
@@ -154,11 +152,11 @@ exports.remove = (req, res) => {
       puff.remove();
       res.status(200)
         .send({
-          message: "Puff removed successfully",
-          puff: puff
+          message: 'Puff removed successfully',
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -166,3 +164,39 @@ exports.remove = (req, res) => {
       });
   });
 };
+
+exports.getUserPuffs = (req, res) => {
+  // res.status(200).send({ username: req.params.username });
+  req.log.debug({username: req.params.username});
+  req.log.debug('GET/Puff/getUserPuffs');
+  User.findOne({
+    username: req.params.username,
+  }).then(user => {
+      if (!user) {
+        res.status(404)
+          .send({
+            message: 'User not Found',
+          });
+      } else {
+        req.log.debug('There was a user');
+        Puff.find({author: user._id})
+          .then(puffs => {
+            if (!puffs) {
+              res.status(400)
+                .send({
+                  message: 'There are no puffs for this user',
+                });
+            } else {
+              // There are puffs for this user
+              res.status(200)
+                .send({
+                  puffs,
+                });
+            }
+          })
+      }
+    }
+  );
+};
+
+
