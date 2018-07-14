@@ -1,13 +1,16 @@
 {
   "env": {
+    "APP_ID": "deardiiary-backend",
     "MONGOLAB_URI": "@mongolab-uri",
     "PORT": "3000",
     "LOG_LEVEL": "debug",
-    "REQUEST_LIMIT": "100kb",
-    "SESSION_SECRET": "@deardiiary-secret"
+    "REQUEST_LIMIT": "5mb",
+    "SESSION_SECRET": "@deardiiary-secret",
+    "UPLOAD_DIRECTORY": "./uploads/"
   },
   "type": "npm",
   "alias": "deardiiary-api.now.sh", 
+  "public": true,
   "engines": {
     "node": "8.11.3"
   }
