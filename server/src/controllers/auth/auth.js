@@ -25,7 +25,7 @@ exports.login = (req, res) => {
           res.status(200)
             .send({
               login: true,
-              username: user.username,
+              user: user,
               token: jwt.createToken(user)
             });
         } else {

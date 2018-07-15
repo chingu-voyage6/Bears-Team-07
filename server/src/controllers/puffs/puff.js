@@ -249,3 +249,39 @@ exports.updateWithFile = (req, res) => {
       });
   });
 };
+
+exports.getUserPuffs = (req, res) => {
+  // res.status(200).send({ username: req.params.username });
+  req.log.debug({username: req.params.username});
+  req.log.debug('GET/Puff/getUserPuffs');
+  User.findOne({
+    username: req.params.username,
+  }).then(user => {
+      if (!user) {
+        res.status(404)
+          .send({
+            message: 'User not Found',
+          });
+      } else {
+        req.log.debug('There was a user');
+        Puff.find({author: user._id})
+          .then(puffs => {
+            if (!puffs) {
+              res.status(400)
+                .send({
+                  message: 'There are no puffs for this user',
+                });
+            } else {
+              // There are puffs for this user
+              res.status(200)
+                .send({
+                  puffs,
+                });
+            }
+          })
+      }
+    }
+  );
+};
+
+
