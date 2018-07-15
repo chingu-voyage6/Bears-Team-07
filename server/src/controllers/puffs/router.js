@@ -45,5 +45,4 @@ export default express
   .put('/:id', puff.update)
   .get('/', puff.list)
   .get('/:id', puff.get)
-  .get('/user/:username', puff.getUserPuffs) // Samuel Line
   .delete('/:id', puff.remove);
