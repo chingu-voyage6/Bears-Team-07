@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import PuffService from "@/services/PuffService.js";
+
 export default {
   name: "home",
   data() {
@@ -40,10 +42,8 @@ export default {
       fd.append("username", this.$store.state.user.username);
       //hardcoding title and content as Samuel Urias is working on this part
       fd.append("title", "test title");
-      fd.append("content", "test content");     
-      for (var pair of fd.entries()) {
-        console.log(pair[0] + ' , ' + pair[1]); 
-      }
+      fd.append("content", "test content");
+      var response = PuffService.createPuffWithImage(fd);
     }
   }
 };
