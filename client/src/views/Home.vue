@@ -43,7 +43,7 @@ export default {
       //hardcoding title and content as Samuel Urias is working on this part
       fd.append("title", "test title");
       fd.append("content", "test content");
-      var response = PuffService.createPuffWithImage(fd);
+      PuffService.createPuffWithImage(fd);
     }
   }
 };
