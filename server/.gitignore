@@ -2,4 +2,4 @@ node_modules
 build
 .env
 .idea/
-package-lock.json #we use yarn on backend
+package-lock.json

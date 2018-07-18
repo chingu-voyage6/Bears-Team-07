@@ -30,5 +30,10 @@ export const store = new Vuex.Store({
     setUser({ commit }, user) {
       commit("setUser", user);
     }
+  },
+  getters: {
+    getUserId: state => {
+      return state.user._id;
+    }
   }
 });
