@@ -1,6 +1,4 @@
 const bcrypt = require('bcrypt-nodejs');
-const fs = require('fs');
-const path = require('path');
 const User = require('../../models/user');
 const jwt = require('../../services/jwt');
 
@@ -32,7 +30,6 @@ exports.login = (req, res) => {
           res.status(400)
             .send({
               login: false,
-              message: 'Email or Password is wrong!',
               error: 'Email or Password is wrong!',
             });
         }
