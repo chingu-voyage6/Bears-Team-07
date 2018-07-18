@@ -7,7 +7,6 @@
           <div>
             <input type="text" v-model="newPuffTitle" placeholder="Title">
             <input type="text" v-model="newPuffText" placeholder="New Puff">
-            <p>Welcome to home page</p>
             <input
               style="display:none"
               type="file"
@@ -18,52 +17,46 @@
               Select File
             </button>
             <button class="btn btn-custom"
-              @click="onUpload">
+              @click="createNewPuffWithImage">
               Upload
             </button>
             <p>{{ fileName }}</p>
-            <button type="button" v-on:click="createNewPuff">Puff It!</button>
-            <div>
-              <p>Holi2</p>
+            <button class="btn btn-custom" 
+              @click="createNewPuff">
+              Puff It!
+            </button>
+            <div v-if="show">
+              <p class="error">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              {{ error }}</p>
             </div>
           </div>
         </div>
       </div>
-      <feed v-bind:puffs="userPuffs"></feed>
       <!-- Feed -->
-      <div class="row">
-        <div class="col">
-          <p>Feed</p>
-        </div>
-      </div>
-      <div class="row">
-      </div>
+      <feed v-bind:puffs="userPuffs"></feed>
     </div>
   </div>
 </template>
 
 <script>
 import PuffService from "@/services/PuffService.js";
-import WelcomeHeader from "@/components/WelcomeHeader.vue";
-import createPuffService from "@/services/createPuffService.js";
-import readUserPuffs from "@/services/readPuffsService.js";
 import Feed from "@/components/Feed.vue";
 
 import axios from 'axios'
 export default {
   name: "home",
   components: {
-    WelcomeHeader,
     Feed
   },
   data() {
     return {
       newPuffTitle: '',
       newPuffText: '',
-      newPuffImage: '',
       userPuffs: [],
       puffsPage: 0,
-      error: {},
+      error: null,
+      show: false,
       selectedFile: null,
       fileName: null
     };
@@ -76,25 +69,28 @@ export default {
       this.selectedFile = event.target.files[0];
       this.fileName = this.selectedFile.name;
     },
-    onUpload() {
-      const fd = new FormData();
-      fd.append("upload", this.selectedFile);
-      fd.append("username", this.$store.state.user.username);
-      //hardcoding title and content as Samuel Urias is working on this part
-      fd.append("title", "test title");
-      fd.append("content", "test content");
-      PuffService.createPuffWithImage(fd);
-    },
-    async createNewPuff(route) {
+    async createNewPuffWithImage() {
       var self = this;
       try {
-        const response = await createPuffService.createPuff({
+        const fd = new FormData();
+        fd.append("title", self.newPuffTitle);
+        fd.append("content", self.newPuffText);
+        fd.append("upload", this.selectedFile);
+        fd.append("username", this.$store.state.user.username);
+        await PuffService.createPuffWithImage(fd);
+      } catch (error) {
+        (this.show = true), (this.error = error.response.data.error);
+      }
+    },
+    async createNewPuff() {
+      var self = this;
+      try {
+        await PuffService.createPuff({
           title: self.newPuffTitle,
           content: self.newPuffText,
           username: this.$store.state.user.username
         });
       } catch (error) {
-        console.log(error);
         (this.show = true), (this.error = error.response.data.error);
       }
       //Wait for the response
@@ -106,7 +102,7 @@ export default {
         console.log('Reading the puffs of the user');
         console.log('-->');
         console.log('User: ', this.$store.getters.getUserId);
-        const response = await readUserPuffs.readUserPuffs(this.$store.getters.getUserId);
+        const response = await PuffService.readUserPuffs(this.$store.getters.getUserId);
         console.log(response.data);
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
@@ -121,6 +117,9 @@ export default {
 <style scoped>
 .home {
   padding: 100px 20px 20px 20px;
+}
+.main-black-color{
+  color: #000;
 }
 .btn.btn-custom {
   background-color: #b71c1c;
@@ -137,7 +136,9 @@ export default {
 .btn.btn-custom > i {
   padding-right: 2px;
 }
-.main-black-color{
-  color: #000;
+.error {
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-bottom: 5px;
 }
 </style>
