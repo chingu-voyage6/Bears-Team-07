@@ -10,6 +10,9 @@
         <div v-for="(puffObject, key, index) in userPuffs">
           <div class="font-weight-bold">{{puffObject.title}}</div>
           <div>{{puffObject.content}}</div>
+          <div v-if="puffObject.image">
+            <img :src="frameUrl(puffObject.image)" width="100px"/>
+          </div>
         </div>
       </div>
     </div>
@@ -21,17 +24,22 @@ export default {
   name: "feed",
   props: ['puffs'],
   mounted: function() {
-    console.log('The Feed component has been mounted')
+    console.log("The Feed component has been mounted");
   },
   data: function() {
     return {
       userPuffs: []
-    }
+    };
   },
   methods: {
     loadPuffs: function(puffs) {
-    console.log('There are new puffs');
-    this.userPuffs = puffs;
+      this.userPuffs = puffs;
+    },
+    frameUrl(imageUrl) {
+      if (imageUrl) {
+        const url = imageUrl.replace(/\\/g, "/");
+        return process.env.VUE_APP_BACKEND_API_URL + url;
+      }
     }
   },
   watch: {
@@ -43,5 +51,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
