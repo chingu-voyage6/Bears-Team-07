@@ -2,8 +2,6 @@
   <div class="home text-center">
     <div class="container main-black-color">
       <!-- New puffs -->
-      <div class="row">
-        <div class="col">
           <div>
             <input type="text" v-model="newPuffTitle" placeholder="Title">
             <input type="text" v-model="newPuffText" placeholder="New Puff">
@@ -31,8 +29,6 @@
               {{ error }}</p>
             </div>
           </div>
-        </div>
-      </div>
       <!-- Feed -->
       <feed v-bind:puffs="userPuffs"></feed>
     </div>
@@ -117,6 +113,9 @@ export default {
 <style scoped>
 .home {
   padding: 100px 20px 20px 20px;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
 }
 .main-black-color{
   color: #000;
