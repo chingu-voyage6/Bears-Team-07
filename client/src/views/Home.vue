@@ -39,7 +39,6 @@
 import PuffService from "@/services/PuffService.js";
 import Feed from "@/components/Feed.vue";
 
-import axios from 'axios'
 export default {
   name: "home",
   components: {
@@ -47,8 +46,8 @@ export default {
   },
   data() {
     return {
-      newPuffTitle: '',
-      newPuffText: '',
+      newPuffTitle: "",
+      newPuffText: "",
       userPuffs: [],
       puffsPage: 0,
       error: null,
@@ -57,7 +56,7 @@ export default {
       fileName: null
     };
   },
-  mounted: function(){
+  mounted: function() {
     this.readUserPuffs();
   },
   methods: {
@@ -90,10 +89,10 @@ export default {
         (this.show = true), (this.error = error.response.data.error);
       }
       //Wait for the response
-      self.newPuffText  = '';
-      self.newPuffTitle = '';
+      self.newPuffText  = "";
+      self.newPuffTitle = "";
     },
-    async readUserPuffs(){
+    async readUserPuffs() {
       try {
         console.log('Reading the puffs of the user');
         console.log('-->');
@@ -117,7 +116,7 @@ export default {
   width: 100%;
   min-height: 100vh;
 }
-.main-black-color{
+.main-black-color {
   color: #000;
 }
 .btn.btn-custom {
