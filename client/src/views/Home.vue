@@ -62,7 +62,7 @@ export default {
     },
     async createNewPuff() {
       var self = this;
-      if(self.selectedFile != null) {
+      if (self.selectedFile != null) {
         try {
           const fd = new FormData();
           fd.append("title", self.newPuffTitle);
@@ -72,7 +72,6 @@ export default {
           await PuffService.createPuffWithImage(fd);
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
-          console.log("errror: " + error.response.data);
         }
       } else {
         try {
@@ -86,21 +85,16 @@ export default {
         }
       }
       //Wait for the response
-      self.newPuffText  = "";
+      self.newPuffText = "";
       self.newPuffTitle = "";
       self.fileName = null;
       self.selectedFile = null;
     },
     async readUserPuffs() {
       try {
-        console.log('Reading the puffs of the user');
-        console.log('-->');
-        console.log('User: ', this.$store.getters.getUserId);
         const response = await PuffService.readUserPuffs(this.$store.getters.getUserId);
-        console.log(response.data);
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
-        console.log(error);
         (this.show = true), (this.error = error.response.data.error);
       }
     }
