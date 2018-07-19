@@ -14,10 +14,6 @@
               @click="$refs.fileInput.click()">
               Select File
             </button>
-            <button class="btn btn-custom"
-              @click="createNewPuffWithImage">
-              Upload
-            </button>
             <p>{{ fileName }}</p>
             <button class="btn btn-custom" 
               @click="createNewPuff">
@@ -64,33 +60,36 @@ export default {
       this.selectedFile = event.target.files[0];
       this.fileName = this.selectedFile.name;
     },
-    async createNewPuffWithImage() {
-      var self = this;
-      try {
-        const fd = new FormData();
-        fd.append("title", self.newPuffTitle);
-        fd.append("content", self.newPuffText);
-        fd.append("upload", this.selectedFile);
-        fd.append("username", this.$store.state.user.username);
-        await PuffService.createPuffWithImage(fd);
-      } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
-      }
-    },
     async createNewPuff() {
       var self = this;
-      try {
-        await PuffService.createPuff({
-          title: self.newPuffTitle,
-          content: self.newPuffText,
-          username: this.$store.state.user.username
-        });
-      } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+      if(self.selectedFile != null) {
+        try {
+          const fd = new FormData();
+          fd.append("title", self.newPuffTitle);
+          fd.append("content", self.newPuffText);
+          fd.append("upload", self.selectedFile);
+          fd.append("username", this.$store.state.user.username);
+          await PuffService.createPuffWithImage(fd);
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data.error);
+          console.log("errror: " + error.response.data);
+        }
+      } else {
+        try {
+          await PuffService.createPuff({
+            title: self.newPuffTitle,
+            content: self.newPuffText,
+            username: this.$store.state.user.username
+          });
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data.error);
+        }
       }
       //Wait for the response
       self.newPuffText  = "";
       self.newPuffTitle = "";
+      self.fileName = null;
+      self.selectedFile = null;
     },
     async readUserPuffs() {
       try {
