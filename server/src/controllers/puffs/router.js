@@ -1,8 +1,10 @@
-
 import * as express from 'express';
 import Multer from 'multer';
 import fs from 'fs-extra';
 import puff from './puff';
+import {
+  validateToken,
+} from '../../services/jwt';
 
 const multerStorage = Multer.diskStorage({
   destination: function (req, file, cb) {
@@ -21,7 +23,7 @@ const multerStorage = Multer.diskStorage({
 });
 
 const multerFilefilter = (req, file, cb) => {
-  //reject file
+  // reject file
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
@@ -39,10 +41,10 @@ const multerUpload = Multer({
 
 export default express
   .Router()
-  .post('/', puff.create)
-  .post('/u', multerUpload.single('upload'), puff.createWithFile)
-  .put('/u/:id', multerUpload.single('upload'), puff.updateWithFile)
-  .put('/:id', puff.update)
-  .get('/', puff.list)
-  .get('/:id', puff.get)
-  .delete('/:id', puff.remove);
+  .post('/', validateToken, puff.create)
+  .post('/u', validateToken, multerUpload.single('upload'), puff.createWithFile)
+  .put('/u/:id', validateToken, multerUpload.single('upload'), puff.updateWithFile)
+  .put('/:id', validateToken, puff.update)
+  .get('/', validateToken, puff.list)
+  .get('/:id', validateToken, puff.get)
+  .delete('/:id', validateToken, puff.remove);
