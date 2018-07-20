@@ -28,3 +28,6 @@ exports.createToken = function (user) {
   };
   return jwt.encode(payload, process.env.SESSION_SECRET);
 };
+
+exports.validateToken = function (req, res, next) {
+};

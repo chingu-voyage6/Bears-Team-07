@@ -30,7 +30,7 @@ exports.login = (req, res) => {
           res.status(400)
             .send({
               login: false,
-              error: 'Email or Password is wrong!',
+              message: 'Email or Password is wrong!',
             });
         }
         if (err) {
