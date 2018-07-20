@@ -26,7 +26,7 @@
             </div>
           </div>
       <!-- Feed -->
-      <feed v-bind:puffs="userPuffs"></feed>
+      <feed class="feed-view" v-bind:puffs="userPuffs"></feed>
     </div>
   </div>
 </template>
@@ -112,6 +112,9 @@ export default {
 .main-black-color {
   color: #000;
 }
+input {
+  margin: 0 10px 0 0;
+}
 .btn.btn-custom {
   background-color: #b71c1c;
   color: #fff;
@@ -131,5 +134,8 @@ export default {
   font-size: 14px;
   letter-spacing: 1px;
   padding-bottom: 5px;
+}
+.feed-view {
+  margin-top: 20px;
 }
 </style>

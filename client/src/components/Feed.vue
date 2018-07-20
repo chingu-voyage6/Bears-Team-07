@@ -7,12 +7,13 @@
     </div>
     <div v-else class="row border border-warning">
       <div class="col-12 text-center border">
-        <div v-for="(puffObject, key, index) in userPuffs">
+        <div class="feed-puff" v-for="(puffObject, key, index) in userPuffs">
           <div class="font-weight-bold">{{puffObject.title}}</div>
           <div>{{puffObject.content}}</div>
           <div v-if="puffObject.image">
             <img :src="frameUrl(puffObject.image)" width="100px"/>
           </div>
+          <hr/>
         </div>
       </div>
     </div>
@@ -51,4 +52,7 @@ export default {
 </script>
 
 <style scoped>
+.feed-puff {
+  padding: 5px;
+}
 </style>
