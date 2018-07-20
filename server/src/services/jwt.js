@@ -19,27 +19,32 @@ exports.validateToken = (req, res, next) => {
   // In this case, the JWT middleware will return a 401 (unauthorized)
   // to the client for this request
   if (!token) {
-    req.log.error('Unauthorized: Token not found');
+    req.log.debug('Unauthorized: Token not found');
     res.status(401)
       .send({
         message: 'Unauthorized: Token not found',
       });
   } else {
     try {
-      jwt.decode(token, process.env.SESSION_SECRET);
+      const decodedToken = jwt.decode(token, process.env.SESSION_SECRET);
+      req.log.debug(`Exp: ${decodedToken.exp}`);
+      req.log.debug(`Current Date: ${moment().unix()}`);
+      if (decodedToken.exp <= moment().unix()) {
+        req.log.debug('Unauthorized: Token is expired');
+        res.status(401)
+          .send({
+            message: 'Unauthorized: Token is expired',
+          });
+        return;
+      }
     } catch (e) {
+      req.log.debug('Unauthorized: Token is invalid');
       res.status(401)
         .send({
-          message: 'Unauthorized: Invalid token',
+          message: 'Unauthorized: Token is invalid',
         });
       return;
     }
-
-    /* if (!tokens.isValid(token)) {
-      res.statusMessage = 'Unauthorized : Token is either invalid or expired';
-      res.sendStatus('401');
-      return;
-    } */
     next();
   }
 };
