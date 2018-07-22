@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="main">
+      <WelcomeHeader/>
       <router-view/>
     </div>
     <DiiaryFooter/>
@@ -9,11 +10,13 @@
 
 <script>
 // @ is an alias to /src
+import WelcomeHeader from "@/components/WelcomeHeader.vue";
 import DiiaryFooter from "@/components/DiiaryFooter.vue";
 
 export default {
   name: "app",
   components: {
+    WelcomeHeader,
     DiiaryFooter
   }
 };
@@ -27,7 +30,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
 }
-
 
 /* Google font import */
 @import url("https://fonts.googleapis.com/css?family=Alegreya|Macondo+Swash+Caps");

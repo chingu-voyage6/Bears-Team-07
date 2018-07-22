@@ -1,6 +1,5 @@
 <template>
   <div>
-    <WelcomeHeader/>
     <section class="outer-div welcome">
       <div class="container-fluid">
         <div class="row">
@@ -53,13 +52,7 @@
 
 <script>
 // @ is an alias to /src
-import WelcomeHeader from "@/components/WelcomeHeader.vue";
-
-export default {
-  components: {
-    WelcomeHeader
-  }
-};
+export default {};
 </script>
 
 <style scoped>
