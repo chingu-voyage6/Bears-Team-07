@@ -93,7 +93,7 @@ export default {
     },
     async readUserPuffs() {
       try {
-        const response = await PuffService.readUserPuffs(this.$store.getters.getUserId);
+        const response = await PuffService.readUserPuffs(this.$store.getters.getUserId, this.$store.getters.getUserToken);
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);

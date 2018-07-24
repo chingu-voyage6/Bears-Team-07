@@ -36,6 +36,9 @@ export const store = new Vuex.Store({
   getters: {
     getUserId: state => {
       return state.user._id;
+    },
+    getUserToken: state => {
+      return state.token;
     }
   }
 });
