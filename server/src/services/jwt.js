@@ -60,7 +60,7 @@ exports.createToken = user => {
     iat: moment()
       .unix(),
     exp: moment()
-      .add(30, 'seconds')
+      .add(30, 'days')
       .unix(),
     scope: scopes,
   };
