@@ -26,22 +26,12 @@ exports.validateToken = (req, res, next) => {
       });
   } else {
     try {
-      const decodedToken = jwt.decode(token, process.env.SESSION_SECRET);
-      req.log.debug(`Exp: ${decodedToken.exp}`);
-      req.log.debug(`Current Date: ${moment().unix()}`);
-      if (decodedToken.exp <= moment().unix()) {
-        req.log.debug('Unauthorized: Token is expired');
-        res.status(401)
-          .send({
-            message: 'Unauthorized: Token is expired',
-          });
-        return;
-      }
+      jwt.decode(token, process.env.SESSION_SECRET);
     } catch (e) {
-      req.log.debug('Unauthorized: Token is invalid');
+      req.log.debug(`Unauthorized: ${e}`);
       res.status(401)
         .send({
-          message: 'Unauthorized: Token is invalid',
+          message: `Unauthorized: ${e}`,
         });
       return;
     }
