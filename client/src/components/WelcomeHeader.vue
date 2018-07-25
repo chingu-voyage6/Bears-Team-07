@@ -21,7 +21,7 @@
             Welcome {{ capitalizeUsername($store.state.user.username) }}!
           </li>
           <li class="nav-item" @click="logout">
-            <div class="nav-link">
+            <div class="nav-link logout">
               Logout
               <i class="fa fa-sign-out" aria-hidden="true"></i>
             </div>
@@ -75,5 +75,8 @@ img {
 }
 .user-custom {
   padding-top: 8px;
+}
+.logout {
+  cursor: pointer;
 }
 </style>
