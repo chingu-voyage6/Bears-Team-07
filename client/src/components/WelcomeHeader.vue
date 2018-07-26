@@ -20,11 +20,11 @@
           <li class="nav-item user-custom">
             Welcome {{ capitalizeUsername($store.state.user.username) }}!
           </li>
-          <li class="nav-item">
-            <router-link to="/home" class="nav-link">
+          <li class="nav-item" @click="logout">
+            <div class="nav-link logout">
               Logout
               <i class="fa fa-sign-out" aria-hidden="true"></i>
-            </router-link>
+            </div>
           </li>
         </ul>
       </div>
@@ -37,6 +37,13 @@ export default {
   methods: {
     capitalizeUsername(username) {
       return username.charAt(0).toUpperCase() + username.slice(1);
+    },
+    logout() {
+      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setUser", null);
+      this.$router.push({
+        name: "welcome"
+      });
     }
   }
 };
@@ -68,5 +75,8 @@ img {
 }
 .user-custom {
   padding-top: 8px;
+}
+.logout {
+  cursor: pointer;
 }
 </style>
