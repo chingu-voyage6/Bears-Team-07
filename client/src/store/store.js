@@ -26,11 +26,11 @@ export const store = new Vuex.Store({
   actions: {
     setToken({ commit }, token) {
       commit("setToken", token);
-      localStorage.setItem('DearDiiaryToken', JSON.stringify(token));
+      localStorage.setItem("DearDiiaryToken", JSON.stringify(token));
     },
     setUser({ commit }, user) {
       commit("setUser", user);
-      localStorage.setItem('DearDiiaryUser', JSON.stringify(user));
+      localStorage.setItem("DearDiiaryUser", JSON.stringify(user));
     }
   },
   getters: {
