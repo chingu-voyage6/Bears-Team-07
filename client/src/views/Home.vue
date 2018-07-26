@@ -70,17 +70,23 @@ export default {
           fd.append("content", self.newPuffText);
           fd.append("upload", self.selectedFile);
           fd.append("username", this.$store.state.user.username);
-          await PuffService.createPuffWithImage(fd);
+          await PuffService.createPuffWithImage(
+            fd,
+            this.$store.getters.getUserToken
+          );
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
       } else {
         try {
-          await PuffService.createPuff({
-            title: self.newPuffTitle,
-            content: self.newPuffText,
-            username: this.$store.state.user.username
-          });
+          await PuffService.createPuff(
+            {
+              title: self.newPuffTitle,
+              content: self.newPuffText,
+              username: this.$store.state.user.username
+            },
+            this.$store.getters.getUserToken
+          );
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
