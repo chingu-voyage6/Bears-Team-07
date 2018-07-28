@@ -53,6 +53,7 @@ export default {
     };
   },
   mounted: function() {
+    this.loadInformationFromLocalStorage();
     this.readUserPuffs();
   },
   methods: {
@@ -69,17 +70,23 @@ export default {
           fd.append("content", self.newPuffText);
           fd.append("upload", self.selectedFile);
           fd.append("username", this.$store.state.user.username);
-          await PuffService.createPuffWithImage(fd);
+          await PuffService.createPuffWithImage(
+            fd,
+            this.$store.getters.getUserToken
+          );
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
       } else {
         try {
-          await PuffService.createPuff({
-            title: self.newPuffTitle,
-            content: self.newPuffText,
-            username: this.$store.state.user.username
-          });
+          await PuffService.createPuff(
+            {
+              title: self.newPuffTitle,
+              content: self.newPuffText,
+              username: this.$store.state.user.username
+            },
+            this.$store.getters.getUserToken
+          );
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
@@ -92,10 +99,25 @@ export default {
     },
     async readUserPuffs() {
       try {
-        const response = await PuffService.readUserPuffs(this.$store.getters.getUserId);
+        const response = await PuffService.readUserPuffs(
+          this.$store.getters.getUserId,
+          this.$store.getters.getUserToken
+        );
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
+      }
+    },
+    loadInformationFromLocalStorage: function() {
+      // Get the token from the local storage
+      if (localStorage.getItem("DearDiiaryToken")) {
+        var ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
+        this.$store.dispatch("setToken", ls_token);
+      }
+      //Get the user from the local storage
+      if (localStorage.getItem("DearDiiaryUser")) {
+        var ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
+        this.$store.dispatch("setUser", ls_user);
       }
     }
   }
