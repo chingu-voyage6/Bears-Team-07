@@ -47,4 +47,5 @@ export default express
   .put('/:id', validateToken, puff.update)
   .get('/', validateToken, puff.list)
   .get('/:id', validateToken, puff.get)
+  .get('/user/:id', validateToken, puff.getUserPuffs)
   .delete('/:id', validateToken, puff.remove);
