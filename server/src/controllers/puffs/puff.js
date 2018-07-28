@@ -1,12 +1,14 @@
-
 const Puff = require('../../models/puff');
 const User = require('../../models/user');
+
 /**
- * GET | List of Puffs
+ * GET | User Puffs
  */
-exports.list = (req, res) => {
-  req.log.debug("GET/Puff/list");
-  return Puff.find({}).populate('author').then((puffs) => {
+exports.getUserPuffs = (req, res) => {
+  req.log.debug('GET/Puff/getUserPuffs');
+  return Puff.find({
+    author: req.params.id,
+  }).populate('author').then(puffs => {
     if (!puffs) {
       res.status(404)
         .send({
@@ -15,10 +17,36 @@ exports.list = (req, res) => {
     } else {
       res.status(200)
         .send({
-          puffs: puffs,
+          puffs,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
+    req.log.error(err);
+    res.status(500)
+      .send({
+        message: err,
+      });
+  });
+};
+
+/**
+ * GET | List of Puffs
+ */
+exports.list = (req, res) => {
+  req.log.debug('GET/Puff/list');
+  return Puff.find({}).populate('author').then(puffs => {
+    if (!puffs) {
+      res.status(404)
+        .send({
+          message: 'Puff not Found',
+        });
+    } else {
+      res.status(200)
+        .send({
+          puffs,
+        });
+    }
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -31,23 +59,22 @@ exports.list = (req, res) => {
  * GET | Puff by ID
  */
 exports.get = (req, res) => {
-  req.log.debug("GET/Puff/get");
+  req.log.debug('GET/Puff/get');
   return Puff.findOne({
-    _id: req.params.id
-  }).populate('author').then((puff) => {
+    _id: req.params.id,
+  }).populate('author').then(puff => {
     if (!puff) {
       res.status(404)
         .send({
           message: 'Puff not Found',
         });
-    }
-    else {
+    } else {
       res.status(200)
         .send({
-          puff: puff,
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -60,39 +87,38 @@ exports.get = (req, res) => {
  * POST | Create a Puff
  */
 exports.create = (req, res) => {
-  req.log.debug("POST/Puff/create");
-  var puffData = {
+  req.log.debug('POST/Puff/create');
+  const puffData = {
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags,
     comments: req.body.comments,
-    meta: req.body.meta
+    meta: req.body.meta,
   };
-  return Puff.create(puffData).then((puff) => {
+  return Puff.create(puffData).then(puff => {
     if (puff) {
       User.findOne({
-        username: req.body.username
-      }).then((user) => {
+        username: req.body.username,
+      }).then(user => {
         if (!user) {
           res.status(404)
             .send({
               message: 'Puff not Found',
             });
-        }
-        else {
+        } else {
           puff.author = user._id;
           puff.save();
           user.puffs.push(puff);
           user.save();
           res.status(200)
             .send({
-              message: "Puff created successfully",
-              puff: puff
+              message: 'Puff created successfully',
+              puff,
             });
         }
       });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -105,10 +131,10 @@ exports.create = (req, res) => {
  * PUT | Update Puff by ID
  */
 exports.update = (req, res) => {
-  req.log.debug("PUT/Puff/update");
+  req.log.debug('PUT/Puff/update');
   return Puff.findOne({
-    _id: req.params.id
-  }).then((puff) => {
+    _id: req.params.id,
+  }).then(puff => {
     if (!puff) {
       res.status(404)
         .send({
@@ -124,11 +150,11 @@ exports.update = (req, res) => {
       puff.save();
       res.status(200)
         .send({
-          message: "Puff data updated successfully",
-          puff: puff
+          message: 'Puff data updated successfully',
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -141,10 +167,10 @@ exports.update = (req, res) => {
  * Delete | Puff by ID
  */
 exports.remove = (req, res) => {
-  req.log.debug("DELETE/Puff/remove");
+  req.log.debug('DELETE/Puff/remove');
   return Puff.findOne({
-    _id: req.params.id
-  }).then((puff) => {
+    _id: req.params.id,
+  }).then(puff => {
     if (!puff) {
       res.status(404)
         .send({
@@ -154,11 +180,11 @@ exports.remove = (req, res) => {
       puff.remove();
       res.status(200)
         .send({
-          message: "Puff removed successfully",
-          puff: puff
+          message: 'Puff removed successfully',
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -171,40 +197,39 @@ exports.remove = (req, res) => {
  * POST | Puff with an image
  */
 exports.createWithFile = (req, res) => {
-  req.log.debug("POST/Puff/createWithFile");
-  var puffData = {
+  req.log.debug('POST/Puff/createWithFile');
+  const puffData = {
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags,
     comments: req.body.comments,
     meta: req.body.meta,
-    image: req.file.path
+    image: req.file.path,
   };
-  return Puff.create(puffData).then((puff) => {
+  return Puff.create(puffData).then(puff => {
     if (puff) {
       User.findOne({
-        username: req.body.username
-      }).then((user) => {
+        username: req.body.username,
+      }).then(user => {
         if (!user) {
           res.status(404)
             .send({
               message: 'Puff not Found',
             });
-        }
-        else {
+        } else {
           puff.author = user._id;
           puff.save();
           user.puffs.push(puff);
           user.save();
           res.status(200)
             .send({
-              message: "Puff created successfully",
-              puff: puff
+              message: 'Puff created successfully',
+              puff,
             });
         }
       });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -217,10 +242,10 @@ exports.createWithFile = (req, res) => {
  * PUT | Update Puff with an image
  */
 exports.updateWithFile = (req, res) => {
-  req.log.debug("POST/Puff/updateWithFile");
+  req.log.debug('POST/Puff/updateWithFile');
   return Puff.findOne({
-    _id: req.params.id
-  }).then((puff) => {
+    _id: req.params.id,
+  }).then(puff => {
     if (!puff) {
       res.status(404)
         .send({
@@ -237,11 +262,11 @@ exports.updateWithFile = (req, res) => {
       puff.save();
       res.status(200)
         .send({
-          message: "Puff data updated successfully",
-          puff: puff
+          message: 'Puff data updated successfully',
+          puff,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -249,4 +274,3 @@ exports.updateWithFile = (req, res) => {
       });
   });
 };
-
