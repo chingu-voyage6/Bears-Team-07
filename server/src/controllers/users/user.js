@@ -6,8 +6,8 @@ const jwt = require('../../services/jwt');
  * List Users
  */
 exports.list = (req, res) => {
-  req.log.debug("GET/User/list");
-  return User.find({}).populate('puffs').then((users) => {
+  req.log.debug('GET/User/list');
+  return User.find({}).populate('puffs').then(users => {
     if (!users) {
       res.status(404)
         .send({
@@ -16,10 +16,10 @@ exports.list = (req, res) => {
     } else {
       res.status(200)
         .send({
-          users: users,
+          users,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -32,23 +32,22 @@ exports.list = (req, res) => {
  * Get User by ID
  */
 exports.get = (req, res) => {
-  req.log.debug("GET/User/get");
+  req.log.debug('GET/User/get');
   return User.findOne({
-    _id: req.params.id
-  }).populate('puffs').then((user) => {
+    _id: req.params.id,
+  }).populate('puffs').then(user => {
     if (!user) {
       res.status(404)
         .send({
           message: 'User not Found',
         });
-    }
-    else {
+    } else {
       res.status(200)
         .send({
-          user: user,
+          user,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -61,25 +60,25 @@ exports.get = (req, res) => {
  * POST a User
  */
 exports.create = (req, res) => {
-  req.log.debug("POST/User/create");
-  var userData = {
+  req.log.debug('POST/User/create');
+  let userData = {
     firstname: req.body.firstname,
     lastname: req.body.lastname,
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    admin: req.body.admin
+    admin: req.body.admin,
   };
   bcrypt.hash(req.body.password, null, null, (err, hash) => {
     userData.password = hash;
-    return User.create(userData).then((user) => {
+    return User.create(userData).then(user => {
       res.status(200)
         .send({
-          message: "User created successfully",
-          user: user,
-          token: jwt.createToken(user)
+          message: 'User created successfully',
+          user,
+          token: jwt.createToken(user),
         });
-    }).catch((err) => {
+    }).catch(err => {
       req.log.error(err);
       res.status(500)
         .send({
@@ -93,10 +92,10 @@ exports.create = (req, res) => {
  * PUT | Update User by ID
  */
 exports.update = (req, res) => {
-  req.log.debug("PUT/User/update");
+  req.log.debug('PUT/User/update');
   return User.findOne({
-    _id: req.params.id
-  }).then((user) => {
+    _id: req.params.id,
+  }).then(user => {
     if (!user) {
       res.status(404)
         .send({
@@ -120,12 +119,12 @@ exports.update = (req, res) => {
         user.save();
         res.status(200)
           .send({
-            message: "User data updated successfully",
-            user: user
+            message: 'User data updated successfully',
+            user,
           });
       });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({
@@ -138,10 +137,10 @@ exports.update = (req, res) => {
  * Delete User by ID
  */
 exports.remove = (req, res) => {
-  req.log.debug("DELETE/User/remove");
+  req.log.debug('DELETE/User/remove');
   return User.findOne({
-    _id: req.params.id
-  }).then((user) => {
+    _id: req.params.id,
+  }).then(user => {
     if (!user) {
       res.status(404)
         .send({
@@ -151,11 +150,11 @@ exports.remove = (req, res) => {
       user.remove();
       res.status(200)
         .send({
-          message: "User removed successfully",
-          user: user
+          message: 'User removed successfully',
+          user,
         });
     }
-  }).catch((err) => {
+  }).catch(err => {
     req.log.error(err);
     res.status(500)
       .send({

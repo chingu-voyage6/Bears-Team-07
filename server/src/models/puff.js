@@ -3,66 +3,43 @@ const mongoose = require('mongoose');
 const PuffSchema = mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
   tags: [{
-    type: String
+    type: String,
   }],
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
   },
   comments: [{
     body: String,
-    date: Date
+    date: Date,
   }],
   hidden: {
     type: Boolean,
-    default: false
+    default: false,
   },
   meta: {
     votes: Number,
-    favs: Number
+    favs: Number,
   },
   image: {
-    type: String
-  }
-},
-{
+    type: String,
+  },
+}, {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    updatedAt: 'updated_at',
   },
   minimize: false,
   toObject: {
-    retainKeyOrder: true
-  }
-});
-
-/*
-When a puff is removed, you want to remove the
-puffs array element references to that puff's _id
-from all users docs.
-*/
-PuffSchema.pre('remove', function(next) {
-  var puff = this;
-  puff.model('User').update(
-    {
-      puffs: puff._id
-    },
-    {
-      $pull: {
-        puffs: puff._id
-      }
-    },
-    {
-      multi: true
-    },
-    next);
+    retainKeyOrder: true,
+  },
 });
 
 module.exports = mongoose.model('Puff', PuffSchema);

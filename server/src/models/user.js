@@ -3,33 +3,33 @@ const mongoose = require('mongoose');
 const UserSchema = mongoose.Schema({
   firstname: {
     type: String,
-    required: true
+    required: true,
   },
   lastname: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
     index: {
-      unique: true
-    }
+      unique: true,
+    },
   },
   username: {
     type: String,
     required: true,
     index: {
-      unique: true
-    }
+      unique: true,
+    },
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   admin: {
     type: Boolean,
-    required: false
+    required: false,
   },
   role: String,
   /*
@@ -37,26 +37,26 @@ const UserSchema = mongoose.Schema({
     https://gist.github.com/aheckmann/2408370
   */
   image: {
-    type: String
+    type: String,
   },
   active: {
     type: Boolean,
-    default: true
+    default: true,
   },
   puffs: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Puff'
+    ref: 'Puff',
   }],
 },
 {
   timestamps: {
     createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    updatedAt: 'updated_at',
   },
   minimize: false,
   toObject: {
-    retainKeyOrder: true
-  }
+    retainKeyOrder: true,
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);
