@@ -26,7 +26,7 @@
             </div>
           </div>
       <!-- Feed -->
-      <feed class="feed-view" v-bind:puffs="userPuffs"></feed>
+      <feed class="feed-view" :puffs="userPuffs" @deletePuff="deletePuff($event)"></feed>
     </div>
   </div>
 </template>
@@ -91,6 +91,8 @@ export default {
           (this.show = true), (this.error = error.response.data.error);
         }
       }
+      // Reloads feed section
+      this.readUserPuffs();
       //Wait for the response
       self.newPuffText = "";
       self.newPuffTitle = "";
@@ -107,6 +109,15 @@ export default {
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
       }
+    },
+    async deletePuff(puffId) {
+      try {
+        await PuffService.deletePuff(puffId, this.$store.getters.getUserToken);
+      } catch (error) {
+        (this.show = true), (this.error = error.response.data.error);
+      }
+      // Refreshes the feed content
+      this.readUserPuffs();
     },
     loadInformationFromLocalStorage: function() {
       // Get the token from the local storage
