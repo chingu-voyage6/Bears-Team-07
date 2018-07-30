@@ -3,8 +3,8 @@
     <div class="container main-black-color">
       <!-- New puffs -->
           <div>
-            <input type="text" v-model="newPuffTitle" placeholder="Title">
-            <input type="text" v-model="newPuffText" placeholder="New Puff">
+            <input type="text" v-model="newPuffTitle" placeholder="Title" required="true">
+            <input type="text" v-model="newPuffText" placeholder="New Puff" required="true">
             <input
               style="display:none"
               type="file"
