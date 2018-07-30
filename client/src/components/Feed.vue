@@ -26,7 +26,7 @@
             <i class="fa fa-pencil" aria-hidden="true"></i>
           </button>
           <button class="btn btn-custom" 
-            @click="deletePuff">
+            @click="deletePuff(puffObject._id)">
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>
           <hr/>
@@ -85,6 +85,9 @@ export default {
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
       }
+    },
+    async deletePuff(puffId) {
+      this.$emit("deletePuff", puffId);
     }
   },
   watch: {
