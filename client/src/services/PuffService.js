@@ -38,5 +38,11 @@ export default {
     return Api().put("/api/v1/puffs/" + puffId, editedPuff, {
       headers: { Authorization: tokenAuth }
     });
+  },
+  deletePuff(puffId, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().delete("/api/v1/puffs/" + puffId, {
+      headers: { Authorization: tokenAuth }
+    });
   }
 };
