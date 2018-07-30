@@ -20,7 +20,8 @@ export default {
       puffDetails,
       {
         headers: { Authorization: tokenAuth }
-      },
+      }
+      /*,
       {
         onUploadProgress: uploadEvent => {
           console.log(
@@ -29,7 +30,13 @@ export default {
               "%"
           );
         }
-      }
+      } */
     );
+  },
+  editPuff(puffId, editedPuff, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().put("/api/v1/puffs/" + puffId, editedPuff, {
+      headers: { Authorization: tokenAuth }
+    });
   }
 };
