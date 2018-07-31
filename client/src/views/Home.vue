@@ -3,8 +3,8 @@
     <div class="container main-black-color">
       <!-- New puffs -->
           <div>
-            <input type="text" v-model="newPuffTitle" placeholder="Title" required="true">
-            <input type="text" v-model="newPuffText" placeholder="New Puff" required="true">
+            <input type="text" v-model="puffTitle" placeholder="Title" required="true">
+            <input type="text" v-model="puffContent" placeholder="New Puff" required="true">
             <input
               style="display:none"
               type="file"
@@ -15,9 +15,18 @@
               Select File
             </button>
             <p>{{ fileName }}</p>
-            <button class="btn btn-custom" 
+            <div v-if="puffImage">
+              <img :src="frameUrl(puffImage)" width="100px"/>
+            </div>
+            <button class="btn btn-custom"
+              v-if="!editMode"
               @click="createNewPuff">
               Puff It!
+            </button>
+            <button class="btn btn-custom"
+              v-if="editMode"
+              @click="editPuff">
+              Update Puff
             </button>
             <div v-if="show">
               <p class="error">
@@ -26,7 +35,11 @@
             </div>
           </div>
       <!-- Feed -->
-      <feed class="feed-view" :puffs="userPuffs" @deletePuff="deletePuff($event)"></feed>
+      <feed class="feed-view" 
+        :puffs="userPuffs" 
+        @editPuff="showPuff($event)"
+        @deletePuff="deletePuff($event)">
+      </feed>
     </div>
   </div>
 </template>
@@ -42,14 +55,17 @@ export default {
   },
   data() {
     return {
-      newPuffTitle: "",
-      newPuffText: "",
+      puffId: "",
+      puffTitle: "",
+      puffContent: "",
+      puffImage: "",
       userPuffs: [],
       puffsPage: 0,
       error: null,
       show: false,
       selectedFile: null,
-      fileName: null
+      fileName: null,
+      editMode: false
     };
   },
   mounted: function() {
@@ -61,13 +77,19 @@ export default {
       this.selectedFile = event.target.files[0];
       this.fileName = this.selectedFile.name;
     },
+    frameUrl(imageUrl) {
+      if (imageUrl) {
+        const url = imageUrl.replace(/\\/g, "/");
+        return process.env.VUE_APP_BACKEND_API_URL + url;
+      }
+    },
     async createNewPuff() {
       var self = this;
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
-          fd.append("title", self.newPuffTitle);
-          fd.append("content", self.newPuffText);
+          fd.append("title", self.puffTitle);
+          fd.append("content", self.puffContent);
           fd.append("upload", self.selectedFile);
           fd.append("username", this.$store.state.user.username);
           await PuffService.createPuffWithImage(
@@ -81,8 +103,8 @@ export default {
         try {
           await PuffService.createPuff(
             {
-              title: self.newPuffTitle,
-              content: self.newPuffText,
+              title: self.puffTitle,
+              content: self.puffContent,
               username: this.$store.state.user.username
             },
             this.$store.getters.getUserToken
@@ -94,10 +116,66 @@ export default {
       // Reloads feed section
       this.readUserPuffs();
       //Wait for the response
-      self.newPuffText = "";
-      self.newPuffTitle = "";
+      self.puffContent = "";
+      self.puffTitle = "";
       self.fileName = null;
       self.selectedFile = null;
+    },
+    showPuff(puffObject) {
+      this.editMode = true;
+      this.puffId = puffObject._id;
+      this.puffTitle = puffObject.title;
+      this.puffContent = puffObject.content;
+      this.puffImage = puffObject.image;
+    },
+    async editPuff() {
+      var self = this;
+      if (self.selectedFile != null) {
+        try {
+          const fd = new FormData();
+          fd.append("title", self.puffTitle);
+          fd.append("content", self.puffContent);
+          fd.append("upload", self.selectedFile);
+          await PuffService.updatePuffWithImage(
+            self.puffId,
+            fd,
+            this.$store.getters.getUserToken
+          );
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data.error);
+        }
+      } else {
+        try {
+          await PuffService.updatePuff(
+            self.puffId,
+            {
+              title: self.puffTitle,
+              content: self.puffContent
+            },
+            this.$store.getters.getUserToken
+          );
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data.error);
+        }
+      }
+      // Reloads feed section
+      this.readUserPuffs();
+      //Wait for the response
+      self.puffTitle = "";
+      self.puffContent = "";
+      self.fileName = null;
+      self.selectedFile = null;
+      self.editMode = false;
+      self.puffImage = "";
+    },
+    async deletePuff(puffId) {
+      try {
+        await PuffService.deletePuff(puffId, this.$store.getters.getUserToken);
+      } catch (error) {
+        (this.show = true), (this.error = error.response.data.error);
+      }
+      // Refreshes the feed content
+      this.readUserPuffs();
     },
     async readUserPuffs() {
       try {
@@ -109,15 +187,6 @@ export default {
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
       }
-    },
-    async deletePuff(puffId) {
-      try {
-        await PuffService.deletePuff(puffId, this.$store.getters.getUserToken);
-      } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
-      }
-      // Refreshes the feed content
-      this.readUserPuffs();
     },
     loadInformationFromLocalStorage: function() {
       // Get the token from the local storage
