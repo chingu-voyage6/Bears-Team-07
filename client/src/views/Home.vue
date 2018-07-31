@@ -33,6 +33,9 @@
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
               {{ error }}</p>
             </div>
+            <div v-if="successMessage" class="alert alert-success fade">
+              {{ successMessage }}
+            </div>
           </div>
       <!-- Feed -->
       <feed class="feed-view" 
@@ -65,7 +68,8 @@ export default {
       show: false,
       selectedFile: null,
       fileName: null,
-      editMode: false
+      editMode: false,
+      successMessage: ""
     };
   },
   mounted: function() {
@@ -83,6 +87,12 @@ export default {
         return process.env.VUE_APP_BACKEND_API_URL + url;
       }
     },
+    success(message) {
+      this.successMessage = message;
+      setTimeout(() => {
+        this.successMessage = "";
+      }, 4000);
+    },
     async createNewPuff() {
       var self = this;
       if (self.selectedFile != null) {
@@ -96,6 +106,7 @@ export default {
             fd,
             this.$store.getters.getUserToken
           );
+          this.success("Puff created successfully.");
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
@@ -109,6 +120,7 @@ export default {
             },
             this.$store.getters.getUserToken
           );
+          this.success("Puff created successfully.");
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
@@ -141,6 +153,7 @@ export default {
             fd,
             this.$store.getters.getUserToken
           );
+          this.success("Puff updated successfully.");
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
@@ -154,6 +167,7 @@ export default {
             },
             this.$store.getters.getUserToken
           );
+          this.success("Puff updated successfully.");
         } catch (error) {
           (this.show = true), (this.error = error.response.data.error);
         }
@@ -171,6 +185,7 @@ export default {
     async deletePuff(puffId) {
       try {
         await PuffService.deletePuff(puffId, this.$store.getters.getUserToken);
+        this.success("Puff deleted successfully.");
       } catch (error) {
         (this.show = true), (this.error = error.response.data.error);
       }
@@ -236,6 +251,10 @@ input {
   font-size: 14px;
   letter-spacing: 1px;
   padding-bottom: 5px;
+}
+.alert {
+  margin-top: 10px;
+  width: 500px;
 }
 .feed-view {
   margin-top: 20px;
