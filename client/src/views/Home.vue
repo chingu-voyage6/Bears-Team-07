@@ -94,7 +94,7 @@ export default {
       }, 4000);
     },
     async createNewPuff() {
-      var self = this;
+      let self = this;
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
@@ -142,7 +142,7 @@ export default {
       this.puffImage = puffObject.image;
     },
     async editPuff() {
-      var self = this;
+      let self = this;
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
@@ -215,12 +215,12 @@ export default {
     loadInformationFromLocalStorage: function() {
       // Get the token from the local storage
       if (localStorage.getItem("DearDiiaryToken")) {
-        var ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
+        let ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
         this.$store.dispatch("setToken", ls_token);
       }
       //Get the user from the local storage
       if (localStorage.getItem("DearDiiaryUser")) {
-        var ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
+        let ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
         this.$store.dispatch("setUser", ls_user);
       }
     }
