@@ -2,9 +2,9 @@
   <div class="home text-center">
     <div class="container main-black-color">
       <!-- New puffs -->
-          <div>
-            <input type="text" v-model="puffTitle" placeholder="Title" required="true">
-            <input type="text" v-model="puffContent" placeholder="New Puff" required="true">
+          <form>
+            <input type="text" v-model="puffTitle" placeholder="Title" required>
+            <input type="text" v-model="puffContent" placeholder="New Puff" required>
             <input
               style="display:none"
               type="file"
@@ -33,10 +33,10 @@
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
               {{ error }}</p>
             </div>
-            <div v-if="successMessage" class="alert alert-success fade">
+            <div v-if="successMessage" class="alert alert-success">
               {{ successMessage }}
             </div>
-          </div>
+          </form>
       <!-- Feed -->
       <feed class="feed-view" 
         :puffs="userPuffs" 
@@ -108,7 +108,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), (this.error = error.response.data);
         }
       } else {
         try {
@@ -122,7 +122,8 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true),
+            (this.error = error.response.data);
         }
       }
       // Reloads feed section
@@ -155,7 +156,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), (this.error = error.response.data);
         }
       } else {
         try {
@@ -169,7 +170,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), (this.error = error.response.data);
         }
       }
       // Reloads feed section
@@ -184,10 +185,18 @@ export default {
     },
     async deletePuff(puffId) {
       try {
-        await PuffService.deletePuff(puffId, this.$store.getters.getUserToken);
-        this.success("Puff deleted successfully.");
+        let confirmDelete = confirm(
+          "Are you sure you want to delete this puff?"
+        );
+        if (confirmDelete) {
+          await PuffService.deletePuff(
+            puffId,
+            this.$store.getters.getUserToken
+          );
+          this.success("Puff deleted successfully.");
+        }
       } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+        (this.show = true), (this.error = error.response.data);
       }
       // Refreshes the feed content
       this.readUserPuffs();
@@ -200,7 +209,7 @@ export default {
         );
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+        (this.show = true), (this.error = error.response.data);
       }
     },
     loadInformationFromLocalStorage: function() {
@@ -254,7 +263,6 @@ input {
 }
 .alert {
   margin-top: 10px;
-  width: 500px;
 }
 .feed-view {
   margin-top: 20px;
