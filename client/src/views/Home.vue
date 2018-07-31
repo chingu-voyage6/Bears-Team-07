@@ -122,8 +122,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true),
-            (this.error = error.response.data);
+          (this.show = true), (this.error = error.response.data);
         }
       }
       // Reloads feed section
