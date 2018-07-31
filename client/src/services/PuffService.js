@@ -33,9 +33,15 @@ export default {
       } */
     );
   },
-  editPuff(puffId, editedPuff, userToken) {
+  updatePuff(puffId, editedPuff, userToken) {
     let tokenAuth = "Bearer " + userToken;
     return Api().put("/api/v1/puffs/" + puffId, editedPuff, {
+      headers: { Authorization: tokenAuth }
+    });
+  },
+  updatePuffWithImage(puffId, editedPuff, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().put("/api/v1/puffs/u/" + puffId, editedPuff, {
       headers: { Authorization: tokenAuth }
     });
   },
