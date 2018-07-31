@@ -7,7 +7,7 @@
           <div class="modal-dialog">
             <div class="col-sm-9 main-section text-center">
               <div class="modal-content">
-                <h3>Login</h3>
+                <h3>LOGIN</h3>
                 <div class="col-12 form-input">
                   <form @submit.prevent="login({name: 'home'})">
                     <div class="form-group input-group">
@@ -42,6 +42,9 @@
                       </button>
                     </div>
                   </form>
+                  <router-link to="/register" class="register-link">
+                    Create New Account
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -104,9 +107,6 @@ export default {
   overflow: hidden;
   padding-bottom: 40px;
 }
-.register {
-  padding-bottom: 100px;
-}
 .main-section {
   margin: 0 auto;
   margin-top: 130px;
@@ -120,6 +120,7 @@ export default {
 }
 h3 {
   padding-top: 25px;
+  letter-spacing: 1px;
 }
 .error {
   font-size: 14px;
@@ -150,6 +151,9 @@ form {
   border-radius: 5px;
   border: 1px solid #fbe9e7;
   letter-spacing: 2px;
+}
+.form-input {
+  padding-bottom: 20px;
 }
 /* Chrome/Opera/Safari */
 ::-webkit-input-placeholder {
@@ -185,5 +189,9 @@ form {
 }
 .btn.btn-custom > i {
   padding-right: 2px;
+}
+.register-link {
+  color: #fff;
+  letter-spacing: 2px;
 }
 </style>
