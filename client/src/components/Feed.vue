@@ -1,13 +1,5 @@
 <template>
   <div>
-    <div>
-      <input type="text" v-model="puff.title">&nbsp;
-      <input type="text" v-model="puff.content">&nbsp;
-      <button class="btn btn-custom" 
-            @click="editPuff">
-            Edit Puff
-      </button>
-    </div>
     <div v-if="userPuffs.length === 0" class="row">
       <div class="col-12">
           <p>Create a new Puff to visualize!</p>
@@ -15,7 +7,7 @@
     </div>
     <div v-else class="row border border-warning">
       <div class="col-12 text-center border">
-        <div class="feed-puff" v-for="(puffObject, key) in userPuffs" :key="puffObject.key">
+        <div class="feed-puff" v-for="(puffObject) in userPuffs" :key="puffObject.key">
           <div class="font-weight-bold">{{puffObject.title}}</div>
           <div>{{puffObject.content}}</div>
           <div v-if="puffObject.image">
@@ -66,25 +58,7 @@ export default {
       }
     },
     showPuff(puffObject) {
-      let self = this;
-      self.puff.id = puffObject._id;
-      self.puff.title = puffObject.title;
-      self.puff.content = puffObject.content;
-    },
-    async editPuff() {
-      let self = this;
-      try {
-        await PuffService.editPuff(
-          self.puff.id,
-          {
-            title: self.puff.title,
-            content: self.puff.content
-          },
-          this.$store.getters.getUserToken
-        );
-      } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
-      }
+      this.$emit("editPuff", puffObject);
     },
     async deletePuff(puffId) {
       this.$emit("deletePuff", puffId);
