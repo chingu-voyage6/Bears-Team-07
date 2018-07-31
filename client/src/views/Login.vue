@@ -83,8 +83,7 @@
 
 
                 } catch (error) {
-                    console.log(error);
-                    (this.show = true), (this.error = error.response.data.error);
+                    (this.show = true), (this.error = error.response.data.message);
                 }
             }
         }
