@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import PuffService from "@/services/PuffService.js";
-
 export default {
   name: "feed",
   props: ["puffs"],
