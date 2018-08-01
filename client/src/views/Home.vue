@@ -68,7 +68,7 @@ export default {
       puffTitle: "",
       puffContent: "",
       puffImage: "",
-      favs:0,
+      favs: 0,
       userPuffs: [],
       puffsPage: 0,
       error: null,
@@ -169,7 +169,6 @@ export default {
           if (self.favs > 0) {
             fd.append("meta", meta);
           }
-          console.log(fd);
           await PuffService.updatePuffWithImage(
             self.puffId,
             fd,
@@ -187,7 +186,6 @@ export default {
         if (self.favs > 0) {
           updateObj.meta = meta;
         }
-        console.log(updateObj);
         try {
           await PuffService.updatePuff(
             self.puffId,
