@@ -62,7 +62,7 @@ export default {
       puffTitle: "",
       puffContent: "",
       puffImage: "",
-      favs: 0,
+      favs:0,
       userPuffs: [],
       puffsPage: 0,
       error: null,
@@ -140,10 +140,15 @@ export default {
       this.puffTitle = puffObject.title;
       this.puffContent = puffObject.content;
       this.puffImage = puffObject.image;
+      if (puffObject.meta.favs) {
+        this.favs = puffObject.meta.favs;
+      } else {
+        this.favs = 0;
+      }
     },
     async editPuff() {
       let self = this;
-      let meta = {
+		  let meta = {
         favs: self.favs
       };
       if (self.selectedFile != null) {
@@ -155,6 +160,7 @@ export default {
           if (self.favs > 0) {
             fd.append("meta", meta);
           }
+          console.log(fd);
           await PuffService.updatePuffWithImage(
             self.puffId,
             fd,
@@ -172,6 +178,7 @@ export default {
         if (self.favs > 0) {
           updateObj.meta = meta;
         }
+        console.log(updateObj);
         try {
           await PuffService.updatePuff(
             self.puffId,
