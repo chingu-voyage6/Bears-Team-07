@@ -20,12 +20,12 @@
             </div>
             <button class="btn btn-custom"
               v-if="!editMode"
-              @click="createNewPuff">
+              @click.prevent="createNewPuff">
               Puff It!
             </button>
             <button class="btn btn-custom"
               v-if="editMode"
-              @click="editPuff">
+              @click.prevent="editPuff">
               Update Puff
             </button>
             <div v-if="show">
@@ -62,6 +62,7 @@ export default {
       puffTitle: "",
       puffContent: "",
       puffImage: "",
+      favs: 0,
       userPuffs: [],
       puffsPage: 0,
       error: null,
@@ -142,12 +143,18 @@ export default {
     },
     async editPuff() {
       let self = this;
+      let meta = {
+        favs: self.favs
+      };
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
           fd.append("title", self.puffTitle);
           fd.append("content", self.puffContent);
           fd.append("upload", self.selectedFile);
+          if (self.favs > 0) {
+            fd.append("meta", meta);
+          }
           await PuffService.updatePuffWithImage(
             self.puffId,
             fd,
@@ -158,13 +165,17 @@ export default {
           (this.show = true), (this.error = error.response.data);
         }
       } else {
+        let updateObj = {
+          title: self.puffTitle,
+          content: self.puffContent
+        };
+        if (self.favs > 0) {
+          updateObj.meta = meta;
+        }
         try {
           await PuffService.updatePuff(
             self.puffId,
-            {
-              title: self.puffTitle,
-              content: self.puffContent
-            },
+            updateObj,
             this.$store.getters.getUserToken
           );
           this.success("Puff updated successfully.");
