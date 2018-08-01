@@ -28,6 +28,12 @@
               @click.prevent="editPuff">
               Update Puff
             </button>
+            <button class="btn btn-custom"
+              v-if="editMode"
+              v-model="favs"
+              @click.prevent="updateFavs">
+              Fav {{ favs }}
+            </button>
             <div v-if="show">
               <p class="error">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -87,6 +93,9 @@ export default {
         const url = imageUrl.replace(/\\/g, "/");
         return process.env.VUE_APP_BACKEND_API_URL + url;
       }
+    },
+    updateFavs() {
+      this.favs += 1;
     },
     success(message) {
       this.successMessage = message;
