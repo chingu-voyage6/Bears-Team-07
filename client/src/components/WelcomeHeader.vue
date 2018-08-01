@@ -18,7 +18,7 @@
       <div id="navbarLink" v-if="$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item user-custom">
-            Welcome {{ capitalizeUsername($store.state.user.username) }}!
+            Hi {{ capitalizeUsername($store.state.user.username) }}!
           </li>
           <li class="nav-item" @click="logout">
             <div class="nav-link logout">
