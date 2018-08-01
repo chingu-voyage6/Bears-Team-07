@@ -1,13 +1,19 @@
-const bcrypt = require('bcrypt-nodejs');
-const User = require('../../models/user');
-const jwt = require('../../services/jwt');
+import bcrypt from 'bcrypt-nodejs';
+import {
+  find,
+  findOne,
+  create,
+} from '../../models/user';
+import {
+  createToken,
+} from '../../services/jwt';
 
 /**
  * List Users
  */
 exports.list = (req, res) => {
   req.log.debug('GET/User/list');
-  return User.find({}).populate('puffs').then(users => {
+  return find({}).populate('puffs').then(users => {
     if (!users) {
       res.status(404)
         .send({
@@ -33,7 +39,7 @@ exports.list = (req, res) => {
  */
 exports.get = (req, res) => {
   req.log.debug('GET/User/get');
-  return User.findOne({
+  return findOne({
     _id: req.params.id,
   }).populate('puffs').then(user => {
     if (!user) {
@@ -71,12 +77,12 @@ exports.create = (req, res) => {
   };
   bcrypt.hash(req.body.password, null, null, (err, hash) => {
     userData.password = hash;
-    return User.create(userData).then(user => {
+    return create(userData).then(user => {
       res.status(200)
         .send({
           message: 'User created successfully',
           user,
-          token: jwt.createToken(user),
+          token: createToken(user),
         });
     }).catch(err => {
       req.log.error(err);
@@ -93,7 +99,7 @@ exports.create = (req, res) => {
  */
 exports.update = (req, res) => {
   req.log.debug('PUT/User/update');
-  return User.findOne({
+  return findOne({
     _id: req.params.id,
   }).then(user => {
     if (!user) {
@@ -138,7 +144,7 @@ exports.update = (req, res) => {
  */
 exports.remove = (req, res) => {
   req.log.debug('DELETE/User/remove');
-  return User.findOne({
+  return findOne({
     _id: req.params.id,
   }).then(user => {
     if (!user) {

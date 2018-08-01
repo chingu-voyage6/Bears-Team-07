@@ -1,5 +1,5 @@
-const jwt = require('jwt-simple');
-const moment = require('moment');
+import jwt from 'jwt-simple';
+import moment from 'moment';
 
 exports.validateToken = (req, res, next) => {
   let token = '';
