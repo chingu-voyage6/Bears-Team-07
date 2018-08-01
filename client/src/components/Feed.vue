@@ -20,7 +20,8 @@
           <button class="btn btn-custom" 
             @click="deletePuff(puffObject._id)">
             <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>
+          </button>         
+          <i class="fa fa-heart fa-lg fav" aria-hidden="true"></i>
           <hr/>
         </div>
       </div>
@@ -88,5 +89,8 @@ export default {
 }
 .btn.btn-custom > i {
   padding-right: 2px;
+}
+.fav {
+  color: red;
 }
 </style>
