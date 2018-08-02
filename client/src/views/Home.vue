@@ -100,7 +100,11 @@ export default {
     },
     updateFavs() {
       if (this.$store.getters.getUserId === this.puffAuthor) {
-        this.favs = 1;
+        if (this.favs === 1) {
+          this.favs = 0;
+        } else if (this.favs === 0) {
+          this.favs = 1;
+        }
       } else {
         this.favs += 1;
       }
