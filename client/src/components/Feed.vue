@@ -36,7 +36,7 @@ export default {
   name: "feed",
   props: ["puffs"],
   mounted: function() {
-    console.log("The Feed component has been mounted");
+    //console.log("The Feed component has been mounted");
   },
   data: function() {
     return {
