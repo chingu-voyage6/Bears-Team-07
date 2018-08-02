@@ -32,7 +32,7 @@ export default {
 }
 
 /* Google font import */
-@import url("https://fonts.googleapis.com/css?family=Alegreya|Macondo+Swash+Caps");
+@import url("https://fonts.googleapis.com/css?family=Alegreya|Roboto|Macondo+Swash+Caps");
 /* To include jquery  
 @import "~jquery/dist/jquery.min.js";
 /* To include popper.js 
