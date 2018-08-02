@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt-nodejs';
-import { findOne } from '../../models/user';
-import { createToken } from '../../services/jwt';
+import User from '../../models/user';
+import jwt from '../../services/jwt';
 
 /**
  * Login User
@@ -9,7 +9,7 @@ exports.login = (req, res) => {
   req.log.debug('POST/Auth/login');
   const email = req.body.email;
   const password = req.body.password;
-  return findOne({
+  return User.findOne({
     email: email.toLowerCase(),
   }).then(user => {
     if (!user) {
@@ -24,7 +24,7 @@ exports.login = (req, res) => {
             .send({
               login: true,
               user,
-              token: createToken(user),
+              token: jwt.createToken(user),
             });
         } else {
           res.status(400)

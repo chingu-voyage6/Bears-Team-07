@@ -1,8 +1,4 @@
-import {
-  find,
-  findOne,
-  create,
-} from '../../models/puff';
+import Puff from '../../models/puff';
 import User from '../../models/user';
 
 /**
@@ -10,7 +6,7 @@ import User from '../../models/user';
  */
 exports.list = (req, res) => {
   req.log.debug('GET/Puff/list');
-  return find({}).populate('author').then(puffs => {
+  return Puff.find({}).populate('author').then(puffs => {
     if (!puffs) {
       res.status(404)
         .send({
@@ -36,7 +32,7 @@ exports.list = (req, res) => {
  */
 exports.get = (req, res) => {
   req.log.debug('GET/Puff/get');
-  return findOne({
+  return Puff.findOne({
     _id: req.params.id,
   }).populate('author').then(puff => {
     if (!puff) {
@@ -71,7 +67,7 @@ exports.create = (req, res) => {
     comments: req.body.comments,
     meta: req.body.meta,
   };
-  return create(puffData).then(puff => {
+  return Puff.create(puffData).then(puff => {
     if (puff) {
       User.findOne({
         username: req.body.username,
@@ -108,7 +104,7 @@ exports.create = (req, res) => {
  */
 exports.update = (req, res) => {
   req.log.debug('PUT/Puff/update');
-  return findOne({
+  return Puff.findOne({
     _id: req.params.id,
   }).then(puff => {
     if (!puff) {
@@ -144,7 +140,7 @@ exports.update = (req, res) => {
  */
 exports.remove = (req, res) => {
   req.log.debug('DELETE/Puff/remove');
-  return findOne({
+  return Puff.findOne({
     _id: req.params.id,
   }).then(puff => {
     if (!puff) {
@@ -188,7 +184,7 @@ exports.createWithFile = (req, res) => {
     meta: req.body.meta,
     image: req.file.path,
   };
-  return create(puffData).then(puff => {
+  return Puff.create(puffData).then(puff => {
     if (puff) {
       User.findOne({
         username: req.body.username,
@@ -225,7 +221,7 @@ exports.createWithFile = (req, res) => {
  */
 exports.updateWithFile = (req, res) => {
   req.log.debug('POST/Puff/updateWithFile');
-  return findOne({
+  return Puff.findOne({
     _id: req.params.id,
   }).then(puff => {
     if (!puff) {
