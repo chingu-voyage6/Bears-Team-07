@@ -20,8 +20,11 @@
           <button class="btn btn-custom" 
             @click="deletePuff(puffObject._id)">
             <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>         
-          <i class="fa fa-heart fa-lg fav" aria-hidden="true"></i>
+          </button>    
+          <i class="fa fa-heart fa-lg" role="button"
+            @click="showPuff(puffObject)" aria-hidden="true">
+            <strong class="fav-text">{{ puffObject.meta.favs }}</strong>
+          </i>
           <hr/>
         </div>
       </div>
@@ -59,7 +62,7 @@ export default {
     showPuff(puffObject) {
       this.$emit("editPuff", puffObject);
     },
-    async deletePuff(puffId) {
+    deletePuff(puffId) {
       this.$emit("deletePuff", puffId);
     }
   },
@@ -90,7 +93,18 @@ export default {
 .btn.btn-custom > i {
   padding-right: 2px;
 }
-.fav {
+.fa-heart {
+  padding-top: 10px;
   color: red;
+}
+.fa-heart:hover {
+  color: #d50000;
+  cursor: pointer;
+}
+.fav-text {
+  font-family: "Roboto";
+  color: #000;
+  font-size: 14px;
+  padding-left: 5px;
 }
 </style>

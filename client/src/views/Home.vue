@@ -15,6 +15,11 @@
               Select File
             </button>
             <p>{{ fileName }}</p>
+            <i class="fa fa-heart fa-lg" role="button"
+              @click.prevent="updateFavs" aria-hidden="true"
+              v-if="editMode" v-model="favs">
+              <strong class="fav-text">{{ favs }}</strong>
+            </i>
             <div v-if="puffImage">
               <img :src="frameUrl(puffImage)" width="100px"/>
             </div>
@@ -27,12 +32,6 @@
               v-if="editMode"
               @click.prevent="editPuff">
               Update Puff
-            </button>
-            <button class="btn btn-custom"
-              v-if="editMode"
-              v-model="favs"
-              @click.prevent="updateFavs">
-              Fav {{ favs }}
             </button>
             <div v-if="show">
               <p class="error">
@@ -290,5 +289,19 @@ input {
 }
 .feed-view {
   margin-top: 20px;
+}
+.fa-heart {
+  padding-bottom: 10px;
+  color: red;
+}
+.fa-heart:hover {
+  color: #d50000;
+  cursor: pointer;
+}
+.fav-text {
+  font-family: "Roboto";
+  color: #000;
+  font-size: 14px;
+  padding-left: 5px;
 }
 </style>
