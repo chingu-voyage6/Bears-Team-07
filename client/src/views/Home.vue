@@ -121,7 +121,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data);
+          (this.show = true), (this.error = error.response.data.error);
         }
       } else {
         try {
@@ -135,7 +135,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data);
+          (this.show = true), (this.error = error.response.data.error);
         }
       }
       // Reloads feed section
@@ -160,7 +160,7 @@ export default {
     },
     async editPuff() {
       let self = this;
-		  let meta = {
+      let meta = {
         favs: self.favs
       };
       if (self.selectedFile != null) {
@@ -179,7 +179,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data);
+          (this.show = true), (this.error = error.response.data.error);
         }
       } else {
         let updateObj = {
@@ -197,7 +197,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data);
+          (this.show = true), (this.error = error.response.data.error);
         }
       }
       // Reloads feed section
@@ -233,7 +233,7 @@ export default {
           this.success("Puff deleted successfully.");
         }
       } catch (error) {
-        (this.show = true), (this.error = error.response.data);
+        (this.show = true), (this.error = error.response.data.error);
       }
       // Refreshes the feed content
       this.readUserPuffs();
@@ -246,7 +246,7 @@ export default {
         );
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
-        (this.show = true), (this.error = error.response.data);
+        (this.show = true), (this.error = error.response.data.error);
       }
     },
     loadInformationFromLocalStorage: function() {
