@@ -64,7 +64,7 @@ exports.validatePuffSchema = (req, res, next) => {
     tags: Joi.any(),
     comments: Joi.any(),
     hidden: Joi.boolean(),
-    meta: Joi.any(),
+    favs: Joi.any(),
     image: Joi.any(),
   };
   const {

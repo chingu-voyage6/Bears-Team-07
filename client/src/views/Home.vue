@@ -158,25 +158,22 @@ export default {
       this.puffContent = puffObject.content;
       this.puffImage = puffObject.image;
       this.puffAuthor = puffObject.author;
-      if (puffObject.meta.favs > 0) {
-        this.favs = puffObject.meta.favs;
+      if (puffObject.favs > 0) {
+        this.favs = puffObject.favs;
       } else {
         this.favs = 0;
       }
     },
     async editPuff() {
       let self = this;
-      let meta = {
-        favs: self.favs
-      };
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
           fd.append("title", self.puffTitle);
           fd.append("content", self.puffContent);
           fd.append("upload", self.selectedFile);
-          if (self.favs > 0) {
-            fd.append("meta", meta);
+          if (self.favs) {
+            fd.append("favs", self.favs);
           }
           await PuffService.updatePuffWithImage(
             self.puffId,
@@ -193,7 +190,7 @@ export default {
           content: self.puffContent
         };
         if (self.favs > 0) {
-          updateObj.meta = meta;
+          updateObj.favs = self.favs;
         }
         try {
           await PuffService.updatePuff(
