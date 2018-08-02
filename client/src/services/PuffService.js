@@ -20,7 +20,8 @@ export default {
       puffDetails,
       {
         headers: { Authorization: tokenAuth }
-      },
+      }
+      /*,
       {
         onUploadProgress: uploadEvent => {
           console.log(
@@ -29,7 +30,25 @@ export default {
               "%"
           );
         }
-      }
+      } */
     );
+  },
+  updatePuff(puffId, editedPuff, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().put("/api/v1/puffs/" + puffId, editedPuff, {
+      headers: { Authorization: tokenAuth }
+    });
+  },
+  updatePuffWithImage(puffId, editedPuff, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().put("/api/v1/puffs/u/" + puffId, editedPuff, {
+      headers: { Authorization: tokenAuth }
+    });
+  },
+  deletePuff(puffId, userToken) {
+    let tokenAuth = "Bearer " + userToken;
+    return Api().delete("/api/v1/puffs/" + puffId, {
+      headers: { Authorization: tokenAuth }
+    });
   }
 };

@@ -7,12 +7,24 @@
     </div>
     <div v-else class="row border border-warning">
       <div class="col-12 text-center border">
-        <div class="feed-puff" v-for="(puffObject, key, index) in userPuffs">
+        <div class="feed-puff" v-for="(puffObject) in userPuffs" :key="puffObject.key">
           <div class="font-weight-bold">{{puffObject.title}}</div>
           <div>{{puffObject.content}}</div>
           <div v-if="puffObject.image">
             <img :src="frameUrl(puffObject.image)" width="100px"/>
           </div>
+          <button class="btn btn-custom" 
+            @click="showPuff(puffObject)">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-custom" 
+            @click="deletePuff(puffObject._id)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>    
+          <i class="fa fa-heart fa-lg" role="button"
+            @click="showPuff(puffObject)" aria-hidden="true">
+            <strong class="fav-text">{{ puffObject.meta.favs }}</strong>
+          </i>
           <hr/>
         </div>
       </div>
@@ -23,13 +35,18 @@
 <script>
 export default {
   name: "feed",
-  props: ['puffs'],
+  props: ["puffs"],
   mounted: function() {
     console.log("The Feed component has been mounted");
   },
   data: function() {
     return {
-      userPuffs: []
+      userPuffs: [],
+      puff: {
+        id: "",
+        title: "",
+        content: ""
+      }
     };
   },
   methods: {
@@ -41,6 +58,12 @@ export default {
         const url = imageUrl.replace(/\\/g, "/");
         return process.env.VUE_APP_BACKEND_API_URL + url;
       }
+    },
+    showPuff(puffObject) {
+      this.$emit("editPuff", puffObject);
+    },
+    deletePuff(puffId) {
+      this.$emit("deletePuff", puffId);
     }
   },
   watch: {
@@ -54,5 +77,34 @@ export default {
 <style scoped>
 .feed-puff {
   padding: 5px;
+}
+.btn.btn-custom {
+  background-color: #b71c1c;
+  color: #fff;
+  margin-right: 10px;
+  font-size: 16px;
+  border: 1px solid #fbe9e7;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.btn.btn-custom:hover {
+  background-color: #420906;
+}
+.btn.btn-custom > i {
+  padding-right: 2px;
+}
+.fa-heart {
+  padding-top: 10px;
+  color: red;
+}
+.fa-heart:hover {
+  color: #d50000;
+  cursor: pointer;
+}
+.fav-text {
+  font-family: "Roboto";
+  color: #000;
+  font-size: 14px;
+  padding-left: 5px;
 }
 </style>

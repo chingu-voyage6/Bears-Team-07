@@ -145,6 +145,7 @@ export default {
 }
 h3 {
   padding-top: 25px;
+  letter-spacing: 1px;
 }
 .error {
   font-size: 14px;

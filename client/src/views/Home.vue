@@ -2,9 +2,9 @@
   <div class="home text-center">
     <div class="container main-black-color">
       <!-- New puffs -->
-          <div>
-            <input type="text" v-model="newPuffTitle" placeholder="Title">
-            <input type="text" v-model="newPuffText" placeholder="New Puff">
+          <form>
+            <input type="text" v-model="puffTitle" placeholder="Title" required>
+            <input type="text" v-model="puffContent" placeholder="New Puff" required>
             <input
               style="display:none"
               type="file"
@@ -15,18 +15,43 @@
               Select File
             </button>
             <p>{{ fileName }}</p>
-            <button class="btn btn-custom" 
-              @click="createNewPuff">
+            <i class="fa fa-heart fa-lg" role="button"
+              @click.prevent="updateFavs" aria-hidden="true"
+              v-if="editMode" v-model="favs">
+              <strong class="fav-text">{{ favs }}</strong>
+            </i>
+            <div v-if="puffImage">
+              <img :src="frameUrl(puffImage)" width="100px"/>
+            </div>
+            <button class="btn btn-custom"
+              v-if="!editMode"
+              @click.prevent="createNewPuff">
               Puff It!
+            </button>
+            <button class="btn btn-custom"
+              v-if="editMode"
+              @click.prevent="editPuff">
+              Update Puff
+            </button>
+            <button class="btn btn-custom"
+              v-if="editMode" @click.prevent="cancelEdit">
+              Cancel
             </button>
             <div v-if="show">
               <p class="error">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
               {{ error }}</p>
             </div>
-          </div>
+            <div v-if="successMessage" class="alert alert-success">
+              {{ successMessage }}
+            </div>
+          </form>
       <!-- Feed -->
-      <feed class="feed-view" v-bind:puffs="userPuffs"></feed>
+      <feed class="feed-view" 
+        :puffs="userPuffs" 
+        @editPuff="showPuff($event)"
+        @deletePuff="deletePuff($event)">
+      </feed>
     </div>
   </div>
 </template>
@@ -42,14 +67,19 @@ export default {
   },
   data() {
     return {
-      newPuffTitle: "",
-      newPuffText: "",
+      puffId: "",
+      puffTitle: "",
+      puffContent: "",
+      puffImage: "",
+      favs: 0,
       userPuffs: [],
       puffsPage: 0,
       error: null,
       show: false,
       selectedFile: null,
-      fileName: null
+      fileName: null,
+      editMode: false,
+      successMessage: ""
     };
   },
   mounted: function() {
@@ -61,41 +91,152 @@ export default {
       this.selectedFile = event.target.files[0];
       this.fileName = this.selectedFile.name;
     },
+    frameUrl(imageUrl) {
+      if (imageUrl) {
+        const url = imageUrl.replace(/\\/g, "/");
+        return process.env.VUE_APP_BACKEND_API_URL + url;
+      }
+    },
+    updateFavs() {
+      this.favs += 1;
+    },
+    success(message) {
+      this.successMessage = message;
+      setTimeout(() => {
+        this.successMessage = "";
+      }, 4000);
+    },
     async createNewPuff() {
-      var self = this;
+      let self = this;
       if (self.selectedFile != null) {
         try {
           const fd = new FormData();
-          fd.append("title", self.newPuffTitle);
-          fd.append("content", self.newPuffText);
+          fd.append("title", self.puffTitle);
+          fd.append("content", self.puffContent);
           fd.append("upload", self.selectedFile);
           fd.append("username", this.$store.state.user.username);
           await PuffService.createPuffWithImage(
             fd,
             this.$store.getters.getUserToken
           );
+          this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), (this.error = error.response.data);
         }
       } else {
         try {
           await PuffService.createPuff(
             {
-              title: self.newPuffTitle,
-              content: self.newPuffText,
+              title: self.puffTitle,
+              content: self.puffContent,
               username: this.$store.state.user.username
             },
             this.$store.getters.getUserToken
           );
+          this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), (this.error = error.response.data);
         }
       }
+      // Reloads feed section
+      this.readUserPuffs();
       //Wait for the response
-      self.newPuffText = "";
-      self.newPuffTitle = "";
+      self.puffContent = "";
+      self.puffTitle = "";
       self.fileName = null;
       self.selectedFile = null;
+    },
+    showPuff(puffObject) {
+      this.editMode = true;
+      this.puffId = puffObject._id;
+      this.puffTitle = puffObject.title;
+      this.puffContent = puffObject.content;
+      this.puffImage = puffObject.image;
+      if (puffObject.meta.favs) {
+        this.favs = puffObject.meta.favs;
+      } else {
+        this.favs = 0;
+      }
+    },
+    async editPuff() {
+      let self = this;
+		  let meta = {
+        favs: self.favs
+      };
+      if (self.selectedFile != null) {
+        try {
+          const fd = new FormData();
+          fd.append("title", self.puffTitle);
+          fd.append("content", self.puffContent);
+          fd.append("upload", self.selectedFile);
+          if (self.favs > 0) {
+            fd.append("meta", meta);
+          }
+          await PuffService.updatePuffWithImage(
+            self.puffId,
+            fd,
+            this.$store.getters.getUserToken
+          );
+          this.success("Puff updated successfully.");
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data);
+        }
+      } else {
+        let updateObj = {
+          title: self.puffTitle,
+          content: self.puffContent
+        };
+        if (self.favs > 0) {
+          updateObj.meta = meta;
+        }
+        try {
+          await PuffService.updatePuff(
+            self.puffId,
+            updateObj,
+            this.$store.getters.getUserToken
+          );
+          this.success("Puff updated successfully.");
+        } catch (error) {
+          (this.show = true), (this.error = error.response.data);
+        }
+      }
+      // Reloads feed section
+      this.readUserPuffs();
+      //Wait for the response
+      self.puffTitle = "";
+      self.puffContent = "";
+      self.fileName = null;
+      self.selectedFile = null;
+      self.editMode = false;
+      self.puffImage = "";
+    },
+    cancelEdit() {
+      let self = this;
+      self.editMode = false;
+      self.puffTitle = "";
+      self.puffContent = "";
+      self.fileName = null;
+      self.selectedFile = null;
+      self.editMode = false;
+      self.puffImage = "";
+    },
+    async deletePuff(puffId) {
+      try {
+        let confirmDelete = confirm(
+          "Are you sure you want to delete this puff?"
+        );
+        if (confirmDelete) {
+          await PuffService.deletePuff(
+            puffId,
+            this.$store.getters.getUserToken
+          );
+          this.success("Puff deleted successfully.");
+        }
+      } catch (error) {
+        (this.show = true), (this.error = error.response.data);
+      }
+      // Refreshes the feed content
+      this.readUserPuffs();
     },
     async readUserPuffs() {
       try {
@@ -105,18 +246,18 @@ export default {
         );
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+        (this.show = true), (this.error = error.response.data);
       }
     },
     loadInformationFromLocalStorage: function() {
       // Get the token from the local storage
       if (localStorage.getItem("DearDiiaryToken")) {
-        var ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
+        let ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
         this.$store.dispatch("setToken", ls_token);
       }
       //Get the user from the local storage
       if (localStorage.getItem("DearDiiaryUser")) {
-        var ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
+        let ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
         this.$store.dispatch("setUser", ls_user);
       }
     }
@@ -157,7 +298,24 @@ input {
   letter-spacing: 1px;
   padding-bottom: 5px;
 }
+.alert {
+  margin-top: 10px;
+}
 .feed-view {
   margin-top: 20px;
+}
+.fa-heart {
+  padding-bottom: 10px;
+  color: red;
+}
+.fa-heart:hover {
+  color: #d50000;
+  cursor: pointer;
+}
+.fav-text {
+  font-family: "Roboto";
+  color: #000;
+  font-size: 14px;
+  padding: 0 10px 0 5px;
 }
 </style>
