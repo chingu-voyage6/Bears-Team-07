@@ -39,8 +39,8 @@
             </button>
             <div v-if="show">
               <p class="error">
-              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-              {{ error }}</p>
+              <!-- <i class="fa fa-exclamation-circle" aria-hidden="true"></i> -->
+              {{ errorMessage }}</p>
             </div>
             <div v-if="successMessage" class="alert alert-success">
               {{ successMessage }}
@@ -75,7 +75,7 @@ export default {
       puffAuthor: "",
       userPuffs: [],
       puffsPage: 0,
-      error: null,
+      errorMessage: "",
       show: false,
       selectedFile: null,
       fileName: null,
@@ -111,6 +111,12 @@ export default {
         this.successMessage = "";
       }, 4000);
     },
+    error(message) {
+      this.errorMessage = message;
+      setTimeout(() => {
+        this.errorMessage = "";
+      }, 5000);
+    },
     async createNewPuff() {
       let self = this;
       if (self.selectedFile != null) {
@@ -126,7 +132,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), this.error(error.response.data.error);
         }
       } else {
         try {
@@ -140,7 +146,7 @@ export default {
           );
           this.success("Puff created successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), this.error(error.response.data.error);
         }
       }
       // Reloads feed section
@@ -182,7 +188,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), this.error(error.response.data.error);
         }
       } else {
         let updateObj = {
@@ -200,7 +206,7 @@ export default {
           );
           this.success("Puff updated successfully.");
         } catch (error) {
-          (this.show = true), (this.error = error.response.data.error);
+          (this.show = true), this.error(error.response.data.error);
         }
       }
       // Reloads feed section
@@ -236,7 +242,7 @@ export default {
           this.success("Puff deleted successfully.");
         }
       } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+        (this.show = true), this.error(error.response.data.error);
       }
       // Refreshes the feed content
       this.readUserPuffs();
@@ -249,7 +255,7 @@ export default {
         );
         this.userPuffs = response.data.user.puffs;
       } catch (error) {
-        (this.show = true), (this.error = error.response.data.error);
+        (this.show = true), this.error(error.response.data.error);
       }
     },
     loadInformationFromLocalStorage: function() {
@@ -300,6 +306,7 @@ input {
   font-size: 14px;
   letter-spacing: 1px;
   padding-bottom: 5px;
+  color: red;
 }
 .alert {
   margin-top: 10px;
