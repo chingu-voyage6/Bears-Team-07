@@ -1,27 +1,19 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
-/*
-exports.createUserSchema = Joi.object({
-  username: Joi.string().alphanum().min(2).max(30).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required()
-});
-*/
-
-exports.createUserSchema = function(req, res, next) {
+exports.createUserSchema = (req, res, next) => {
   const schema = {
     firstname: Joi.string().required(),
     lastname: Joi.string().required(),
-    username: Joi.string().alphanum().min(2).max(30).required(),
+    username: Joi.string().alphanum().min(2).max(30)
+      .required(),
     email: Joi.string().email().required(),
     password: Joi.string().regex(
-      new RegExp('^[a-zA-Z0-9]{8,32}$')
-    )
+      new RegExp('^[a-zA-Z0-9]{8,32}$'),
+    ),
   };
   const {
     error,
-    value
   } = Joi.validate(req.body, schema);
   if (error) {
     switch (error.details[0].context.key) {
@@ -42,7 +34,7 @@ exports.createUserSchema = function(req, res, next) {
         break;
       case 'email':
         res.status(400).send({
-          error: 'Please provide a valid email address'
+          error: 'Please provide a valid email address',
         });
         break;
       case 'password':
@@ -60,23 +52,53 @@ exports.createUserSchema = function(req, res, next) {
   }
 };
 
+exports.validatePuffSchema = (req, res, next) => {
+  const schema = {
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  };
+  const {
+    error,
+  } = Joi.validate(req.body, schema);
+  if (error) {
+    switch (error.details[0].context.key) {
+      case 'title':
+        res.status(400).send({
+          error: 'Please provide a puff title.',
+        });
+        break;
+      case 'content':
+        res.status(400).send({
+          error: 'Please provide a puff content.',
+        });
+        break;
+      default:
+        res.status(400).send({
+          error: error.details,
+        });
+    }
+  } else {
+    next();
+  }
+};
+
 exports.authenticateUserSchema = Joi.alternatives().try(
   Joi.object({
     username: Joi.string().alphanum().min(2).max(30).required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
   }),
 
   Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string().required()
-  })
+    password: Joi.string().required(),
+  }),
 );
 
 exports.payloadSchema = Joi.object({
   username: Joi.string().alphanum().min(2).max(30),
-  email: Joi.string().email()
+  email: Joi.string().email(),
 });
 
 exports.paramsSchema = Joi.object({
-  userId: Joi.objectId().required()
+  userId: Joi.objectId().required(),
 });
