@@ -33,6 +33,10 @@
               @click.prevent="editPuff">
               Update Puff
             </button>
+            <button class="btn btn-custom"
+              v-if="editMode" @click.prevent="cancelEdit">
+              Cancel
+            </button>
             <div v-if="show">
               <p class="error">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
@@ -206,6 +210,16 @@ export default {
       self.editMode = false;
       self.puffImage = "";
     },
+    cancelEdit() {
+      let self = this;
+      self.editMode = false;
+      self.puffTitle = "";
+      self.puffContent = "";
+      self.fileName = null;
+      self.selectedFile = null;
+      self.editMode = false;
+      self.puffImage = "";
+    },
     async deletePuff(puffId) {
       try {
         let confirmDelete = confirm(
@@ -302,6 +316,6 @@ input {
   font-family: "Roboto";
   color: #000;
   font-size: 14px;
-  padding-left: 5px;
+  padding: 0 10px 0 5px;
 }
 </style>
