@@ -11,13 +11,14 @@
               @change="onFileSelected"
               ref="fileInput">
             <button class="btn btn-custom" 
-              @click="$refs.fileInput.click()">
+              @click.prevent="$refs.fileInput.click()">
               Select File
             </button>
             <p>{{ fileName }}</p>
             <i class="fa fa-heart fa-lg" role="button"
               @click.prevent="updateFavs" aria-hidden="true"
               v-if="editMode" v-model="favs">
+              <strong class="fav-text">{{ favs }}</strong>
             </i>
             <div v-if="puffImage">
               <img :src="frameUrl(puffImage)" width="100px"/>
@@ -71,6 +72,7 @@ export default {
       puffContent: "",
       puffImage: "",
       favs: 0,
+      puffAuthor: "",
       userPuffs: [],
       puffsPage: 0,
       error: null,
@@ -97,7 +99,11 @@ export default {
       }
     },
     updateFavs() {
-      this.favs += 1;
+      if (this.$store.getters.getUserId === this.puffAuthor) {
+        this.favs = 1;
+      } else {
+        this.favs += 1;
+      }
     },
     success(message) {
       this.successMessage = message;
@@ -151,7 +157,8 @@ export default {
       this.puffTitle = puffObject.title;
       this.puffContent = puffObject.content;
       this.puffImage = puffObject.image;
-      if (puffObject.meta.favs) {
+      this.puffAuthor = puffObject.author;
+      if (puffObject.meta.favs > 0) {
         this.favs = puffObject.meta.favs;
       } else {
         this.favs = 0;
@@ -310,5 +317,11 @@ input {
 .fa-heart:hover {
   color: #d50000;
   cursor: pointer;
+}
+.fav-text {
+  font-family: "Roboto";
+  color: #000;
+  font-size: 14px;
+  padding: 0 10px 0 5px;
 }
 </style>
