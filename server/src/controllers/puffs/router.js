@@ -5,11 +5,14 @@ import puff from './puff';
 import {
   validateToken,
 } from '../../services/jwt';
+import {
+  validatePuffSchema,
+} from '../../schemas';
 
 const multerStorage = Multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination(req, file, cb) {
     if (!fs.existsSync(process.env.UPLOAD_DIRECTORY)) {
-      fs.ensureDir(process.env.UPLOAD_DIRECTORY, function (error) {
+      fs.ensureDir(process.env.UPLOAD_DIRECTORY, error => {
         if (error) {
           console.error(error);
         }
@@ -17,9 +20,9 @@ const multerStorage = Multer.diskStorage({
     }
     cb(null, process.env.UPLOAD_DIRECTORY);
   },
-  filename: function (req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
-  }
+  filename(req, file, cb) {
+    cb(null, `${new Date().toISOString().replace(/:/g, '-')}-${file.originalname}`);
+  },
 });
 
 const multerFilefilter = (req, file, cb) => {
@@ -41,10 +44,10 @@ const multerUpload = Multer({
 
 export default express
   .Router()
-  .post('/', validateToken, puff.create)
-  .post('/u', validateToken, multerUpload.single('upload'), puff.createWithFile)
-  .put('/u/:id', validateToken, multerUpload.single('upload'), puff.updateWithFile)
-  .put('/:id', validateToken, puff.update)
+  .post('/', validateToken, validatePuffSchema, puff.create)
+  .post('/u', validateToken, validatePuffSchema, multerUpload.single('upload'), puff.createWithFile)
+  .put('/u/:id', validateToken, validatePuffSchema, multerUpload.single('upload'), puff.updateWithFile)
+  .put('/:id', validateToken, validatePuffSchema, puff.update)
   .get('/', validateToken, puff.list)
   .get('/:id', validateToken, puff.get)
   .delete('/:id', validateToken, puff.remove);

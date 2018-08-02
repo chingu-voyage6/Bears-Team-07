@@ -1,5 +1,6 @@
-const Puff = require('../../models/puff');
-const User = require('../../models/user');
+import Puff from '../../models/puff';
+import User from '../../models/user';
+
 /**
  * GET | List of Puffs
  */
@@ -59,7 +60,7 @@ exports.get = (req, res) => {
  */
 exports.create = (req, res) => {
   req.log.debug('POST/Puff/create');
-  let puffData = {
+  const puffData = {
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags,
@@ -175,7 +176,7 @@ exports.remove = (req, res) => {
  */
 exports.createWithFile = (req, res) => {
   req.log.debug('POST/Puff/createWithFile');
-  let puffData = {
+  const puffData = {
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags,

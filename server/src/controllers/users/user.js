@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt-nodejs');
-const User = require('../../models/user');
-const jwt = require('../../services/jwt');
+import bcrypt from 'bcrypt-nodejs';
+import User from '../../models/user';
+import jwt from '../../services/jwt';
 
 /**
  * List Users
