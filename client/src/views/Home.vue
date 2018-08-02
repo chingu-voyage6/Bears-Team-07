@@ -18,7 +18,6 @@
             <i class="fa fa-heart fa-lg" role="button"
               @click.prevent="updateFavs" aria-hidden="true"
               v-if="editMode" v-model="favs">
-              <strong class="fav-text">{{ favs }}</strong>
             </i>
             <div v-if="puffImage">
               <img :src="frameUrl(puffImage)" width="100px"/>
@@ -311,11 +310,5 @@ input {
 .fa-heart:hover {
   color: #d50000;
   cursor: pointer;
-}
-.fav-text {
-  font-family: "Roboto";
-  color: #000;
-  font-size: 14px;
-  padding: 0 10px 0 5px;
 }
 </style>

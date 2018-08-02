@@ -23,7 +23,6 @@
           </button>    
           <i class="fa fa-heart fa-lg" role="button"
             @click="showPuff(puffObject)" aria-hidden="true">
-            <strong class="fav-text">{{ puffObject.meta.favs }}</strong>
           </i>
           <hr/>
         </div>
@@ -100,11 +99,5 @@ export default {
 .fa-heart:hover {
   color: #d50000;
   cursor: pointer;
-}
-.fav-text {
-  font-family: "Roboto";
-  color: #000;
-  font-size: 14px;
-  padding-left: 5px;
 }
 </style>
