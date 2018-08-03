@@ -17,8 +17,7 @@
             <p>{{ fileName }}</p>
             <i class="fa fa-heart fa-lg" role="button"
               @click.prevent="updateFavs" aria-hidden="true"
-              v-if="editMode" :class="{unfav: !favStatus}" v-model="favs">
-              <strong>{{ this.favs }}</strong>
+              v-if="editMode" :class="{unfav: !favStatus}">
             </i>
             <div v-if="puffImage">
               <img :src="frameUrl(puffImage)" width="100px"/>
