@@ -22,7 +22,8 @@
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>    
           <i class="fa fa-heart fa-lg" role="button"
-            @click="showPuff(puffObject)" aria-hidden="true">
+            @click="showPuff(puffObject)" aria-hidden="true"
+            v-if="favMode(puffObject.favs)" :class="{unfav: !favStatus}">
           </i>
           <hr/>
         </div>
@@ -45,12 +46,22 @@ export default {
         id: "",
         title: "",
         content: ""
-      }
+      },
+      // Used to display grey colored heart if value evaluates to false
+      favStatus: true
     };
   },
   methods: {
-    loadPuffs: function(puffs) {
+    loadPuffs(puffs) {
       this.userPuffs = puffs;
+    },
+    favMode(favVal) {
+      if (favVal > 0) {
+        this.favStatus = true;
+      } else {
+        this.favStatus = false;
+      }
+      return true;
     },
     frameUrl(imageUrl) {
       if (imageUrl) {
@@ -94,10 +105,13 @@ export default {
 }
 .fa-heart {
   padding-top: 10px;
-  color: red;
+  color: #ff0000;
 }
 .fa-heart:hover {
   color: #d50000;
   cursor: pointer;
+}
+.unfav {
+  color: #c3c3c3;
 }
 </style>

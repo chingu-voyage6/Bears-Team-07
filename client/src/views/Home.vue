@@ -17,8 +17,8 @@
             <p>{{ fileName }}</p>
             <i class="fa fa-heart fa-lg" role="button"
               @click.prevent="updateFavs" aria-hidden="true"
-              v-if="editMode" v-model="favs">
-              <strong class="fav-text">{{ favs }}</strong>
+              v-if="editMode" :class="{unfav: !favStatus}" v-model="favs">
+              <strong>{{ this.favs }}</strong>
             </i>
             <div v-if="puffImage">
               <img :src="frameUrl(puffImage)" width="100px"/>
@@ -77,6 +77,7 @@ export default {
       puffsPage: 0,
       errorMessage: "",
       show: false,
+      favStatus: true,
       selectedFile: null,
       fileName: null,
       editMode: false,
@@ -102,8 +103,10 @@ export default {
       if (this.$store.getters.getUserId === this.puffAuthor) {
         if (this.favs === 1) {
           this.favs = 0;
+          this.favStatus = false;
         } else if (this.favs === 0) {
           this.favs = 1;
+          this.favStatus = true;
         }
       } else {
         this.favs += 1;
@@ -169,9 +172,11 @@ export default {
       this.puffImage = puffObject.image;
       this.puffAuthor = puffObject.author;
       if (puffObject.favs > 0) {
+        this.favStatus = true;
         this.favs = puffObject.favs;
       } else {
         this.favs = 0;
+        this.favStatus = false;
       }
     },
     async editPuff() {
@@ -320,7 +325,10 @@ input {
 }
 .fa-heart {
   padding-bottom: 10px;
-  color: red;
+  color: #ff0000;
+}
+.unfav {
+  color: #c3c3c3;
 }
 .fa-heart:hover {
   color: #d50000;
