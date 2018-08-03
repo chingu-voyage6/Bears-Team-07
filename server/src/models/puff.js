@@ -24,9 +24,8 @@ const PuffSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  meta: {
-    votes: Number,
-    favs: Number,
+  favs: {
+    type: Number,
   },
   image: {
     type: String,

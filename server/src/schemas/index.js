@@ -11,6 +11,10 @@ exports.createUserSchema = (req, res, next) => {
     password: Joi.string().regex(
       new RegExp('^[a-zA-Z0-9]{8,32}$'),
     ),
+    admin: Joi.boolean(),
+    role: Joi.string(),
+    image: Joi.any(),
+    active: Joi.boolean(),
   };
   const {
     error,
@@ -56,6 +60,12 @@ exports.validatePuffSchema = (req, res, next) => {
   const schema = {
     title: Joi.string().required(),
     content: Joi.string().required(),
+    username: Joi.string(),
+    tags: Joi.any(),
+    comments: Joi.any(),
+    hidden: Joi.boolean(),
+    favs: Joi.any(),
+    image: Joi.any(),
   };
   const {
     error,

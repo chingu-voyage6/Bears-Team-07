@@ -65,7 +65,7 @@ exports.create = (req, res) => {
     content: req.body.content,
     tags: req.body.tags,
     comments: req.body.comments,
-    meta: req.body.meta,
+    favs: req.body.favs,
   };
   return Puff.create(puffData).then(puff => {
     if (puff) {
@@ -117,7 +117,7 @@ exports.update = (req, res) => {
       puff.content = req.body.content;
       puff.tags = req.body.tags;
       puff.comments = req.body.comments;
-      puff.meta = req.body.meta;
+      puff.favs = req.body.favs;
       puff.hidden = req.body.hidden;
       puff.save();
       res.status(200)
@@ -181,7 +181,7 @@ exports.createWithFile = (req, res) => {
     content: req.body.content,
     tags: req.body.tags,
     comments: req.body.comments,
-    meta: req.body.meta,
+    favs: req.body.favs,
     image: req.file.path,
   };
   return Puff.create(puffData).then(puff => {
@@ -234,7 +234,7 @@ exports.updateWithFile = (req, res) => {
       puff.content = req.body.content;
       puff.tags = req.body.tags;
       puff.comments = req.body.comments;
-      puff.meta = req.body.meta;
+      puff.favs = req.body.favs;
       puff.hidden = req.body.hidden;
       puff.image = req.file.path;
       puff.save();

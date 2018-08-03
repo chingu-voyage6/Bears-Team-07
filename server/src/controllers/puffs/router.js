@@ -45,8 +45,8 @@ const multerUpload = Multer({
 export default express
   .Router()
   .post('/', validateToken, validatePuffSchema, puff.create)
-  .post('/u', validateToken, validatePuffSchema, multerUpload.single('upload'), puff.createWithFile)
-  .put('/u/:id', validateToken, validatePuffSchema, multerUpload.single('upload'), puff.updateWithFile)
+  .post('/u', validateToken, multerUpload.single('upload'), puff.createWithFile)
+  .put('/u/:id', validateToken, multerUpload.single('upload'), puff.updateWithFile)
   .put('/:id', validateToken, validatePuffSchema, puff.update)
   .get('/', validateToken, puff.list)
   .get('/:id', validateToken, puff.get)

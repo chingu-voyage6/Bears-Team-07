@@ -22,8 +22,8 @@
             <i class="fa fa-trash" aria-hidden="true"></i>
           </button>    
           <i class="fa fa-heart fa-lg" role="button"
-            @click="showPuff(puffObject)" aria-hidden="true">
-            <strong class="fav-text">{{ puffObject.meta.favs }}</strong>
+            @click="showPuff(puffObject)" aria-hidden="true"
+            :class="{unfav: !puffObject.favs}">
           </i>
           <hr/>
         </div>
@@ -37,20 +37,15 @@ export default {
   name: "feed",
   props: ["puffs"],
   mounted: function() {
-    console.log("The Feed component has been mounted");
+    //console.log("The Feed component has been mounted");
   },
   data: function() {
     return {
-      userPuffs: [],
-      puff: {
-        id: "",
-        title: "",
-        content: ""
-      }
+      userPuffs: []
     };
   },
   methods: {
-    loadPuffs: function(puffs) {
+    loadPuffs(puffs) {
       this.userPuffs = puffs;
     },
     frameUrl(imageUrl) {
@@ -95,16 +90,13 @@ export default {
 }
 .fa-heart {
   padding-top: 10px;
-  color: red;
+  color: #ff0000;
 }
 .fa-heart:hover {
   color: #d50000;
   cursor: pointer;
 }
-.fav-text {
-  font-family: "Roboto";
-  color: #000;
-  font-size: 14px;
-  padding-left: 5px;
+.unfav {
+  color: #c3c3c3;
 }
 </style>
