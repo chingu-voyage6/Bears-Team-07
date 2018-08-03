@@ -1,3 +1,4 @@
+import fs from 'fs-extra';
 import Puff from '../../models/puff';
 import User from '../../models/user';
 
@@ -113,6 +114,10 @@ exports.update = (req, res) => {
           message: 'Puff not Found',
         });
     } else {
+      if (puff.image && req.body.remove) {
+        fs.removeSync(puff.image);
+        puff.image = null;
+      }
       puff.title = req.body.title;
       puff.content = req.body.content;
       puff.tags = req.body.tags;
