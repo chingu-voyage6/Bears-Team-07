@@ -18,7 +18,9 @@
       <div id="navbarLink" v-if="$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item user-custom">
-            Hi {{ capitalizeUsername($store.state.user.username) }}!
+            <router-link to="/profile" class="nav-link">
+              Hi {{ capitalizeUsername($store.state.user.username) }}!
+            </router-link>
           </li>
           <li class="nav-item" @click="logout">
             <div class="nav-link logout">
@@ -78,5 +80,6 @@ img {
 }
 .logout {
   cursor: pointer;
+  padding-top: 15px;
 }
 </style>
