@@ -23,7 +23,7 @@
           </button>    
           <i class="fa fa-heart fa-lg" role="button"
             @click="showPuff(puffObject)" aria-hidden="true"
-            v-if="favMode(puffObject.favs)" :class="{unfav: !favStatus}">
+            :class="{unfav: !puffObject.favs}">
           </i>
           <hr/>
         </div>
@@ -41,27 +41,12 @@ export default {
   },
   data: function() {
     return {
-      userPuffs: [],
-      puff: {
-        id: "",
-        title: "",
-        content: ""
-      },
-      // Used to display grey colored heart if value evaluates to false
-      favStatus: true
+      userPuffs: []
     };
   },
   methods: {
     loadPuffs(puffs) {
       this.userPuffs = puffs;
-    },
-    favMode(favVal) {
-      if (favVal > 0) {
-        this.favStatus = true;
-      } else {
-        this.favStatus = false;
-      }
-      return true;
     },
     frameUrl(imageUrl) {
       if (imageUrl) {
