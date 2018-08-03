@@ -73,10 +73,9 @@ The main features are:
 - Fully Responsive
 - Home page with timeline
 - User profile page
-- One click additions - story, quote, image upload, text
+- One click addition/deletion - story, quote, image upload, text
+- Update image and text
 - Favorite a post
-- Mark a post public or private
-- Share a post with friends
 
 Resources:
 
