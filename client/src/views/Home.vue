@@ -14,6 +14,11 @@
               @click.prevent="$refs.fileInput.click()">
               Select File
             </button>
+            <button class="btn btn-custom"
+              v-if="editMode && puffImage"
+              @click.prevent="removeAttachment">
+              Delete Attachment
+            </button>
             <p>{{ fileName }}</p>
             <i class="fa fa-heart fa-lg" role="button"
               @click.prevent="updateFavs" aria-hidden="true"
@@ -74,6 +79,8 @@ export default {
       puffAuthor: "",
       userPuffs: [],
       puffsPage: 0,
+      // required by backend to delete the attachment in edit mode
+      remove: 0,
       errorMessage: "",
       show: false,
       selectedFile: null,
@@ -95,6 +102,13 @@ export default {
       if (imageUrl) {
         const url = imageUrl.replace(/\\/g, "/");
         return process.env.VUE_APP_BACKEND_API_URL + url;
+      }
+    },
+    removeAttachment() {
+      if (this.puffImage) {
+        this.puffImage = "";
+        this.selectedFile = null;
+        this.remove = 1;
       }
     },
     updateFavs() {
@@ -200,6 +214,9 @@ export default {
         };
         if (self.favs > 0) {
           updateObj.favs = self.favs;
+        }
+        if (self.remove) {
+          updateObj.remove = self.remove;
         }
         try {
           await PuffService.updatePuff(
