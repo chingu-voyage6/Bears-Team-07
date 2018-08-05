@@ -5,27 +5,29 @@
           <p>Create a new Puff to visualize!</p>
       </div>
     </div>
-    <div v-else class="row border border-warning">
+    <div v-else class="row border border-warning timeline">
       <div class="col-12 text-center border">
-        <div class="feed-puff" v-for="(puffObject) in userPuffs" :key="puffObject.key">
-          <div class="font-weight-bold">{{puffObject.title}}</div>
-          <div>{{puffObject.content}}</div>
-          <div v-if="puffObject.image">
-            <img :src="frameUrl(puffObject.image)" width="100px"/>
+        <div class="timeline-container" v-bind:class="rightOfLeft(key)" v-for="(puffObject, key) in userPuffs" :key="puffObject.key">
+          <div class="content">
+            <div class="font-weight-bold">{{puffObject.title}}</div>
+            <div class="mb-3">{{puffObject.content}}</div>
+            <div class="my-3" v-if="puffObject.image">
+              <img :src="frameUrl(puffObject.image)" width="100px"/>
+            </div>
+            <button class="btn btn-custom"
+                    @click="showPuff(puffObject)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-custom"
+                    @click="deletePuff(puffObject._id)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+            <i class="fa fa-heart fa-lg" role="button"
+               @click="showPuff(puffObject)" aria-hidden="true"
+               :class="{unfav: !puffObject.favs}">
+            </i>
+            <hr/>
           </div>
-          <button class="btn btn-custom" 
-            @click="showPuff(puffObject)">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-          </button>
-          <button class="btn btn-custom" 
-            @click="deletePuff(puffObject._id)">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-          </button>    
-          <i class="fa fa-heart fa-lg" role="button"
-            @click="showPuff(puffObject)" aria-hidden="true"
-            :class="{unfav: !puffObject.favs}">
-          </i>
-          <hr/>
         </div>
       </div>
     </div>
@@ -59,6 +61,12 @@ export default {
     },
     deletePuff(puffId) {
       this.$emit("deletePuff", puffId);
+    },
+    isOdd(number) {
+      return number % 2 === 1;
+    },
+    rightOfLeft(number) {
+      return this.isOdd(number) ? "right" : "left";
     }
   },
   watch: {
