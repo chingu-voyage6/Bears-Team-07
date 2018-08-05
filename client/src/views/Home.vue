@@ -261,7 +261,7 @@ export default {
         (this.show = true), this.error(error.response.data.error);
       }
     },
-    loadInformationFromLocalStorage: function() {
+    loadInformationFromLocalStorage() {
       // Get the token from the local storage
       if (localStorage.getItem("DearDiiaryToken")) {
         let ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
