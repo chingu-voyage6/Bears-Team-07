@@ -25,7 +25,7 @@
             <input type="email" class="form-control" id="email" required="true"
               v-model="user.email" :readonly="(editMode==false) ? true : false">
           </div>
-          <div class="col-auto right">
+          <div class="col-auto pwdButtons">
             <button v-if="!editMode" class="form-control btn btn-custom"
               @click.prevent="editMode = !editMode">
               <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -44,11 +44,48 @@
           <p class="error">
           {{ errorMessage }}</p>
         </div>
-        <div v-if="successMessage" class="alert alert-success">
+        <div v-if="successFlag" class="alert alert-success">
           {{ successMessage }}
         </div>
-        <hr/>
       </form>
+      <hr/>
+      <form class="userForm" @submit.prevent="updatePassword">
+        <div class="form-row">
+          <div v-if="PwdEditMode" class="col-md-6 col-sm-6 mb-3">
+            <label for="newPassword">New password</label>
+            <input type="password" class="form-control" id="newPassword" 
+              placeholder="New password" v-model="newPassword" required="true">
+          </div>
+          <div v-if="PwdEditMode" class="col-md-6 col-sm-6 mb-3">
+            <label for="confirmPassword">Confirm password</label>
+            <input type="password" class="form-control" id="confirmPassword" 
+              placeholder="Confirm password" v-model="confirmPassword" 
+              :disabled="newPassword.length === 0 ? true : false" required="true">
+          </div>
+          <div class="col-auto">
+            <button v-if="!PwdEditMode" class="form-control btn btn-custom"
+              @click.prevent="PwdEditMode = !PwdEditMode">
+              <i class="fa fa-key" aria-hidden="true"></i>
+              Change Password
+            </button>
+            <button v-if="PwdEditMode" type="submit" class="form-control btn btn-custom">
+              Update Password
+            </button>
+            <button v-if="PwdEditMode" class="form-control btn btn-custom"
+              @click.prevent="cancelPwdChange">
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div v-if="showPwdError">
+          <p class="error">
+          {{ errorMessage }}</p>
+        </div>
+        <div v-if="successPwdMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      </form>
+      <hr/>
       <form class="userForm uneditable">
         <div class="form-row">
           <div class="col-md-4 col-sm-6 mb-3">
@@ -67,7 +104,6 @@
               :value="(user.admin==true) ? 'Yes' : 'No'" readonly>
           </div>
         </div>
-        <hr/>
       </form>
     </div>
   </div>
@@ -82,10 +118,17 @@ export default {
   data() {
     return {
       user: [],
+      newPassword: "",
+      confirmPassword: "",
       editMode: false,
+      PwdEditMode: false,
       successMessage: "",
+      pwdUpdated: false,
+      successPwdMessage: false,
+      successFlag: false,
       errorMessage: "",
-      show: false
+      show: false,
+      showPwdError: false
     };
   },
   mounted: function() {
@@ -112,12 +155,17 @@ export default {
       this.successMessage = message;
       setTimeout(() => {
         this.successMessage = "";
+        this.successFlag = false;
+        this.successPwdMessage = false;
+        this.pwdUpdated = false;
       }, 4000);
     },
     error(message) {
       this.errorMessage = message;
       setTimeout(() => {
         this.errorMessage = "";
+        this.show = false;
+        this.showPwdError = false;
       }, 5000);
     },
     async getUserInfo() {
@@ -137,9 +185,13 @@ export default {
         firstname: self.user.firstname,
         lastname: self.user.lastname,
         username: self.user.username,
-        email: self.user.email,
-        password: self.user.password
+        email: self.user.email
       };
+      if (this.newPassword) {
+        editedUserObj.password = this.newPassword;
+      } else {
+        editedUserObj.password = self.user.password;
+      }
       try {
         const response = await UserService.updateUser(
           this.$store.getters.getUserId,
@@ -148,12 +200,49 @@ export default {
         );
         self.user = response.data.user;
         self.editMode = false;
-        self.success("User details updated successfully.");
+        self.PwdEditMode = false;
+        if (this.pwdUpdated) {
+          self.successPwdMessage = true;
+          self.success("Password updated successfully.");
+        } else {
+          self.successFlag = true;
+          self.success("User details updated successfully.");
+        }
         self.updateStore(self.user);
+        if (this.newPassword) {
+          this.newPassword = "";
+          this.confirmPassword = "";
+        }
       } catch (error) {
-        (this.show = true), this.error(error.response.data.error);
+        if (this.newPassword) {
+          (this.showPwdError = true), this.error(error.response.data.error);
+        } else {
+          (this.show = true), this.error(error.response.data.error);
+        }
       }
-      alert(JSON.stringify(this.$store.state.user));
+    },
+    cancelPwdChange() {
+      this.PwdEditMode = !this.PwdEditMode;
+      this.newPassword = "";
+      this.confirmPassword = "";
+    },
+    updatePassword() {
+      let regex = new RegExp("^[a-zA-Z0-9]{8,32}$");
+      if (regex.test(this.newPassword)) {
+        if (this.newPassword === this.confirmPassword) {
+          this.pwdUpdated = true;
+          this.updateUser();
+        } else {
+          this.showPwdError = true;
+          this.error("Passwords don't match!");
+        }
+      } else {
+        this.showPwdError = true;
+        this.error(
+          "Password must contain only lower case, upper case" +
+            " and numerics with a minimum of 8 and a maximum of 32 characters in length."
+        );
+      }
     }
   }
 };
@@ -229,14 +318,17 @@ header {
   border-radius: 100px;
   border: 4px solid #fff;
 }
-.right {
-  float: right;
+.pwdButtons {
+  margin-bottom: -10px;
 }
 .userForm {
   padding: 20px 15px 15px 15px;
   font-family: Lato, serif;
   font-weight: 700;
   width: 100%;
+}
+input::placeholder {
+  font-size: 16px;
 }
 input {
   letter-spacing: 0.5px;
@@ -248,12 +340,12 @@ input {
   font-size: 16px;
 }
 .alert {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 .error {
   font-size: 14px;
   letter-spacing: 1px;
-  padding-bottom: 5px;
+  padding-top: 10px;
   color: red;
 }
 </style>
