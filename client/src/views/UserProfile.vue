@@ -2,22 +2,53 @@
   <div class="user-profile text-center">
     <div class="container main-black-color">
       <header/>
-      <main>
-        <div class="row">
-          <div class="centering col-sm-12">
-            <div>
-              <img class="photo" 
-              src="../../public/img/avatar1.png"/>
-            </div>
-            <div class="name">
-              <h4>{{ user.firstname + " " + user.lastname }}</h4>
-            </div>
-            <!-- <div class="info">
-            <p>UI/UX Designer</p>
-            </div> -->
+      <div class="row">
+        <div class="centering col-sm-12">
+            <img class="photo" 
+            src="../../public/img/avatar1.png"/>
+        </div>
+      </div>
+      <form class="userForm" @submit.prevent="updateUser">
+        <div class="form-row">
+          <div class="col-md-4 mb-3">
+            <label for="firstname">First Name</label>
+            <input type="text" class="form-control" id="firstname" required="true"
+              v-model="user.firstname" :readonly="(editMode==false) ? true : false">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="lastname">Last Name</label>
+            <input type="text" class="form-control" id="lastname" required="true"
+              v-model="user.lastname" :readonly="(editMode==false) ? true : false">
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" required="true"
+              v-model="user.email" :readonly="(editMode==false) ? true : false">
+          </div>
+          <div class="col-auto right">
+            <button v-if="!editMode" class="form-control btn btn-custom"
+              @click.prevent="editMode = !editMode">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+              Edit
+            </button>
+            <button v-if="editMode" type="submit" class="form-control btn btn-custom">
+              Update
+            </button>
+            <button v-if="editMode" class="form-control btn btn-custom"
+              @click.prevent="editMode = !editMode">
+              Cancel
+            </button>
           </div>
         </div>
-      </main>
+        <div v-if="show">
+          <p class="error">
+          {{ errorMessage }}</p>
+        </div>
+        <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+        <hr/>
+      </form>
     </div>
   </div>
 </template>
@@ -27,18 +58,22 @@ import UserService from "@/services/UserService.js";
 
 export default {
   name: "user-profile",
-  components: {
-  },
+  components: {},
   data() {
     return {
-      user: []
+      user: [],
+      editMode: false,
+      successMessage: "",
+      errorMessage: "",
+      show: false
     };
   },
   mounted: function() {
     this.loadInformationFromLocalStorage();
+    this.getUserInfo();
   },
   methods: {
-    loadInformationFromLocalStorage: function() {
+    loadInformationFromLocalStorage() {
       // Get the token from the local storage
       if (localStorage.getItem("DearDiiaryToken")) {
         let ls_token = JSON.parse(localStorage.getItem("DearDiiaryToken"));
@@ -48,7 +83,51 @@ export default {
       if (localStorage.getItem("DearDiiaryUser")) {
         let ls_user = JSON.parse(localStorage.getItem("DearDiiaryUser"));
         this.$store.dispatch("setUser", ls_user);
-        this.user = ls_user;
+      }
+    },
+    success(message) {
+      this.successMessage = message;
+      setTimeout(() => {
+        this.successMessage = "";
+      }, 4000);
+    },
+    error(message) {
+      this.errorMessage = message;
+      setTimeout(() => {
+        this.errorMessage = "";
+      }, 5000);
+    },
+    async getUserInfo() {
+      try {
+        const response = await UserService.readUserData(
+          this.$store.getters.getUserId,
+          this.$store.getters.getUserToken
+        );
+        this.user = response.data.user;
+      } catch (error) {
+        (this.show = true), this.error(error.response.data.error);
+      }
+    },
+    async updateUser() {
+      let self = this;
+      let editedUserObj = {
+        firstname: self.user.firstname,
+        lastname: self.user.lastname,
+        username: self.user.username,
+        email: self.user.email,
+        password: self.user.password
+      };
+      try {
+        const response = await UserService.updateUser(
+          this.$store.getters.getUserId,
+          editedUserObj,
+          this.$store.getters.getUserToken
+        );
+        self.user = response.data.user;
+        self.editMode = false;
+        this.success("User details updated successfully.");
+      } catch (error) {
+        (this.show = true), this.error(error.response.data.error);
       }
     }
   }
@@ -60,7 +139,7 @@ export default {
   padding: 100px 20px 20px 20px;
   position: relative;
   background: #efefef;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
   width: 100%;
   min-height: 100vh;
 }
@@ -70,6 +149,8 @@ export default {
 .btn.btn-custom {
   background-color: #b71c1c;
   color: #fff;
+  width: auto;
+  float: right !important;
   margin-right: 10px;
   font-size: 16px;
   border: 1px solid #fbe9e7;
@@ -102,13 +183,13 @@ header {
   background-color: red;
   height: 250px;
 }
-@media (max-width: 800px) {
+@media (max-width: 768px) {
+  .user-profile {
+    padding: 120px 10px 10px 10px;
+  }
   header {
     height: 150px;
   }
-}
-main {
-  padding: 20px 20px 0px 20px;
 }
 .centering {
   display: flex;
@@ -123,17 +204,22 @@ main {
   border-radius: 100px;
   border: 4px solid #fff;
 }
-.name {
-  margin-top: 20px;
-  font-weight: 700;
-  font-size: 18pt;
-  width: 90%;
-  border-bottom: 1px solid #757575;
+.right {
+  float: right;
 }
-.info {
+.userForm {
+  padding: 20px 15px 15px 15px;
+  font-family: Lato, serif;
+  font-weight: 700;
+  width: 100%;
+}
+.alert {
   margin-top: 10px;
-  font-family: "Lato", serif;
-  margin-bottom: 5px;
-  font-size: 11pt;
+}
+.error {
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-bottom: 5px;
+  color: red;
 }
 </style>
