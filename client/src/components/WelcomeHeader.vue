@@ -1,10 +1,10 @@
 <template>
   <header>
     <nav class="navbar navbar-custom navbar-dark fixed-top">
-      <router-link to="/" class="navbar-brand">
+      <div class="navbar-brand" @click="brandRedirect">
         <img src="../assets/brand/d-logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Dear Diiary
-      </router-link>
+      </div>
       <div id="navbarLink" v-if="!$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item">
@@ -40,6 +40,17 @@ export default {
     capitalizeUsername(username) {
       return username.charAt(0).toUpperCase() + username.slice(1);
     },
+    brandRedirect() {
+      if (!this.$store.state.isUserLoggedIn) {
+        this.$router.push({
+          name: "welcome"
+        });
+      } else if (this.$store.state.isUserLoggedIn) {
+        this.$router.push({
+          name: "home"
+        });
+      }
+    },
     logout() {
       this.$store.dispatch("setToken", null);
       this.$store.dispatch("setUser", null);
@@ -63,6 +74,7 @@ img {
   letter-spacing: 0.5px;
 }
 .navbar-brand {
+  cursor: pointer;
   font-size: 25px;
   color: #fff;
 }
