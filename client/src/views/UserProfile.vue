@@ -85,6 +85,9 @@ export default {
         this.$store.dispatch("setUser", ls_user);
       }
     },
+    updateStore(editedUserObj) {
+      this.$store.commit("updateUser", editedUserObj);
+    },
     success(message) {
       this.successMessage = message;
       setTimeout(() => {
@@ -125,7 +128,8 @@ export default {
         );
         self.user = response.data.user;
         self.editMode = false;
-        this.success("User details updated successfully.");
+        self.success("User details updated successfully.");
+        self.updateStore(self.user);
       } catch (error) {
         (this.show = true), this.error(error.response.data.error);
       }
