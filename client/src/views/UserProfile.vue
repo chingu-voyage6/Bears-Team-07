@@ -4,18 +4,18 @@
       <header/>
       <div class="row">
         <div class="centering col-sm-12">
-            <img class="photo" 
+          <img class="photo" 
             src="../../public/img/avatar1.png"/>
         </div>
       </div>
       <form class="userForm" @submit.prevent="updateUser">
         <div class="form-row">
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 col-sm-6 mb-3">
             <label for="firstname">First Name</label>
             <input type="text" class="form-control" id="firstname" required="true"
               v-model="user.firstname" :readonly="(editMode==false) ? true : false">
           </div>
-          <div class="col-md-4 mb-3">
+          <div class="col-md-4 col-sm-6 mb-3">
             <label for="lastname">Last Name</label>
             <input type="text" class="form-control" id="lastname" required="true"
               v-model="user.lastname" :readonly="(editMode==false) ? true : false">
@@ -46,6 +46,26 @@
         </div>
         <div v-if="successMessage" class="alert alert-success">
           {{ successMessage }}
+        </div>
+        <hr/>
+      </form>
+      <form class="userForm uneditable">
+        <div class="form-row">
+          <div class="col-md-4 col-sm-6 mb-3">
+            <label for="username">Username</label>
+            <input type="text" class="form-control-plaintext" id="username"
+              :value="user.username" readonly>
+          </div>
+          <div class="col-md-4 col-sm-6 mb-3">
+            <label for="user-status">Current status</label>
+            <input type="text" class="form-control-plaintext" id="user-status"
+              :value="(user.active==true) ? 'Active' : 'Inactive'" readonly>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="admin">Admin?</label>
+            <input type="text" class="form-control-plaintext" id="admin"
+              :value="(user.admin==true) ? 'Yes' : 'No'" readonly>
+          </div>
         </div>
         <hr/>
       </form>
@@ -133,6 +153,7 @@ export default {
       } catch (error) {
         (this.show = true), this.error(error.response.data.error);
       }
+      alert(JSON.stringify(this.$store.state.user));
     }
   }
 };
@@ -216,6 +237,15 @@ header {
   font-family: Lato, serif;
   font-weight: 700;
   width: 100%;
+}
+input {
+  letter-spacing: 0.5px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.uneditable input {
+  text-align: center;
+  font-size: 16px;
 }
 .alert {
   margin-top: 10px;
