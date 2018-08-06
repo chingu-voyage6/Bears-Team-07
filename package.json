@@ -1,0 +1,19 @@
+{
+    "name": "heroku-frontend",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "postinstall": "yarn run build",
+        "start": "node server.js",
+        "build": "pushd client && yarn install && yarn run build && popd",
+        "test": "pushd client && yarn run lint && popd"
+    },
+    "engines": {
+        "node": ">=8.11.3",
+        "npm": ">=6.1.0"
+    },
+    "devDependencies": {
+        "express": "4.16.3",
+        "serve-static": "1.13.2"
+    }
+}

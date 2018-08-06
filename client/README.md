@@ -3,18 +3,18 @@
 ## Install It
 Navigate to the client folder.
 ```
-npm install
+yarn install
 ```
 
 ## Run It
 #### Run in *development* mode:
 
 ```
-npm run serve
+yarn run serve
 ```
 
 #### Run in *production* mode:
 
 ```
-npm run build
+yarn run build
 ```
