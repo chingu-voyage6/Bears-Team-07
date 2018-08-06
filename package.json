@@ -5,8 +5,8 @@
     "scripts": {
         "postinstall": "yarn run build",
         "start": "node server.js",
-        "build": "pushd client && yarn install && yarn run build && popd",
-        "test": "pushd client && yarn run lint && popd"
+        "build": "cd client && yarn install && yarn run build && cd -",
+        "test": "cd client && yarn run lint && cd -"
     },
     "engines": {
         "node": ">=8.11.3",
