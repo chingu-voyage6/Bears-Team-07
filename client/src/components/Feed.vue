@@ -5,8 +5,8 @@
           <p>Create a new Puff to visualize!</p>
       </div>
     </div>
-    <div v-else class="row border border-warning timeline">
-      <div class="col-12 text-center border">
+    <div v-else class="row timeline">
+      <div class="col-12 text-center">
         <div class="timeline-container" v-bind:class="rightOfLeft(key)" v-for="(puffObject, key) in userPuffs" :key="puffObject.key">
           <div class="content">
             <div class="font-weight-bold">{{puffObject.title}}</div>
