@@ -1,0 +1,14 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - "node_modules"
+cache:
+  yarn: true
+node_js:
+  - v8
+  - v6
+  - v4
+script: 
+  - yarn test
+
