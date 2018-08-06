@@ -1,10 +1,10 @@
 <template>
   <header>
     <nav class="navbar navbar-custom navbar-dark fixed-top">
-      <router-link to="/" class="navbar-brand">
+      <div class="navbar-brand" @click="brandRedirect">
         <img src="../assets/brand/d-logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Dear Diiary
-      </router-link>
+      </div>
       <div id="navbarLink" v-if="!$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item">
@@ -18,7 +18,9 @@
       <div id="navbarLink" v-if="$store.state.isUserLoggedIn">
         <ul class="nav navbar-right">
           <li class="nav-item user-custom">
-            Hi {{ capitalizeUsername($store.state.user.username) }}!
+            <router-link to="/profile" class="nav-link">
+              Hi {{ capitalizeUsername($store.state.user.username) }}!
+            </router-link>
           </li>
           <li class="nav-item" @click="logout">
             <div class="nav-link logout">
@@ -37,6 +39,17 @@ export default {
   methods: {
     capitalizeUsername(username) {
       return username.charAt(0).toUpperCase() + username.slice(1);
+    },
+    brandRedirect() {
+      if (!this.$store.state.isUserLoggedIn) {
+        this.$router.push({
+          name: "welcome"
+        });
+      } else if (this.$store.state.isUserLoggedIn) {
+        this.$router.push({
+          name: "home"
+        });
+      }
     },
     logout() {
       this.$store.dispatch("setToken", null);
@@ -61,6 +74,7 @@ img {
   letter-spacing: 0.5px;
 }
 .navbar-brand {
+  cursor: pointer;
   font-size: 25px;
   color: #fff;
 }
@@ -78,5 +92,6 @@ img {
 }
 .logout {
   cursor: pointer;
+  padding-top: 15px;
 }
 </style>

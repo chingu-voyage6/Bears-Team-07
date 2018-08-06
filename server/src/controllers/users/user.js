@@ -107,22 +107,32 @@ exports.update = (req, res) => {
       user.username = req.body.username;
       user.email = req.body.email;
       user.admin = req.body.admin;
-      bcrypt.hash(req.body.password, null, null, (err, hash) => {
-        if (err) {
-          req.log.error(err);
-          res.status(500)
-            .send({
-              message: err,
-            });
-        }
-        user.password = hash;
+      if (user.password === req.body.password) {
+        user.password = req.body.password;
         user.save();
         res.status(200)
           .send({
             message: 'User data updated successfully',
             user,
           });
-      });
+      } else {
+        bcrypt.hash(req.body.password, null, null, (err, hash) => {
+          if (err) {
+            req.log.error(err);
+            res.status(500)
+              .send({
+                message: err,
+              });
+          }
+          user.password = hash;
+          user.save();
+          res.status(200)
+            .send({
+              message: 'User data updated successfully',
+              user,
+            });
+        });
+      }
     }
   }).catch(err => {
     req.log.error(err);

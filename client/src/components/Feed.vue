@@ -53,7 +53,7 @@ export default {
     frameUrl(imageUrl) {
       if (imageUrl) {
         const url = imageUrl.replace(/\\/g, "/");
-        return process.env.VUE_APP_BACKEND_API_URL + url;
+        return process.env.VUE_APP_BACKEND_API_URL + "/" + url;
       }
     },
     showPuff(puffObject) {
