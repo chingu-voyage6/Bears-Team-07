@@ -107,7 +107,6 @@ exports.update = (req, res) => {
       user.username = req.body.username;
       user.email = req.body.email;
       user.admin = req.body.admin;
-      let update = false;
       if (user.password === req.body.password) {
         user.password = req.body.password;
         user.save();
