@@ -110,28 +110,29 @@ exports.update = (req, res) => {
       let update = false;
       if (user.password === req.body.password) {
         user.password = req.body.password;
-        update = true;
-      } else {
-        bcrypt.hash(req.body.password, null, null, (err, hash) => {
-          if (err) {
-            req.log.error(err);
-            update = false;
-            res.status(500)
-              .send({
-                message: err,
-              });
-          }
-          user.password = hash;
-          update = true;
-        });
-      }
-      if (update) {
         user.save();
         res.status(200)
           .send({
             message: 'User data updated successfully',
             user,
           });
+      } else {
+        bcrypt.hash(req.body.password, null, null, (err, hash) => {
+          if (err) {
+            req.log.error(err);
+            res.status(500)
+              .send({
+                message: err,
+              });
+          }
+          user.password = hash;
+          user.save();
+          res.status(200)
+            .send({
+              message: 'User data updated successfully',
+              user,
+            });
+        });
       }
     }
   }).catch(err => {
