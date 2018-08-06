@@ -5,7 +5,7 @@
   "private": true,
   "main": "./server.js",
   "scripts": {
-    "start": "npm run compile && cd build && node main",
+    "start": "yarn run compile && cd build && node main",
     "compile": "node build.js && backpack build",
     "dev": "node build.js && backpack dev | pino -o 'short'",
     "debug": "node build.js && backpack dev --inspect-brk | pino -o 'short'",
