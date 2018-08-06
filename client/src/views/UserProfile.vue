@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="user-profile text-center">
     <div class="container main-black-color">
       <header/>
@@ -13,17 +13,17 @@
           <div class="col-md-4 col-sm-6 mb-3">
             <label for="firstname">First Name</label>
             <input type="text" class="form-control" id="firstname" required="true"
-              v-model="user.firstname" :readonly="(editMode==false) ? true : false">
+              ref="firstname" :value="user.firstname" :readonly="(editMode==false) ? true : false">
           </div>
           <div class="col-md-4 col-sm-6 mb-3">
             <label for="lastname">Last Name</label>
             <input type="text" class="form-control" id="lastname" required="true"
-              v-model="user.lastname" :readonly="(editMode==false) ? true : false">
+              ref="lastname" :value="user.lastname" :readonly="(editMode==false) ? true : false">
           </div>
           <div class="col-md-4 mb-3">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" required="true"
-              v-model="user.email" :readonly="(editMode==false) ? true : false">
+              ref="email" :value="user.email" :readonly="(editMode==false) ? true : false">
           </div>
           <div class="col-auto pwdButtons">
             <button v-if="!editMode" class="form-control btn btn-custom"
@@ -181,16 +181,23 @@ export default {
     },
     async updateUser() {
       let self = this;
-      let editedUserObj = {
-        firstname: self.user.firstname,
-        lastname: self.user.lastname,
-        username: self.user.username,
-        email: self.user.email
-      };
+      let editedUserObj;
       if (this.newPassword) {
-        editedUserObj.password = this.newPassword;
+        editedUserObj = {
+          firstname: self.user.firstname,
+          lastname: self.user.lastname,
+          email: self.user.email,
+          username: self.user.username,
+          password: self.newPassword
+        };
       } else {
-        editedUserObj.password = self.user.password;
+        editedUserObj = {
+          firstname: self.$refs["firstname"].value,
+          lastname: self.$refs["lastname"].value,
+          email: self.$refs["email"].value,
+          username: self.user.username,
+          password: self.user.password
+        };
       }
       try {
         const response = await UserService.updateUser(
