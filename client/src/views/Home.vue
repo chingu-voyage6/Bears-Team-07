@@ -346,6 +346,7 @@ input {
 }
 .feed-view {
   margin-top: 20px;
+  margin-bottom: 40px;
 }
 .fa-heart {
   padding: 0 10px 10px 0;

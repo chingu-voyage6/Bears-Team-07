@@ -4,7 +4,7 @@
       <WelcomeHeader/>
       <router-view/>
     </div>
-    <DiiaryFooter class="fixed-bottom"/>
+    <DiiaryFooter v-bind:class="{'fixed-bottom': $route.path === '/home'}" />
   </div>
 </template>
 
@@ -39,6 +39,9 @@ export default {
   z-index: 1030;
 }
 
+.margin-bottom-60{
+  margin-bottom: 60px;
+}
 /* Google font import */
 @import url("https://fonts.googleapis.com/css?family=Alegreya|Lato|Roboto|Macondo+Swash+Caps");
 /* To include jquery  
