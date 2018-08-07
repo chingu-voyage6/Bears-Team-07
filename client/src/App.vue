@@ -31,7 +31,7 @@ export default {
   color: #fff;
 }
 
-.fixed-bottom{
+.fixed-bottom {
   position: fixed;
   bottom: 0;
   right: 0;
