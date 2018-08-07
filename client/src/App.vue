@@ -4,7 +4,7 @@
       <WelcomeHeader/>
       <router-view/>
     </div>
-    <DiiaryFooter/>
+    <DiiaryFooter class="fixed-bottom"/>
   </div>
 </template>
 
@@ -29,6 +29,14 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
+}
+
+.fixed-bottom{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
 }
 
 /* Google font import */
