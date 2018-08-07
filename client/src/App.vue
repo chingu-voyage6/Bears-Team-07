@@ -39,7 +39,7 @@ export default {
   z-index: 1030;
 }
 
-.margin-bottom-60{
+.margin-bottom-60 {
   margin-bottom: 60px;
 }
 /* Google font import */
