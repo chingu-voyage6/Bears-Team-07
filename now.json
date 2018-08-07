@@ -1,0 +1,11 @@
+{
+    "env": {
+        "VUE_APP_BACKEND_API_URL": "https://deardiiary-api.now.sh"
+    },
+    "type": "npm",
+    "alias": "deardiiary.now.sh",
+    "public": true,
+    "engines": {
+        "node": "8.11.3"
+    }
+}
