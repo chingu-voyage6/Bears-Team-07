@@ -2,54 +2,62 @@
   <div class="home text-center">
     <div class="container main-black-color">
       <!-- New puffs -->
-          <form>
-            <input type="text" v-model="puffTitle" placeholder="Title" required>
-            <input type="text" v-model="puffContent" placeholder="New Puff" required>
-            <input
-              style="display:none"
-              type="file"
-              @change="onFileSelected"
-              ref="fileInput">
-            <button class="btn btn-custom" 
+      <form>
+        <div class="form-row">
+          <div class="col-md-4 col-sm-6 mb-3">
+            <input type="text" class="form-control" v-model="puffTitle" placeholder="Title" required>
+          </div>
+          <div class="col-md-4 col-sm-6 mb-3">
+            <input type="text" class="form-control" v-model="puffContent" placeholder="New Puff" required>
+          </div>
+          <div class="col-md-4 mb-3">
+            <button class="form-control btn btn-custom" 
               @click.prevent="$refs.fileInput.click()">
               Select File
             </button>
-            <button class="btn btn-custom"
-              v-if="editMode && puffImage"
-              @click.prevent="removeAttachment">
-              Delete Attachment
-            </button>
-            <p>{{ fileName }}</p>
-            <i class="fa fa-heart fa-lg" role="button"
-              @click.prevent="updateFavs" aria-hidden="true"
-              v-if="editMode" :class="{unfav: !favs}">
-            </i>
-            <div v-if="puffImage">
-              <img :src="frameUrl(puffImage)" width="100px"/>
-            </div>
-            <button class="btn btn-custom"
-              v-if="!editMode"
-              @click.prevent="createNewPuff">
-              Puff It!
-            </button>
-            <button class="btn btn-custom"
-              v-if="editMode"
-              @click.prevent="editPuff">
-              Update Puff
-            </button>
-            <button class="btn btn-custom"
-              v-if="editMode" @click.prevent="cancelEdit">
-              Cancel
-            </button>
-            <div v-if="show">
-              <p class="error">
-              <!-- <i class="fa fa-exclamation-circle" aria-hidden="true"></i> -->
-              {{ errorMessage }}</p>
-            </div>
-            <div v-if="successMessage" class="alert alert-success">
-              {{ successMessage }}
-            </div>
-          </form>
+          </div>
+        </div>
+        <input
+          style="display:none"
+          type="file"
+          @change="onFileSelected"
+          ref="fileInput">
+        <button class="btn btn-custom"
+          v-if="editMode && puffImage"
+          @click.prevent="removeAttachment">
+          Delete Attachment
+        </button>
+        <p>{{ fileName }}</p>
+        <i class="fa fa-heart fa-lg" role="button"
+          @click.prevent="updateFavs" aria-hidden="true"
+          v-if="editMode" :class="{unfav: !favs}">
+        </i>
+        <div v-if="puffImage">
+          <img :src="frameUrl(puffImage)" width="100px"/>
+        </div>
+        <button class="btn btn-custom"
+          v-if="!editMode"
+          @click.prevent="createNewPuff">
+          Puff It!
+        </button>
+        <button class="btn btn-custom"
+          v-if="editMode"
+          @click.prevent="editPuff">
+          Update Puff
+        </button>
+        <button class="btn btn-custom"
+          v-if="editMode" @click.prevent="cancelEdit">
+          Cancel
+        </button>
+        <div v-if="show">
+          <p class="error">
+          <!-- <i class="fa fa-exclamation-circle" aria-hidden="true"></i> -->
+          {{ errorMessage }}</p>
+        </div>
+        <div v-if="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+      </form>
       <!-- Feed -->
       <feed class="feed-view" 
         :puffs="userPuffs" 
@@ -301,6 +309,11 @@ export default {
   width: 100%;
   min-height: 100vh;
 }
+@media (max-width: 768px) {
+  .home {
+    padding: 130px 10px 10px 10px;
+  }
+}
 .main-black-color {
   color: #000;
 }
@@ -335,7 +348,7 @@ input {
   margin-top: 20px;
 }
 .fa-heart {
-  padding-bottom: 10px;
+  padding: 0 10px 10px 0;
   color: #ff0000;
 }
 .unfav {
