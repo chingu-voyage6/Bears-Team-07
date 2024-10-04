@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "" # Aquí puedes poner el ecosistema como "npm", "pip", etc.
+    directory: "/"
+    schedule:
+      interval: "never"
